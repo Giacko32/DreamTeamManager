@@ -29,6 +29,7 @@ class RegisterFragment : Fragment() {
             (context as AppCompatActivity).supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 replace<LoginFragment>(R.id.main)
+                addToBackStack("back")
             }
         }
     }

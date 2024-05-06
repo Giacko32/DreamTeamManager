@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import com.example.dreamteammanager.databinding.FragmentLoginBinding
 
 
@@ -17,6 +20,13 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.registratilabel.setOnClickListener {
+            (context as AppCompatActivity).supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                replace<RegisterFragment>(R.id.main)
+                addToBackStack("login")
+            }
+        }
     }
 
     override fun onCreateView(
