@@ -28,7 +28,7 @@ class RegisterFragment : Fragment() {
         bind.LoginText.setOnClickListener{
             (context as AppCompatActivity).supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                replace<LoginFragment>(R.id.main)
+                replace<LoginFragment>(R.id.fragment_container)
                 addToBackStack("back")
             }
         }

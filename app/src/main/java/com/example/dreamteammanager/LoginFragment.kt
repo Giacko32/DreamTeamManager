@@ -23,7 +23,7 @@ class LoginFragment : Fragment() {
         binding.registratilabel.setOnClickListener {
             (context as AppCompatActivity).supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                replace<RegisterFragment>(R.id.main)
+                replace<RegisterFragment>(R.id.fragment_container)
                 addToBackStack("login")
             }
         }
