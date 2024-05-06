@@ -21,7 +21,7 @@ class AccessActivity : AppCompatActivity() {
 
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            add<LoginFragment>(R.id.main)
+            add<RegisterFragment>(R.id.main)
 
         }
     }
