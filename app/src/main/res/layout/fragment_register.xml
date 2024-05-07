@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:text="Registrazione"
-                android:textColor="@color/arancione"
+                android:textColor="@color/blue"
                 android:textSize="25sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -41,8 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                app:boxStrokeColor="@color/arancione"
-                app:hintTextColor="@color/arancione"
+                app:boxStrokeColor="@color/blue"
+                app:hintTextColor="@color/blue"
                 app:cursorColor="#DDDDDD"
                 android:hint="Email"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -63,8 +63,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                app:boxStrokeColor="@color/arancione"
-                app:hintTextColor="@color/arancione"
+                app:boxStrokeColor="@color/blue"
+                app:hintTextColor="@color/blue"
                 app:cursorColor="#DDDDDD"
                 android:hint="Username"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -75,7 +75,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,8 +85,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                app:boxStrokeColor="@color/arancione"
-                app:hintTextColor="@color/arancione"
+                app:boxStrokeColor="@color/blue"
+                app:hintTextColor="@color/blue"
                 app:cursorColor="#DDDDDD"
                 android:hint="Password"
                 app:endIconMode="password_toggle"
@@ -129,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="30dp"
-                android:backgroundTint="@color/arancione"
+                android:backgroundTint="@color/blue"
                 android:text="Registrati"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -145,7 +146,8 @@
                 android:layout_margin="20dp"
                 android:fontFamily="sans-serif"
                 android:text="Hai già un account?"
-                android:textColor="@color/arancione"
+                android:textStyle="bold"
+                android:textColor="@color/blue"
                 android:textSize="20sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/ButtonRegistrati"
                 app:layout_constraintEnd_toEndOf="parent"
