@@ -1,5 +1,6 @@
 package com.example.dreamteammanager
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -26,6 +27,11 @@ class LoginFragment : Fragment() {
                 replace<RegisterFragment>(R.id.fragment_container)
                 addToBackStack("login")
             }
+        }
+
+        binding.LoginButton.setOnClickListener{
+            val MainIntent = Intent(context, MainActivity::class.java)
+            (context as AppCompatActivity).startActivity(MainIntent)
         }
     }
 

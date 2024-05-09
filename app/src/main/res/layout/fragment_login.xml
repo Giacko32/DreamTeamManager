@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/blue"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,8 +10,8 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/img2"
+        android:padding="30dp"
+        android:src="@drawable/logo"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/barrier"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,39 +30,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95">
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/logo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Dream Team Manager"
-                android:textSize="30sp"
-                android:textAlignment="center"
-                android:textColor="@color/blue"
-                android:layout_margin="20dp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/acceditext"/>
-
-            <TextView
                 android:id="@+id/acceditext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_margin="20dp"
                 android:text="Accedi"
                 android:textColor="@color/arancione"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/logo" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/usernamefield"
@@ -69,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:layout_marginBottom="50dp"
-                android:hint="username"
+                android:hint="Username"
                 app:boxStrokeColor="@color/arancione"
                 app:cursorColor="#DDDDDD"
                 app:hintTextColor="@color/arancione"
@@ -90,7 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:hint="password"
+                android:hint="Password"
                 app:boxStrokeColor="@color/arancione"
                 app:cursorColor="#DDDDDD"
                 app:hintTextColor="@color/arancione"
@@ -107,34 +93,69 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/materialButton"
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/remembermebox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_margin="15dp"
+                android:text="Ricordami"
+                android:textSize="16sp"
+                app:buttonTint="@color/arancione"
+                app:buttonIconTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/passwordfield"
+                app:layout_constraintVertical_bias="0"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/LoginButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:padding="10dp"
                 android:backgroundTint="@color/arancione"
                 android:text="Login"
+                android:textSize="20sp"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.85"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/passwordfield" />
+                app:layout_constraintTop_toBottomOf="@+id/remembermebox"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/registratilabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
+                android:padding="15dp"
                 android:text="Registrati"
-                android:textStyle="bold"
-                android:padding="20dp"
                 android:textColor="@color/arancione"
                 android:textSize="20sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/materialButton"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/LoginButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.15"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="sans-serif"
+                android:padding="15dp"
+                android:layout_margin="15dp"
+                android:text="Recupera password"
+                android:textColor="@color/arancione"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/LoginButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
