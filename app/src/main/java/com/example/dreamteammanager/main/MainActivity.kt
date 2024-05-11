@@ -12,9 +12,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
 import androidx.fragment.app.add
+import androidx.fragment.app.replace
 import com.example.dreamteammanager.MainFragment
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.databinding.ActivityMainBinding
+import com.example.dreamteammanager.databinding.FragmentProfileBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,7 +49,11 @@ class MainActivity : AppCompatActivity() {
         popup.setOnMenuItemClickListener {item: MenuItem? ->
             when(item!!.itemId) {
                 R.id.option_1 -> {
-                    Toast.makeText(v.context!!, "profilo", Toast.LENGTH_SHORT).show()
+                    supportFragmentManager.commit {
+                        setReorderingAllowed(true)
+                        replace<ProfileFragment>(R.id.fragmentContainerView)
+                        addToBackStack("profilo")
+                    }
                 }
                 R.id.option_2 -> {
                     Toast.makeText(v.context!!, "logout", Toast.LENGTH_SHORT).show()
