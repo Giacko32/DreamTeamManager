@@ -1,4 +1,4 @@
-package com.example.dreamteammanager
+package com.example.dreamteammanager.auth
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -7,7 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import androidx.room.Entity
+import com.example.dreamteammanager.R
 
 class AccessActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -55,6 +55,7 @@ class UserViewModel(application: Application,db: MyDatabase):AndroidViewModel(ap
         _user.value=utente
     }
     fun failogin(username:String,password:String){
+        if(username.isNotEmpty()&&password.isNotEmpty()){
         //Fare login con DB remoto
         if(flagRicordami.value == true){
             insert(Utente(1,username,password,"suca"))
@@ -62,20 +63,53 @@ class UserViewModel(application: Application,db: MyDatabase):AndroidViewModel(ap
         else {
             _user.value = Utente(1,username,password,"suca")
         }
+        }
     }
     fun logout(){
         _user.value=null
-    }
-    fun registrati(username:String,password:String,email:String){
-        if(username.isNotEmpty()&&password.isNotEmpty()&&email.isNotEmpty()&&isValidEmail(email)&&password.length>=8&&password.length<=25){
-            //Registrazione con DB remoto
-        }else{
-
+        if (flagRicordami.value==false){
+            db.utenteDao().delete(user.value!!)
         }
     }
-
-
+    fun registrati(username:String,password:String,email:String):Boolean{
+        if(username.isNotEmpty()&&password.isNotEmpty()&&email.isNotEmpty()&&isValidEmail(email)&&password.length>=8&&password.length<=25){
+            //Registrazione con DB remoto
+            return true
+        }else{
+            return false
+        }
+    }
     private fun isValidEmail(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+    private val _codice=MutableLiveData<Int>()
+    val codice:LiveData<Int>
+    get() = _codice
+    init {
+        _codice.value=0
+    }
+    private fun generatecodice(){
+        _codice.value=(100000..999999).random()
+    }
+    fun recuperaCredenziali(email: String){
+        if(email.isNotEmpty()&&isValidEmail(email)){
+            generatecodice()
+            //Invia mail con il codice
+        }
+    }
+    fun controllacodice(codice:Int):Boolean{
+        if(codice==this.codice.value){
+            return true
+        }
+        return false
+    }
+    fun cambiapassword(password:String,confirm:String):Boolean{
+        if(password.isNotEmpty()&&password.length>=8&&password.length<=25){
+            if(password==confirm){
+                //Cambia password in DB remoto
+                return true
+            }
+        }
+        return false
     }
 }
