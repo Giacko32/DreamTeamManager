@@ -31,8 +31,8 @@ class MainFragment : Fragment() {
             val fragmentManager = (context as AppCompatActivity).supportFragmentManager
             fragmentManager.commit {
                 setReorderingAllowed(true)
-                replace<CreaLegaFragment>(R.id.fragment_container)
-                addToBackStack("main_to_crealega")
+                replace<CreaLegaFragment>(R.id.fragmentContainerView)
+                //addToBackStack("main_to_crealega")
             }
 
         }
