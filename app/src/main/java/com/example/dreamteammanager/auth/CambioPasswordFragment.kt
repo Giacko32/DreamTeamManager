@@ -23,6 +23,7 @@ class CambioPasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.confermaButton.setOnClickListener {
+        }
     }
 
 }

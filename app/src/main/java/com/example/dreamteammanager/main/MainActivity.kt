@@ -1,22 +1,24 @@
 package com.example.dreamteammanager.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.IntentCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.commit
 import androidx.fragment.app.add
+import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.example.dreamteammanager.MainFragment
 import com.example.dreamteammanager.R
+import com.example.dreamteammanager.auth.AccessActivity
 import com.example.dreamteammanager.databinding.ActivityMainBinding
-import com.example.dreamteammanager.databinding.FragmentProfileBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -56,7 +58,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.option_2 -> {
-                    Toast.makeText(v.context!!, "logout", Toast.LENGTH_SHORT).show()
+                    val logoutintent = Intent(this, AccessActivity::class.java)
+                    startActivity(logoutintent)
+                    finish()
                 }
             }
             true

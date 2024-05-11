@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import com.example.dreamteammanager.auth.RecuperoCredenzialiFragment
 import com.example.dreamteammanager.databinding.FragmentMainBinding
+import com.example.dreamteammanager.main.CreaLegaFragment
 
 
 class MainFragment : Fragment() {
