@@ -1,6 +1,7 @@
 package com.example.dreamteammanager.viewmodel
 
 import android.app.Application
+import android.util.Patterns
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +11,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.example.dreamteammanager.classi.MyDatabase
 import com.example.dreamteammanager.classi.Utente
+
 @Dao
 interface UtenteDao {
     @Query("SELECT * FROM utenti")
@@ -64,6 +66,16 @@ class UserViewModel(application: Application,db: MyDatabase):AndroidViewModel(ap
     fun logout(){
         _user.value=null
     }
+    fun registrati(username:String,password:String,email:String){
+        if(username.isNotEmpty()&&password.isNotEmpty()&&email.isNotEmpty()&&isValidEmail(email)&&password.length>=8&&password.length<=25){
+            //Registrazione con DB remoto
+        }else{
+
+        }
+    }
 
 
+    private fun isValidEmail(email: String): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
 }
