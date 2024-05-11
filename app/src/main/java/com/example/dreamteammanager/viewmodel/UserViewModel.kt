@@ -40,7 +40,6 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         }else{
             _user.value=null
         }
-
     }
     private val _flagRicordami=MutableLiveData<Boolean>()
     val flagRicordami:LiveData<Boolean>
