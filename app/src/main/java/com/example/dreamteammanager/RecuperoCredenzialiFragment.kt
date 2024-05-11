@@ -24,17 +24,12 @@ class RecuperoCredenzialiFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Ottieni un riferimento agli elementi della vista tramite il binding
-        val emailEditText = binding.emailEditText
-        val codeEditText = binding.codeEditText
-        val actionButton = binding.actionButton
+        binding.actionButton.setOnClickListener {
 
-        // Mostra il campo del codice e cambia il testo del pulsante quando viene premuto
-        actionButton.setOnClickListener {
-            if (codeEditText.visibility == View.GONE) {
-                codeEditText.visibility = View.VISIBLE
-                emailEditText.visibility = View.GONE
-                actionButton.text = "Conferma Codice"
+            if (binding.codicefield.visibility == View.GONE) {
+                binding.codicefield.visibility = View.VISIBLE
+                binding.mailfield.visibility = View.GONE
+                binding.actionButton.text = "Conferma Codice"
             } else {
                 // Logica per confermare il codice qui
             }
