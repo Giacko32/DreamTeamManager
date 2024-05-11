@@ -1,4 +1,4 @@
-package com.example.dreamteammanager.classi
+package com.example.dreamteammanager
 
 import android.os.Bundle
 import android.view.LayoutInflater
