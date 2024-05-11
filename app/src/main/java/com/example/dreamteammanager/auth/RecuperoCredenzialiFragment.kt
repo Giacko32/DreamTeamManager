@@ -45,7 +45,7 @@ class RecuperoCredenzialiFragment : Fragment() {
                     alertDialog.setTitle("SUCCESSO")
                     alertDialog.setMessage("Il codice è stato inviato con successo all'indirizzo email inserito")
                     alertDialog.setButton(
-                        AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
+                        AlertDialog.BUTTON_NEGATIVE, "VAI AVANTI"
                     ) { dialog, which -> dialog.dismiss() }
                     alertDialog.show()
                     alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
