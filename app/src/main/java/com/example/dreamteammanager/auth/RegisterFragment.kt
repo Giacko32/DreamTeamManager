@@ -1,5 +1,6 @@
 package com.example.dreamteammanager.auth
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,18 +24,20 @@ class RegisterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bind=FragmentRegisterBinding.inflate(layoutInflater,container,false)
+        bind = FragmentRegisterBinding.inflate(layoutInflater, container, false)
         return bind.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         bind.ButtonRegistrati.setOnClickListener {
             val username = bind.UsernameText.text.toString()
             val password = bind.PasswordText.text.toString()
             val email = bind.EmailText.text.toString()
-            val registrato=userviewModel.registrati(username, password, email)
-            if(registrato=="Registrazione avvenuta con successo"){
+            val registrato = userviewModel.registrati(username, password, email)
+
+            if (registrato == "Registrazione avvenuta con successo") {
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -42,15 +45,16 @@ class RegisterFragment : Fragment() {
                 alertDialog.setTitle("CONFIRM")
                 alertDialog.setMessage(registrato)
                 alertDialog.setButton(
-                    AlertDialog.BUTTON_NEGATIVE, "VAI A LOGIN"
+                    AlertDialog.BUTTON_NEGATIVE, "VAI A LOGIN",
                 ) { dialog, which -> dialog.dismiss() }
                 alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
                 (context as AppCompatActivity).supportFragmentManager.commit {
                     setReorderingAllowed(true)
                     replace<LoginFragment>(R.id.fragment_container)
                     addToBackStack("back")
                 }
-            }else if(registrato=="Email non valida"){
+            } else if (registrato == "Email non valida") {
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -61,9 +65,9 @@ class RegisterFragment : Fragment() {
                     AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
                 ) { dialog, which -> dialog.dismiss() }
                 alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
 
-                }
-            else if(registrato=="Password non formattata correttamente"){
+            } else if (registrato == "Password non formattata correttamente") {
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -74,8 +78,9 @@ class RegisterFragment : Fragment() {
                     AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
                 ) { dialog, which -> dialog.dismiss() }
                 alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
 
-            }else if(registrato=="Campi lasciati vuoti"){
+            } else if (registrato == "Campi lasciati vuoti") {
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -86,10 +91,11 @@ class RegisterFragment : Fragment() {
                     AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
                 ) { dialog, which -> dialog.dismiss() }
                 alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
             }
-            }
+        }
 
-        bind.LoginText.setOnClickListener{
+        bind.LoginText.setOnClickListener {
             (context as AppCompatActivity).supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 replace<LoginFragment>(R.id.fragment_container)
@@ -97,8 +103,6 @@ class RegisterFragment : Fragment() {
             }
         }
     }
-
-
 
 
 }
