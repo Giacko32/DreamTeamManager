@@ -107,7 +107,7 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
     fun recuperaCredenziali(email: String):Boolean{
         if(email.isNotEmpty()&&isValidEmail(email)){
             generatecodice()
-            Log.d("CODICE", "recuperaCredenziali: $codice ed email inviata")
+            Log.d("CODICE", "recuperaCredenziali: ${codice.value} ed email inviata")
             //Invia mail con il codice
             return true
         }
