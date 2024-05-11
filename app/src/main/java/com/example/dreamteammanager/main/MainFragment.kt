@@ -20,8 +20,8 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,7 +31,7 @@ class MainFragment : Fragment() {
             val fragmentManager = (context as AppCompatActivity).supportFragmentManager
             fragmentManager.commit {
                 setReorderingAllowed(true)
-                replace<CreaLegaFragment>(R.id.fragment_container)
+                replace<CreaLegaFragment>(R.id.fragmentContainerView)
                 addToBackStack("main_to_crealega")
             }
 

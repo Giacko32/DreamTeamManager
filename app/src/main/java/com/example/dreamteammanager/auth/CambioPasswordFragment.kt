@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.dreamteammanager.R
 
-
-
 class CambioPasswordFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
