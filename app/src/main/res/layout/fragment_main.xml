@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainFragment">
+    tools:context=".main.MainFragment">
 
     <!-- RecyclerView sopra la BottomAppBar -->
     <androidx.recyclerview.widget.RecyclerView
@@ -24,10 +24,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:backgroundTint="@color/arancione"
-        app:fabCradleRoundedCornerRadius="16dp"
         app:fabCradleMargin="16dp"
+        app:fabCradleRoundedCornerRadius="16dp"
         app:fabCradleVerticalOffset="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="BottomAppBar">
 
         <!-- Contenitore per i bottoni -->
@@ -35,43 +37,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:padding="5dp"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <!-- Primo pulsante: Le mie Leghe -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_my_leagues"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/white"
-                android:textAlignment="center"
                 android:layout_width="110dp"
                 android:layout_height="70dp"
                 android:text="Le mie Leghe"
-                android:textColor="@color/white" />
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:strokeColor="@color/white" />
 
             <!-- Secondo pulsante: Crea Nuova Lega -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_create_league"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/white"
-                android:textAlignment="center"
                 android:layout_width="110dp"
                 android:layout_height="70dp"
                 android:layout_margin="10dp"
                 android:text="Crea Nuova Lega"
-                android:textColor="@color/white" />
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:strokeColor="@color/white" />
 
             <!-- Terzo pulsante: Iscriviti alla Lega -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_join_league"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/white"
-                android:textAlignment="center"
                 android:layout_width="110dp"
                 android:layout_height="70dp"
                 android:text="Iscriviti ad una Lega"
-                android:textColor="@color/white" />
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:strokeColor="@color/white" />
 
         </LinearLayout>
     </com.google.android.material.bottomappbar.BottomAppBar>
