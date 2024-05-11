@@ -31,7 +31,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
-                android:id="@+id/profile_icon"
+                android:id="@+id/menu_icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="end"
@@ -62,3 +62,4 @@
         app:layout_constraintTop_toBottomOf="@id/barrier" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
