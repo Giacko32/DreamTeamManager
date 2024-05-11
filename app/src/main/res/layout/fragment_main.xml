@@ -44,21 +44,10 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_my_leagues"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="110dp"
+                android:layout_width="140dp"
                 android:layout_height="70dp"
+                android:layout_marginEnd="20dp"
                 android:text="Le mie Leghe"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                app:strokeColor="@color/white" />
-
-            <!-- Secondo pulsante: Crea Nuova Lega -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_create_league"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="110dp"
-                android:layout_height="70dp"
-                android:layout_margin="10dp"
-                android:text="Crea Nuova Lega"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 app:strokeColor="@color/white" />
@@ -67,7 +56,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_join_league"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="110dp"
+                android:layout_width="140dp"
                 android:layout_height="70dp"
                 android:text="Iscriviti ad una Lega"
                 android:textAlignment="center"

@@ -27,7 +27,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonCreateLeague.setOnClickListener{
+        /*binding.buttonCreateLeague.setOnClickListener{
             val fragmentManager = (context as AppCompatActivity).supportFragmentManager
             fragmentManager.commit {
                 setReorderingAllowed(true)
@@ -35,7 +35,7 @@ class MainFragment : Fragment() {
                 addToBackStack("main_to_crealega")
             }
 
-        }
+        }*/
 
     }
 
