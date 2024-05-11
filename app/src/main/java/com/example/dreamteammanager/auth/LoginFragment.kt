@@ -40,14 +40,14 @@ class LoginFragment : Fragment() {
             }
         }
 
-        binding.LoginButton.setOnClickListener{
+        binding.LoginButton.setOnClickListener {
             val username = binding.usernametext.text.toString()
             val password = binding.passwordtext.text.toString()
-            val login=userviewModel.failogin(username, password)
-            if(login){
-            val MainIntent = Intent(context, MainActivity::class.java)
-            (context as AppCompatActivity).startActivity(MainIntent)
-            }else{
+            val login = userviewModel.failogin(username, password)
+            if (login) {
+                val MainIntent = Intent(context, MainActivity::class.java)
+                (context as AppCompatActivity).startActivity(MainIntent)
+            } else {
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -63,7 +63,7 @@ class LoginFragment : Fragment() {
             }
         }
 
-        binding.recuperaPassword.setOnClickListener{
+        binding.recuperaPassword.setOnClickListener {
             val fragmentManager = (context as AppCompatActivity).supportFragmentManager
             fragmentManager.commit {
                 setReorderingAllowed(true)
