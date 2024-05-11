@@ -33,15 +33,16 @@
         app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/inner_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/acceditext"
+                android:id="@+id/recuperocredenzialitext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:text="Accedi"
+                android:text="Recupero Credenziali"
                 android:textColor="@color/arancione"
                 android:textSize="30sp"
                 android:textStyle="bold"
@@ -50,113 +51,68 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/usernamefield"
-                android:layout_width="match_parent"
+                android:id="@+id/mailfield"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:layout_marginBottom="50dp"
-                android:hint="Username"
+                android:hint="Mail"
                 app:boxStrokeColor="@color/arancione"
                 app:cursorColor="#DDDDDD"
                 app:hintTextColor="@color/arancione"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/acceditext"
+                app:layout_constraintTop_toBottomOf="@id/recuperocredenzialitext"
                 app:layout_constraintVertical_bias="0.0">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/passwordfield"
-                android:layout_width="match_parent"
+                android:id="@+id/codicefield"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:hint="Password"
+                android:hint="Codice"
                 app:boxStrokeColor="@color/arancione"
                 app:cursorColor="#DDDDDD"
                 app:hintTextColor="@color/arancione"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/usernamefield"
-                app:layout_constraintVertical_bias="0.0">
+                app:layout_constraintTop_toBottomOf="@id/mailfield"
+                app:layout_constraintVertical_bias="0.0"
+                android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/code_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/remembermebox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:text="Ricordami"
-                android:textSize="16sp"
-                app:buttonTint="@color/arancione"
-                app:buttonIconTint="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/passwordfield"
-                app:layout_constraintVertical_bias="0"/>
-
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/LoginButton"
+                android:id="@+id/action_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:padding="10dp"
                 android:backgroundTint="@color/arancione"
-                android:text="Login"
+                android:text="Invia Mail"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.85"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/remembermebox"
+                app:layout_constraintTop_toBottomOf="@+id/codicefield"
                 app:layout_constraintVertical_bias="0.0" />
-
-            <TextView
-                android:id="@+id/registratilabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:padding="15dp"
-                android:text="Registrati"
-                android:textColor="@color/arancione"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/LoginButton"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.15"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/recuperaPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:layout_marginTop="2dp"
-                android:fontFamily="sans-serif"
-                android:padding="15dp"
-                android:text="Recupera password"
-                android:textColor="@color/arancione"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/LoginButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

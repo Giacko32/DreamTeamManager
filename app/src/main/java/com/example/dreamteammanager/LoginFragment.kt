@@ -33,6 +33,16 @@ class LoginFragment : Fragment() {
             val MainIntent = Intent(context, MainActivity::class.java)
             (context as AppCompatActivity).startActivity(MainIntent)
         }
+
+        binding.recuperaPassword.setOnClickListener{
+            val fragmentManager = (context as AppCompatActivity).supportFragmentManager
+            fragmentManager.commit {
+                setReorderingAllowed(true)
+                replace<RecuperoCredenzialiFragment>(R.id.fragment_container)
+                addToBackStack("login_to_recupero")
+            }
+        }
+
     }
 
     override fun onCreateView(
