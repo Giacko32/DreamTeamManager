@@ -1,6 +1,7 @@
 package com.example.dreamteammanager.viewmodel
 
 import android.app.Application
+import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -33,14 +34,10 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
     val user: LiveData<Utente?>
     get() = _user
     init {
-        val utente=db.utenteDao().getUtente()
-        if (utente!=null){
-            _user.value=utente
-            failogin(user.value!!.username,user.value!!.password)
-        }else{
-            _user.value=null
-        }
-
+        _user.value=null
+    }
+    fun getUtente(){
+        _user.value=db.utenteDao().getUtente()
     }
     private val _flagRicordami=MutableLiveData<Boolean>()
     val flagRicordami:LiveData<Boolean>
@@ -50,6 +47,7 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
     }
     fun updateFlag(isChecked: Boolean) {
         _flagRicordami.value = isChecked
+        Log.d("FLAG", "updateFlag: $isChecked")
 
     }
     fun insert(utente: Utente){

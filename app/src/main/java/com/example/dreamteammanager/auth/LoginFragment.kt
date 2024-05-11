@@ -26,6 +26,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.remembermebox.setOnCheckedChangeListener { buttonView, isChecked ->
             userviewModel.updateFlag(isChecked)
         }

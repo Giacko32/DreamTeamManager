@@ -68,6 +68,7 @@
                 app:layout_constraintVertical_bias="0">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/EmailText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress" />
@@ -90,6 +91,7 @@
                 app:layout_constraintVertical_bias="0">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/UsernameText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName" />
@@ -113,6 +115,7 @@
                 app:layout_constraintVertical_bias="0">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/PasswordText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword" />
