@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import androidx.room.Entity
 
 class AccessActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,5 +24,6 @@ class AccessActivity : AppCompatActivity() {
             setReorderingAllowed(true)
             add<LoginFragment>(R.id.fragment_container)
         }
+
     }
 }
