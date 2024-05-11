@@ -6,22 +6,29 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.fragment.app.viewModels
 import com.example.dreamteammanager.MainActivity
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.databinding.FragmentLoginBinding
+import com.example.dreamteammanager.viewmodel.UserViewModel
 
 
 class LoginFragment : Fragment() {
     lateinit var binding: FragmentLoginBinding
+    private val userviewModel: UserViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.remembermebox.setOnCheckedChangeListener { buttonView, isChecked ->
+            userviewModel.updateFlag(isChecked)
+        }
 
         binding.registratilabel.setOnClickListener {
             (context as AppCompatActivity).supportFragmentManager.commit {
@@ -32,8 +39,25 @@ class LoginFragment : Fragment() {
         }
 
         binding.LoginButton.setOnClickListener{
+            val username = binding.usernametext.text.toString()
+            val password = binding.passwordtext.text.toString()
+            val login=userviewModel.failogin(username, password)
+            if(login){
             val MainIntent = Intent(context, MainActivity::class.java)
             (context as AppCompatActivity).startActivity(MainIntent)
+            }else{
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("Attenzione")
+                alertDialog.setMessage("Le credenziali sono errate")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+
+            }
         }
 
         binding.recuperaPassword.setOnClickListener{

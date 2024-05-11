@@ -5,10 +5,12 @@ import android.util.Patterns
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Room
 import com.example.dreamteammanager.classi.MyDatabase
 import com.example.dreamteammanager.classi.Utente
 
@@ -21,8 +23,12 @@ interface UtenteDao {
     @Delete
     fun delete(utente: Utente)
 }
-class UserViewModel(application: Application,db: MyDatabase):AndroidViewModel(application) {
-    private val db=db
+class UserViewModel(application: Application): AndroidViewModel(application) {
+    private val db= Room.databaseBuilder(
+        application,
+        MyDatabase::class.java, "my_database"
+    )
+        .build()
     private val _user= MutableLiveData<Utente?>()
     val user: LiveData<Utente?>
     get() = _user
@@ -42,19 +48,15 @@ class UserViewModel(application: Application,db: MyDatabase):AndroidViewModel(ap
     init {
         _flagRicordami.value=false
     }
-    fun updateFlag() {
-        if (flagRicordami.value==true) {
-            _flagRicordami.value=false
-        }
-        else {
-            _flagRicordami.value=true
-        }
+    fun updateFlag(isChecked: Boolean) {
+        _flagRicordami.value = isChecked
+
     }
     fun insert(utente: Utente){
         db.utenteDao().insert(utente)
         _user.value=utente
     }
-    fun failogin(username:String,password:String){
+    fun failogin(username:String,password:String):Boolean{
         if(username.isNotEmpty()&&password.isNotEmpty()){
         //Fare login con DB remoto
         if(flagRicordami.value == true){
@@ -63,7 +65,9 @@ class UserViewModel(application: Application,db: MyDatabase):AndroidViewModel(ap
         else {
             _user.value = Utente(1,username,password,"suca")
         }
+            return true
         }
+        return false
     }
     fun logout(){
         _user.value=null
