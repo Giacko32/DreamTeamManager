@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 data class Lega(
     @PrimaryKey val id: Int,
     val name: String,
-    val numero: Int,
+    val numeropartecipanti: Int,
 )

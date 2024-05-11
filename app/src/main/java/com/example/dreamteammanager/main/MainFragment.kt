@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.dreamteammanager.auth.RecuperoCredenzialiFragment
+import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.databinding.FragmentMainBinding
-import com.example.dreamteammanager.main.CreaLegaFragment
+import com.example.dreamteammanager.main.LegheAdapter
 
 
 class MainFragment : Fragment() {
@@ -26,16 +29,19 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val lega= Lega(1,"SUCA",100)
+        val listaleghe=ArrayList<Lega>()
+        for(i in 1..50){
+            listaleghe.add(lega)
+        }
+        val adapter= LegheAdapter(listaleghe)
+        binding.recyclerView.layoutManager=LinearLayoutManager(context)
+        binding.recyclerView.adapter=adapter
 
-        /*binding.buttonCreateLeague.setOnClickListener{
-            val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-            fragmentManager.commit {
-                setReorderingAllowed(true)
-                replace<CreaLegaFragment>(R.id.fragmentContainerView)
-                addToBackStack("main_to_crealega")
-            }
 
-        }*/
+
+
+        }
 
     }
 
