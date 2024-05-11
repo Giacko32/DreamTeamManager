@@ -1,6 +1,7 @@
 package com.example.dreamteammanager.auth
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -52,11 +53,12 @@ class LoginFragment : Fragment() {
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
                 ).create()
                 alertDialog.setTitle("Attenzione")
-                alertDialog.setMessage("Le credenziali sono errate")
+                alertDialog.setMessage("Le credenziali sono errate o i campi sono vuoti")
                 alertDialog.setButton(
                     AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
                 ) { dialog, which -> dialog.dismiss() }
                 alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
 
             }
         }

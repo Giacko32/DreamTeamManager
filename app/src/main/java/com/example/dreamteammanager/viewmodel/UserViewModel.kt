@@ -91,9 +91,6 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         else{
               return "Campi lasciati vuoti"
             }
-
-
-
     }
     private fun isValidEmail(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
@@ -107,10 +104,16 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
     private fun generatecodice(){
         _codice.value=(100000..999999).random()
     }
-    fun recuperaCredenziali(email: String){
+    fun recuperaCredenziali(email: String):Boolean{
         if(email.isNotEmpty()&&isValidEmail(email)){
             generatecodice()
+            Log.d("CODICE", "recuperaCredenziali: $codice ed email inviata")
             //Invia mail con il codice
+            return true
+        }
+        else{
+            Log.d("CODICE", "recuperaCredenziali: email non valida")
+            return false
         }
     }
     fun controllacodice(codice:Int):Boolean{
