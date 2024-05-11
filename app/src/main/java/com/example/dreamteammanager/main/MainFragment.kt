@@ -32,7 +32,7 @@ class MainFragment : Fragment() {
             fragmentManager.commit {
                 setReorderingAllowed(true)
                 replace<CreaLegaFragment>(R.id.fragmentContainerView)
-                //addToBackStack("main_to_crealega")
+                addToBackStack("main_to_crealega")
             }
 
         }
