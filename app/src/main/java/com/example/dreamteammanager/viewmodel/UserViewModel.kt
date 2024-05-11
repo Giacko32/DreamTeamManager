@@ -65,15 +65,18 @@ class UserViewModel(application: Application,db: MyDatabase):AndroidViewModel(ap
     }
     fun logout(){
         _user.value=null
-    }
-    fun registrati(username:String,password:String,email:String){
-        if(username.isNotEmpty()&&password.isNotEmpty()&&email.isNotEmpty()&&isValidEmail(email)&&password.length>=8&&password.length<=25){
-            //Registrazione con DB remoto
-        }else{
-
+        if (flagRicordami.value==false){
+            db.utenteDao().delete(user.value!!)
         }
     }
-
+    fun registrati(username:String,password:String,email:String):Boolean{
+        if(username.isNotEmpty()&&password.isNotEmpty()&&email.isNotEmpty()&&isValidEmail(email)&&password.length>=8&&password.length<=25){
+            //Registrazione con DB remoto
+            return true
+        }else{
+            return false
+        }
+    }
 
     private fun isValidEmail(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
