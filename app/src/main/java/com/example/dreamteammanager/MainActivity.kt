@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         popup.setOnDismissListener {
             // Respond to popup being dismissed.
         }
+        popup.setForceShowIcon(true)
         popup.show()
     }
 
