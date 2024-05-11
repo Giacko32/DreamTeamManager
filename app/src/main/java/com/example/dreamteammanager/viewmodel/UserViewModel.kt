@@ -73,13 +73,27 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
             db.utenteDao().delete(user.value!!)
         }
     }
-    fun registrati(username:String,password:String,email:String):Boolean{
-        if(username.isNotEmpty()&&password.isNotEmpty()&&email.isNotEmpty()&&isValidEmail(email)&&password.length>=8&&password.length<=25){
-            //Registrazione con DB remoto
-            return true
-        }else{
-            return false
+    fun registrati(username:String,password:String,email:String):String{
+        if(username.isNotEmpty()&&password.isNotEmpty()&&email.isNotEmpty()) {
+            if(password.length>=8&&password.length<=25){
+                if(isValidEmail(email)){
+                    //registra nel DB remoto
+                    return "Registrazione avvenuta con successo"
+                }
+                else{
+                return "Email non valida"
+                }
+            }
+            else{
+                    return "Password non formattata correttamente"
+                }
         }
+        else{
+              return "Campi lasciati vuoti"
+            }
+
+
+
     }
     private fun isValidEmail(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()

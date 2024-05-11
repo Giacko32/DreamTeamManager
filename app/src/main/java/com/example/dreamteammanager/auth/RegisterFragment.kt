@@ -34,25 +34,59 @@ class RegisterFragment : Fragment() {
             val password = bind.PasswordText.text.toString()
             val email = bind.EmailText.text.toString()
             val registrato=userviewModel.registrati(username, password, email)
-            if(registrato){
+            if(registrato=="Registrazione avvenuta con successo"){
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("CONFIRM")
+                alertDialog.setMessage(registrato)
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEGATIVE, "VAI A LOGIN"
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
                 (context as AppCompatActivity).supportFragmentManager.commit {
                     setReorderingAllowed(true)
                     replace<LoginFragment>(R.id.fragment_container)
                     addToBackStack("back")
                 }
-            }else{
+            }else if(registrato=="Email non valida"){
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
                 ).create()
                 alertDialog.setTitle("Attenzione")
-                alertDialog.setMessage("USERNAME E/O EMAIL GIÀ IN USO OPPURE PASSWORD TROPPO CORTA")
+                alertDialog.setMessage(registrato)
                 alertDialog.setButton(
                     AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
                 ) { dialog, which -> dialog.dismiss() }
                 alertDialog.show()
 
                 }
+            else if(registrato=="Password non formattata correttamente"){
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("Attenzione")
+                alertDialog.setMessage(registrato)
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+
+            }else if(registrato=="Campi lasciati vuoti"){
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("Attenzione")
+                alertDialog.setMessage(registrato)
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+            }
             }
 
         bind.LoginText.setOnClickListener{
