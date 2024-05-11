@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
-import com.example.dreamteammanager.MainActivity
+import com.example.dreamteammanager.main.MainActivity
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.databinding.FragmentLoginBinding
 import com.example.dreamteammanager.viewmodel.UserViewModel

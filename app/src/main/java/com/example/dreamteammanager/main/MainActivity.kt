@@ -1,9 +1,6 @@
-package com.example.dreamteammanager
+package com.example.dreamteammanager.main
 
-import android.content.Context
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -15,6 +12,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
 import androidx.fragment.app.add
+import com.example.dreamteammanager.MainFragment
+import com.example.dreamteammanager.R
 import com.example.dreamteammanager.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
