@@ -13,7 +13,7 @@
         android:theme="@style/Theme.DreamTeamManager"
         tools:targetApi="33">
         <activity
-            android:name=".AccessActivity"
+            android:name=".auth.AccessActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

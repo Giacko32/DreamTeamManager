@@ -1,4 +1,4 @@
-package com.example.dreamteammanager
+package com.example.dreamteammanager.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater

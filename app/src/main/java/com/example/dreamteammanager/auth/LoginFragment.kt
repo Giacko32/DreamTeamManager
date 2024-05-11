@@ -1,4 +1,4 @@
-package com.example.dreamteammanager
+package com.example.dreamteammanager.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import com.example.dreamteammanager.MainActivity
+import com.example.dreamteammanager.R
 import com.example.dreamteammanager.databinding.FragmentLoginBinding
 
 
