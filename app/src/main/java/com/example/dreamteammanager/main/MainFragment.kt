@@ -39,12 +39,6 @@ class MainFragment : Fragment() {
         binding.recyclerView.layoutManager=LinearLayoutManager(context)
         binding.recyclerView.adapter=adapter
 
-
-
-
         }
-
-
-
 
 }

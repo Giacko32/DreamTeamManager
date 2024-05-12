@@ -20,8 +20,8 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_margin="10dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="250dp"
@@ -31,15 +31,15 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_gravity="center"
                     app:cardCornerRadius="250dp">
 
                     <ImageView
                         android:id="@+id/immagine"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/img3" />
 
