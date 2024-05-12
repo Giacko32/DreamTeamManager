@@ -28,6 +28,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         binding.remembermebox.setOnCheckedChangeListener { buttonView, isChecked ->
             userviewModel.updateFlag(isChecked)
         }
@@ -36,7 +37,7 @@ class LoginFragment : Fragment() {
             (context as AppCompatActivity).supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 replace<RegisterFragment>(R.id.fragment_container)
-                addToBackStack("login")
+                addToBackStack("registrati")
             }
         }
 

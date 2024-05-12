@@ -11,7 +11,8 @@
         android:roundIcon="@drawable/icona"
         android:supportsRtl="true"
         android:theme="@style/Theme.DreamTeamManager"
-        tools:targetApi="33">
+        tools:targetApi="33"
+        >
         <activity
             android:name=".auth.AccessActivity"
             android:noHistory="true"

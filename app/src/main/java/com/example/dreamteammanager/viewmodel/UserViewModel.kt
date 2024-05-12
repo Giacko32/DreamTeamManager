@@ -1,43 +1,40 @@
 package com.example.dreamteammanager.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Room
-import com.example.dreamteammanager.classi.MyDatabase
 import com.example.dreamteammanager.classi.Utente
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken
+import com.google.gson.Gson
 
-@Dao
-interface UtenteDao {
-    @Query("SELECT * FROM utenti")
-    fun getUtente(): Utente?
-    @Insert
-    fun insert(utente: Utente)
-    @Delete
-    fun delete(utente: Utente)
-}
+
 class UserViewModel(application: Application): AndroidViewModel(application) {
-    private val db= Room.databaseBuilder(
-        application,
-        MyDatabase::class.java, "my_database"
-    )
-        .build()
+    fun readJsonFromAssets(context: Context, fileName: String): String {
+        return context.assets.open(fileName).bufferedReader().use { it.readText() }
+    }
+
+    fun parseJsonToModel(jsonString: String): Utente {
+        val gson = Gson()
+        return gson.fromJson(jsonString, object : TypeToken<Utente>() {}.type)
+    }
     private val _user= MutableLiveData<Utente?>()
     val user: LiveData<Utente?>
     get() = _user
     init {
-        _user.value=null
+        val utente=parseJsonToModel(readJsonFromAssets(application,"user.json"))
+        if(utente.id==-1){
+            _user.value=null
+        }
+        else{
+            _user.value=utente
+        }
     }
     fun getUtente(){
-        _user.value=db.utenteDao().getUtente()
+        _user.value=null
     }
     private val _flagRicordami=MutableLiveData<Boolean>()
     val flagRicordami:LiveData<Boolean>
@@ -51,7 +48,6 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
 
     }
     fun insert(utente: Utente){
-        db.utenteDao().insert(utente)
         _user.value=utente
     }
     fun failogin(username:String,password:String):Boolean{
@@ -68,10 +64,11 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         return false
     }
     fun logout(){
-        _user.value=null
+
         if (flagRicordami.value==false){
-            db.utenteDao().delete(user.value!!)
+
         }
+        _user.value=null
     }
     fun registrati(username:String,password:String,email:String):String{
         if(username.isNotEmpty()&&password.isNotEmpty()&&email.isNotEmpty()) {
@@ -108,7 +105,7 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         if(email.isNotEmpty()&&isValidEmail(email)){
             generatecodice()
             Log.d("CODICE", "recuperaCredenziali: ${codice.value} ed email inviata")
-            //Invia mail con il codice
+            //sendEmail(email,getApplication())
             return true
         }
         else{
@@ -131,4 +128,5 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         }
         return false
     }
+
 }

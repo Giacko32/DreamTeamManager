@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import com.example.dreamteammanager.MainFragment
+import com.example.dreamteammanager.main.MainFragment
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.auth.AccessActivity
 import com.example.dreamteammanager.databinding.ActivityMainBinding

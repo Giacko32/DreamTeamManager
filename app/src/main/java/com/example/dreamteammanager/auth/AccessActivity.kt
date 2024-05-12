@@ -1,6 +1,7 @@
 package com.example.dreamteammanager.auth
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -8,9 +9,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import androidx.lifecycle.ViewModelProvider
 import com.example.dreamteammanager.R
+import com.example.dreamteammanager.viewmodel.UserViewModel
+import kotlin.math.log
 
 class AccessActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
@@ -23,10 +29,18 @@ class AccessActivity : AppCompatActivity() {
         }
 
 
+
+
+
         supportFragmentManager.commit {
-            setReorderingAllowed(true)
             add<LoginFragment>(R.id.fragment_container)
         }
 
     }
+
+
 }
+
+
+
+

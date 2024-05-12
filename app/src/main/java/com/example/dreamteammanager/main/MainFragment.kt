@@ -1,4 +1,4 @@
-package com.example.dreamteammanager
+package com.example.dreamteammanager.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +11,7 @@ import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dreamteammanager.auth.RecuperoCredenzialiFragment
 import com.example.dreamteammanager.classi.Lega
+import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.databinding.FragmentMainBinding
 import com.example.dreamteammanager.main.LegheAdapter
 
@@ -29,7 +30,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val lega= Lega(1,"SUCA",100)
+        val lega= Lega(1,"SUCA",100, Utente(1,"SUCA","pass","ciao"))
         val listaleghe=ArrayList<Lega>()
         for(i in 1..50){
             listaleghe.add(lega)

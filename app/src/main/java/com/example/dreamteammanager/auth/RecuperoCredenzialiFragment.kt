@@ -1,6 +1,8 @@
 package com.example.dreamteammanager.auth
 
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +40,8 @@ class RecuperoCredenzialiFragment : Fragment() {
                 if(userViewModel.recuperaCredenziali(binding.EmailEditText.text.toString())){
                 binding.codicefield.visibility = View.VISIBLE
                 binding.mailfield.visibility = View.GONE
+
+
                     val alertDialog = AlertDialog.Builder(
                         requireContext(),
                         androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
