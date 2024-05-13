@@ -6,5 +6,5 @@ class Lega(
     val id: Int,
     val name: String,
     val numeropartecipanti: Int,
-    val amministratore:Utente
+    val id_amministratore:Int
 )

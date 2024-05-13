@@ -30,7 +30,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val lega= Lega(1,"SUCA",100, Utente(1,"SUCA","pass","ciao"))
+        val lega= Lega(1,"LEGA",100,1)
         val listaleghe=ArrayList<Lega>()
         for(i in 1..50){
             listaleghe.add(lega)
