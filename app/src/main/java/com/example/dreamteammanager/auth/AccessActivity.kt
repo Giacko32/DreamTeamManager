@@ -7,9 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager.BackStackEntry
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.viewmodel.UserViewModel
@@ -28,12 +31,10 @@ class AccessActivity : AppCompatActivity() {
             insets
         }
 
-
-
-
-
         supportFragmentManager.commit {
+            setReorderingAllowed(true)
             add<LoginFragment>(R.id.fragment_container)
+            addToBackStack("Login")
         }
 
     }
