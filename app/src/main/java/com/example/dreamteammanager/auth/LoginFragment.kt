@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
@@ -36,7 +37,7 @@ class LoginFragment : Fragment() {
         binding.registratilabel.setOnClickListener {
             (context as AppCompatActivity).supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                replace<RegisterFragment>(R.id.fragment_container)
+                add<RegisterFragment>(R.id.fragment_container)
                 addToBackStack("registrati")
             }
         }
@@ -48,6 +49,7 @@ class LoginFragment : Fragment() {
             if (login) {
                 val MainIntent = Intent(context, MainActivity::class.java)
                 (context as AppCompatActivity).startActivity(MainIntent)
+                (context as AppCompatActivity).finish()
             } else {
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),

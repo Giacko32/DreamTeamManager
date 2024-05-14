@@ -15,7 +15,6 @@
         >
         <activity
             android:name=".auth.AccessActivity"
-            android:noHistory="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +24,6 @@
         <activity
             android:name=".main.MainActivity"
             android:exported="false">
-
         </activity>
     </application>
 
