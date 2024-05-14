@@ -24,19 +24,25 @@ class CustomDialogFragment : DialogFragment() {
         binding = FragmentCustomDialogBinding.inflate(inflater, container, false)
         val view: View = binding.getRoot()
 
-        // Set click listeners for buttons
-        binding.yesButton.setOnClickListener(View.OnClickListener { // Handle 'Yes' button click
-            // E.g., dismiss dialog, perform action, etc.
-            dismiss()
-        })
-
-        binding.noButton.setOnClickListener(View.OnClickListener { // Handle 'No' button click
-            // E.g., dismiss dialog, perform action, etc.
-            dismiss()
-        })
 
         return view
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.yesButton.setOnClickListener {
+            // Handle 'Yes' button click
+            // E.g., dismiss dialog, perform action, etc.
+            dismiss()
+        }
+
+        binding.noButton.setOnClickListener {
+            // Handle 'No' button click
+            // E.g., dismiss dialog, perform action, etc.
+            dismiss()
+        }
+    }
+
 
 
 }
