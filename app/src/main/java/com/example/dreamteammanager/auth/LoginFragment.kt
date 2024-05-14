@@ -36,7 +36,10 @@ class LoginFragment : Fragment() {
             )
             if(login){
                 val MainIntent = Intent(context, MainActivity::class.java)
+                MainIntent.putExtra("user", userviewModel.user.value)
+                MainIntent.putExtra("flag",userviewModel.flagRicordami.value)
                 (context as AppCompatActivity).startActivity(MainIntent)
+                (context as AppCompatActivity).finish()
             }
         }catch (e:Exception){
 
@@ -61,6 +64,8 @@ class LoginFragment : Fragment() {
             val login = userviewModel.failogin(username, password)
             if (login) {
                 val MainIntent = Intent(context, MainActivity::class.java)
+                MainIntent.putExtra("user", userviewModel.user.value)
+                MainIntent.putExtra("flag",userviewModel.flagRicordami.value)
                 (context as AppCompatActivity).startActivity(MainIntent)
                 (context as AppCompatActivity).finish()
             } else {

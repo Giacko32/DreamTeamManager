@@ -88,8 +88,8 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         }
         return false
     }
-    fun logout(){
-        if (flagRicordami.value==false){
+    fun logout(flag:Boolean){
+        if (!flag){
             SharedPreferencesManager.saveString("utente", "")
         }
         _user.value=null

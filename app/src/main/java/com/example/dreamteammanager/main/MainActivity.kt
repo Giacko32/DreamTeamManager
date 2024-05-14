@@ -20,6 +20,7 @@ import androidx.fragment.app.viewModels
 import com.example.dreamteammanager.main.MainFragment
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.auth.AccessActivity
+import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.databinding.ActivityMainBinding
 import com.example.dreamteammanager.viewmodel.UserViewModel
 
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        Log.d("User:", userviewModel.user.value.toString())
+        intent.getParcelableExtra<Utente>("user")?.let { Log.d("User:", it.toString()) }
 
         binding.menuIcon.setOnClickListener { v: View ->
             showMenu(v, R.menu.menu_main_activity)
@@ -63,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.option_2 -> {
-                    userviewModel.logout()
+                    userviewModel.logout(intent.getBooleanExtra("flag", false))
                     val logoutintent = Intent(this, AccessActivity::class.java)
                     startActivity(logoutintent)
                     finish()
@@ -80,12 +81,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        userviewModel.logout()
+        userviewModel.logout(intent.getBooleanExtra("flag", false))
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        userviewModel.logout()
+        userviewModel.logout(intent.getBooleanExtra("flag", false))
     }
 
 
