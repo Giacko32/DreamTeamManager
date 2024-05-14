@@ -9,12 +9,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.dreamteammanager.classi.Utente
-import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken
 import com.google.gson.Gson
-import org.json.JSONObject
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
+
 
 
 class UserViewModel(application: Application): AndroidViewModel(application) {
