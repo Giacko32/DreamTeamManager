@@ -2,6 +2,7 @@ package com.example.dreamteammanager.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.AndroidViewModel
@@ -10,31 +11,55 @@ import androidx.lifecycle.MutableLiveData
 import com.example.dreamteammanager.classi.Utente
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken
 import com.google.gson.Gson
+import org.json.JSONObject
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
 
 
 class UserViewModel(application: Application): AndroidViewModel(application) {
-    fun readJsonFromAssets(context: Context, fileName: String): String {
-        return context.assets.open(fileName).bufferedReader().use { it.readText() }
+    init {
+        SharedPreferencesManager.init(application)
     }
-
     fun parseJsonToModel(jsonString: String): Utente {
         val gson = Gson()
-        return gson.fromJson(jsonString, object : TypeToken<Utente>() {}.type)
+        return gson.fromJson(jsonString, object : com.google.gson.reflect.TypeToken<Utente>() {}.type)
+    }
+    fun parseModelToJson(utente: Utente): String {
+        val gson = Gson()
+        return gson.toJson(utente)
+    }
+
+
+    object SharedPreferencesManager {
+
+        private const val PREF_NAME = "MySharedPrefs"
+        private lateinit var sharedPreferences: SharedPreferences
+
+        fun init(context: Context) {
+            sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        }
+
+        fun saveString(key: String, value: String) {
+            sharedPreferences.edit().putString(key, value).apply()
+        }
+
+         fun getString(key: String, defaultValue: String): String {
+            return sharedPreferences.getString(key, defaultValue) ?: defaultValue
+        }
     }
     private val _user= MutableLiveData<Utente?>()
     val user: LiveData<Utente?>
     get() = _user
     init {
-        val utente=parseJsonToModel(readJsonFromAssets(application,"user.json"))
-        if(utente.id==-1){
+        val jsonString = SharedPreferencesManager.getString("utente", "")
+        if (jsonString.isNotEmpty()) {
+            val utente = parseJsonToModel(jsonString)
+            _user.value = utente
+        }else{
             _user.value=null
         }
-        else{
-            _user.value=utente
-        }
-    }
-    fun getUtente(){
-        _user.value=null
+        Log.d("USER", "user: ${user.value}")
     }
     private val _flagRicordami=MutableLiveData<Boolean>()
     val flagRicordami:LiveData<Boolean>
@@ -48,25 +73,24 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
 
     }
     fun insert(utente: Utente){
-        _user.value=utente
+        val jsonString = parseModelToJson(utente)
+        SharedPreferencesManager.saveString("utente", jsonString)
     }
     fun failogin(username:String,password:String):Boolean{
         if(username.isNotEmpty()&&password.isNotEmpty()){
         //Fare login con DB remoto
         if(flagRicordami.value == true){
-            insert(Utente(1,username,password,"suca"))
+            insert(Utente(1,username,password,""))
         }
-        else {
-            _user.value = Utente(1,username,password,"suca")
-        }
+            _user.value = Utente(1,username,password,"")
+
             return true
         }
         return false
     }
     fun logout(){
-
         if (flagRicordami.value==false){
-
+            SharedPreferencesManager.saveString("utente", "")
         }
         _user.value=null
     }

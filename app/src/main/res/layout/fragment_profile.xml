@@ -40,7 +40,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="30dp"
-                android:src="@tools:sample/avatars"
                 app:layout_constraintBottom_toTopOf="@+id/UsernameProfile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

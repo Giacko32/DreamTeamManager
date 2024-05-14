@@ -2,9 +2,11 @@ package com.example.dreamteammanager.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
@@ -14,14 +16,16 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.fragment.app.viewModels
 import com.example.dreamteammanager.main.MainFragment
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.auth.AccessActivity
 import com.example.dreamteammanager.databinding.ActivityMainBinding
+import com.example.dreamteammanager.viewmodel.UserViewModel
 
 
 class MainActivity : AppCompatActivity() {
-
+    private val userviewModel: UserViewModel by viewModels()
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +37,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        Log.d("User:", userviewModel.user.value.toString())
 
         binding.menuIcon.setOnClickListener { v: View ->
             showMenu(v, R.menu.menu_main_activity)
@@ -58,6 +63,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.option_2 -> {
+                    userviewModel.logout()
                     val logoutintent = Intent(this, AccessActivity::class.java)
                     startActivity(logoutintent)
                     finish()
@@ -71,6 +77,17 @@ class MainActivity : AppCompatActivity() {
         popup.setForceShowIcon(true)
         popup.show()
     }
+
+    override fun onStop() {
+        super.onStop()
+        userviewModel.logout()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        userviewModel.logout()
+    }
+
 
 
 }

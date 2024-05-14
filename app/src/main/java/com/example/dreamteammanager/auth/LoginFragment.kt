@@ -28,6 +28,19 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        try {
+
+            val login=userviewModel.failogin(
+                userviewModel.user.value!!.username,
+                userviewModel.user.value!!.password
+            )
+            if(login){
+                val MainIntent = Intent(context, MainActivity::class.java)
+                (context as AppCompatActivity).startActivity(MainIntent)
+            }
+        }catch (e:Exception){
+
+        }
 
 
         binding.remembermebox.setOnCheckedChangeListener { buttonView, isChecked ->
