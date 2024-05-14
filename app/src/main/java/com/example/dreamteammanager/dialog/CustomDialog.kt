@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.example.dreamteammanager.databinding.FragmentCustomDialogBinding
 
 
@@ -41,6 +42,9 @@ class CustomDialogFragment : DialogFragment() {
             // E.g., dismiss dialog, perform action, etc.
             dismiss()
         }
+    }
+    fun showMyDialog(fragmentManager: FragmentManager) {
+        show(fragmentManager, "CustomDialogFragment")
     }
 
 
