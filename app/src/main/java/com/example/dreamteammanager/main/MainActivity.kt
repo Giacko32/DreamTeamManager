@@ -1,7 +1,9 @@
 package com.example.dreamteammanager.main
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        intent.getParcelableExtra<Utente>("user")?.let { Log.d("User:", it.toString()) }
+        intent.getParcelableExtra("user",Utente::class.java)?.let { Log.d("User:", it.toString()) }
 
         binding.menuIcon.setOnClickListener { v: View ->
             showMenu(v, R.menu.menu_main_activity)
@@ -91,6 +93,14 @@ class MainActivity : AppCompatActivity() {
 
 
 
+}
+@Suppress("DEPRECATION")
+inline fun <reified T: Parcelable> Bundle.getParcelableCustom(identifierParameter: String): T? {
+    return if (Build.VERSION.SDK_INT >= 33) {
+        this.getParcelable(identifierParameter, T::class.java)
+    } else {
+        this.getParcelable(identifierParameter)
+    }
 }
 
 
