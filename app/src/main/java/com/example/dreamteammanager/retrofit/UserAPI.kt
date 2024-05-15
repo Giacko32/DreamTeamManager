@@ -9,7 +9,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface UserAPI {
-    @GET("/username/{username}/pass/{password}")
+    @GET("pwm/username/{username}/pass/{password}")
     fun getuser(@Path("username")username:String,
                 @Path("password")password:String): Call<JsonObject>
     @GET("/username/{username}/email/{email}")
@@ -22,6 +22,6 @@ interface UserAPI {
 
 
     companion object {
-        const val BASE_URL = "http://147.163.214.223:9000"
+        const val BASE_URL = "http://192.168.119.165:9000"
     }
 }

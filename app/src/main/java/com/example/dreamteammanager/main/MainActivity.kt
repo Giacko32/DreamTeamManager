@@ -15,6 +15,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.IntentCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -60,6 +61,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.option_1 -> {
                     supportFragmentManager.commit {
                         setReorderingAllowed(true)
+                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         replace<ProfileFragment>(R.id.fragmentContainerView, )
                         addToBackStack("profilo")
                     }

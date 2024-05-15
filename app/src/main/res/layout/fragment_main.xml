@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- RecyclerView sopra la BottomAppBar -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/barrier"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- BottomAppBar con tre bottoni -->
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -31,39 +30,76 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="BottomAppBar">
 
-        <!-- Contenitore per i bottoni -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-            <!-- Primo pulsante: Le mie Leghe -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_my_leagues"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="140dp"
-                android:layout_height="70dp"
-                android:layout_marginEnd="20dp"
-                android:text="Le mie Leghe"
+            <ImageView
+                android:id="@+id/searchimage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/arancione"
+                android:src="@drawable/material_symbols__search"
+                app:layout_constraintEnd_toStartOf="@id/searched"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/searched"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="40dp"
+                android:hint="cerca"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                app:strokeColor="@color/white" />
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape"
+                app:layout_constraintStart_toEndOf="@id/searchimage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
-            <!-- Terzo pulsante: Iscriviti alla Lega -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_join_league"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="140dp"
-                android:layout_height="70dp"
-                android:text="Iscriviti ad una Lega"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                app:strokeColor="@color/white" />
+            <!-- Contenitore per i bottoni -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/searchimage">
 
-        </LinearLayout>
+                <!-- Primo pulsante: Le mie Leghe -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_my_leagues"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="140dp"
+                    android:layout_height="70dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="Le mie Leghe"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:strokeColor="@color/white" />
+
+                <!-- Terzo pulsante: Iscriviti alla Lega -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_join_league"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="140dp"
+                    android:layout_height="70dp"
+                    android:text="Iscriviti ad una Lega"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:strokeColor="@color/white" />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.bottomappbar.BottomAppBar>
+
 
     <!-- Barriera orizzontale -->
     <androidx.constraintlayout.widget.Barrier

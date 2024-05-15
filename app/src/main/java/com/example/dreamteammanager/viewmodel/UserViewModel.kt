@@ -19,18 +19,28 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class UserViewModel(application: Application): AndroidViewModel(application) {
+
+class UserViewModel(application: Application) : AndroidViewModel(application) {
     init {
         SharedPreferencesManager.init(application)
     }
+
     fun parseJsonToModel(jsonString: String): Utente {
         val gson = Gson()
-        return gson.fromJson(jsonString, object : com.google.gson.reflect.TypeToken<Utente>() {}.type)
+        return gson.fromJson(
+            jsonString,
+            object : com.google.gson.reflect.TypeToken<Utente>() {}.type
+        )
     }
+
     fun parseJsonToModel2(jsonString: String): ArrayList<Utente> {
         val gson = Gson()
-        return gson.fromJson(jsonString, object : com.google.gson.reflect.TypeToken<Utente>() {}.type)
+        return gson.fromJson(
+            jsonString,
+            object : com.google.gson.reflect.TypeToken<Utente>() {}.type
+        )
     }
+
     fun parseModelToJson(utente: Utente): String {
         val gson = Gson()
         return gson.toJson(utente)
@@ -50,80 +60,95 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
             sharedPreferences.edit().putString(key, value).apply()
         }
 
-         fun getString(key: String, defaultValue: String): String {
+        fun getString(key: String, defaultValue: String): String {
             return sharedPreferences.getString(key, defaultValue) ?: defaultValue
         }
     }
-    private val _user= MutableLiveData<Utente?>()
+
+    private val _user = MutableLiveData<Utente?>()
     val user: LiveData<Utente?>
-    get() = _user
+        get() = _user
+
     init {
         val jsonString = SharedPreferencesManager.getString("utente", "")
         if (jsonString.isNotEmpty()) {
             val utente = parseJsonToModel(jsonString)
             _user.value = utente
-        }else{
-            _user.value=null
+        } else {
+            _user.value = null
         }
         Log.d("USER", "user: ${user.value}")
     }
-    fun setUtente(utente: Utente){
-        _user.value=utente
+
+    fun setUtente(utente: Utente) {
+        _user.value = utente
     }
-    private val _flagRicordami=MutableLiveData<Boolean>()
-    val flagRicordami:LiveData<Boolean>
-    get() = _flagRicordami
+
+    private val _flagRicordami = MutableLiveData<Boolean>()
+    val flagRicordami: LiveData<Boolean>
+        get() = _flagRicordami
+
     init {
-        _flagRicordami.value=false
+        _flagRicordami.value = false
     }
+
     fun updateFlag(isChecked: Boolean) {
         _flagRicordami.value = isChecked
         Log.d("FLAG", "updateFlag: $isChecked")
 
     }
-    fun insert(utente: Utente){
+
+    fun insert(utente: Utente) {
         val jsonString = parseModelToJson(utente)
         SharedPreferencesManager.saveString("utente", jsonString)
     }
-    fun failogin(username:String,password:String):Boolean{
-        if(username.isNotEmpty()&&password.isNotEmpty()){
-            Client.retrofit.getuser(username,password).enqueue(
+
+    fun failogin(username: String, password: String): Boolean {
+        if (username.isNotEmpty() && password.isNotEmpty()) {
+            /*Client.retrofit.getuser(username, password).enqueue(
                 object : Callback<JsonObject> {
-                    override fun onResponse(call: Call<JsonObject>, response:
-                    Response<JsonObject>
+                    override fun onResponse(
+                        call: Call<JsonObject>, response:
+                        Response<JsonObject>
                     ) {
-                        if(response.isSuccessful){
+                        if (response.isSuccessful) {
                             val utente = response.body().toString()
-                            _user.value=parseJsonToModel(utente)
+                            _user.value = parseJsonToModel(utente)
                         }
                     }
-                    override fun onFailure(call: Call<JsonObject>?, t:
-                    Throwable?) {
-                    }
 
-                })
-            if(user.value!=null){
-                if(flagRicordami.value == true){
+                    override fun onFailure(
+                        call: Call<JsonObject>?, t:
+                        Throwable?
+                    ) {
+
+                    }
+                })*/
+            _user.value = Utente(1, "admin", "123", "")
+            if (_user.value != null) {
+                if (flagRicordami.value == true) {
                     _user.value?.let { insert(it) }
                 }
                 return true
-            }else{
+            } else {
                 return false
             }
-        }else{
+        } else {
             return false
         }
-
     }
-    fun logout(flag:Boolean){
-        if (!flag){
+
+
+    fun logout(flag: Boolean) {
+        if (!flag) {
             SharedPreferencesManager.saveString("utente", "")
         }
-        _user.value=null
+        _user.value = null
     }
-    fun registrati(username:String,password:String,email:String):String {
+
+    fun registrati(username: String, password: String, email: String): String {
         var disponibilita: Boolean
-        var stringadiritorno=""
+        var stringadiritorno = ""
         if (username.isNotEmpty() && password.isNotEmpty() && email.isNotEmpty()) {
             if (password.length >= 8 && password.length <= 25) {
                 if (isValidEmail(email)) {
@@ -139,7 +164,7 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
                                         disponibilita = true
                                     } else {
                                         disponibilita = false
-                                        stringadiritorno= "Username o email già in uso"
+                                        stringadiritorno = "Username o email già in uso"
                                     }
                                     if (disponibilita) {
                                         Client.retrofit.registeruser(username, password, email)
@@ -152,8 +177,9 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
                                                         if (response.isSuccessful) {
                                                             stringadiritorno =
                                                                 "Registrazione avvenuta con successo"
-                                                        }else{
-                                                            stringadiritorno="Errore di connessione"
+                                                        } else {
+                                                            stringadiritorno =
+                                                                "Errore di connessione"
                                                         }
                                                     }
 
@@ -161,12 +187,12 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
                                                         call: Call<JsonObject>?, t:
                                                         Throwable?
                                                     ) {
-                                                        stringadiritorno="Errore di connessione"
+                                                        stringadiritorno = "Errore di connessione"
                                                     }
                                                 })
                                     }
-                                }else{
-                                    stringadiritorno="Errore di connessione"
+                                } else {
+                                    stringadiritorno = "Errore di connessione"
                                 }
                             }
 
@@ -174,7 +200,7 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
                                 call: Call<JsonArray>?, t:
                                 Throwable?
                             ) {
-                                stringadiritorno="Errore di connessione"
+                                stringadiritorno = "Errore di connessione"
                             }
 
                         }
@@ -194,36 +220,41 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
     private fun isValidEmail(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
-    private val _codice=MutableLiveData<Int>()
-    val codice:LiveData<Int>
-    get() = _codice
+
+    private val _codice = MutableLiveData<Int>()
+    val codice: LiveData<Int>
+        get() = _codice
+
     init {
-        _codice.value=0
+        _codice.value = 0
     }
-    private fun generatecodice(){
-        _codice.value=(100000..999999).random()
+
+    private fun generatecodice() {
+        _codice.value = (100000..999999).random()
     }
-    fun recuperaCredenziali(email: String):Boolean{
-        if(email.isNotEmpty()&&isValidEmail(email)){
+
+    fun recuperaCredenziali(email: String): Boolean {
+        if (email.isNotEmpty() && isValidEmail(email)) {
             generatecodice()
             Log.d("CODICE", "recuperaCredenziali: ${codice.value} ed email inviata")
             //sendEmail(email,getApplication())
             return true
-        }
-        else{
+        } else {
             Log.d("CODICE", "recuperaCredenziali: email non valida")
             return false
         }
     }
-    fun controllacodice(codice:Int):Boolean{
-        if(codice==this.codice.value){
+
+    fun controllacodice(codice: Int): Boolean {
+        if (codice == this.codice.value) {
             return true
         }
         return false
     }
-    fun cambiapassword(password:String,confirm:String):Boolean{
-        if(password.isNotEmpty()&&password.length>=8&&password.length<=25){
-            if(password==confirm){
+
+    fun cambiapassword(password: String, confirm: String): Boolean {
+        if (password.isNotEmpty() && password.length >= 8 && password.length <= 25) {
+            if (password == confirm) {
                 //Cambia password in DB remoto
                 return true
             }

@@ -12,20 +12,23 @@
         android:roundIcon="@drawable/icona"
         android:supportsRtl="true"
         android:theme="@style/Theme.DreamTeamManager"
-        tools:targetApi="33"
-        >
+        android:usesCleartextTraffic="true"
+        tools:targetApi="33">
+        <activity
+            android:name=".lega.LegaActivity"
+            android:exported="false" />
         <activity
             android:name=".auth.AccessActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".main.MainActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>
