@@ -124,7 +124,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
                     }
                 })*/
-            _user.value = Utente(1, "admin", "123", "")
+            _user.value = Utente(1, "admin", "123", "admin@gmail.com")
             if (_user.value != null) {
                 if (flagRicordami.value == true) {
                     _user.value?.let { insert(it) }

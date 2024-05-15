@@ -30,12 +30,6 @@ class LegaView : Fragment() {
         val adapter = LegheAdapter(lista)
         binding.recview.layoutManager = LinearLayoutManager(context)
         binding.recview.adapter = adapter
-        binding.recview.addItemDecoration(
-            DividerItemDecoration(
-                requireActivity(),
-                LinearLayoutManager.VERTICAL
-            )
-        )
     }
 
     override fun onCreateView(
