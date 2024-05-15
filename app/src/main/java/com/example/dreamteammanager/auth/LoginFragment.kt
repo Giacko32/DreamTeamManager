@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -21,7 +22,7 @@ import com.example.dreamteammanager.viewmodel.UserViewModel
 
 class LoginFragment : Fragment() {
     lateinit var binding: FragmentLoginBinding
-    private val userviewModel: UserViewModel by viewModels()
+    private val userviewModel: UserViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

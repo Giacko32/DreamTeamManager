@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.dreamteammanager.R
@@ -12,7 +13,7 @@ import com.example.dreamteammanager.databinding.FragmentProfileBinding
 import com.example.dreamteammanager.viewmodel.UserViewModel
 
 class ProfileFragment : Fragment() {
-    private val userViewModel: UserViewModel by viewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
     lateinit var binding: FragmentProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,13 +22,13 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        userViewModel.user.observe(viewLifecycleOwner, Observer{
-        if (it != null) {
-            binding.Username.setText(it.username)
-            binding.Email.setText(it.email)
-        }
+        userViewModel.user.observe(viewLifecycleOwner) {
+            if (it != null) {
+                binding.Username.setText(it.username)
+                binding.Email.setText(it.email)
+            }
 
-        })
+        }
 
     }
 

@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        intent.getParcelableExtra("user",Utente::class.java)?.let { Log.d("User:", it.toString()) }
+        intent.getParcelableExtra("user",Utente::class.java)?.let { userviewModel.setUtente(it) }
         binding.menuIcon.setOnClickListener { v: View ->
             showMenu(v, R.menu.menu_main_activity)
         }
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.option_2 -> {
-                    userviewModel.logout(intent.getBooleanExtra("flag", false))
+                    userviewModel.logout(false)
                     val logoutintent = Intent(this, AccessActivity::class.java)
                     startActivity(logoutintent)
                     finish()

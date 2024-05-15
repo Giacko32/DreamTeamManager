@@ -3,14 +3,20 @@ package com.example.dreamteammanager.viewmodel
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.retrofit.Client
 import com.google.gson.Gson
-
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class UserViewModel(application: Application): AndroidViewModel(application) {
@@ -18,6 +24,10 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         SharedPreferencesManager.init(application)
     }
     fun parseJsonToModel(jsonString: String): Utente {
+        val gson = Gson()
+        return gson.fromJson(jsonString, object : com.google.gson.reflect.TypeToken<Utente>() {}.type)
+    }
+    fun parseJsonToModel2(jsonString: String): ArrayList<Utente> {
         val gson = Gson()
         return gson.fromJson(jsonString, object : com.google.gson.reflect.TypeToken<Utente>() {}.type)
     }
@@ -57,6 +67,9 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         }
         Log.d("USER", "user: ${user.value}")
     }
+    fun setUtente(utente: Utente){
+        _user.value=utente
+    }
     private val _flagRicordami=MutableLiveData<Boolean>()
     val flagRicordami:LiveData<Boolean>
     get() = _flagRicordami
@@ -74,15 +87,33 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
     }
     fun failogin(username:String,password:String):Boolean{
         if(username.isNotEmpty()&&password.isNotEmpty()){
-        //Fare login con DB remoto
-        if(flagRicordami.value == true){
-            insert(Utente(1,username,password,""))
-        }
-            _user.value = Utente(1,username,password,"")
+            Client.retrofit.getuser(username,password).enqueue(
+                object : Callback<JsonObject> {
+                    override fun onResponse(call: Call<JsonObject>, response:
+                    Response<JsonObject>
+                    ) {
+                        if(response.isSuccessful){
+                            val utente = response.body().toString()
+                            _user.value=parseJsonToModel(utente)
+                        }
+                    }
+                    override fun onFailure(call: Call<JsonObject>?, t:
+                    Throwable?) {
+                    }
 
-            return true
+                })
+            if(user.value!=null){
+                if(flagRicordami.value == true){
+                    _user.value?.let { insert(it) }
+                }
+                return true
+            }else{
+                return false
+            }
+        }else{
+            return false
         }
-        return false
+
     }
     fun logout(flag:Boolean){
         if (!flag){
@@ -90,25 +121,76 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         }
         _user.value=null
     }
-    fun registrati(username:String,password:String,email:String):String{
-        if(username.isNotEmpty()&&password.isNotEmpty()&&email.isNotEmpty()) {
-            if(password.length>=8&&password.length<=25){
-                if(isValidEmail(email)){
-                    //registra nel DB remoto
-                    return "Registrazione avvenuta con successo"
+    fun registrati(username:String,password:String,email:String):String {
+        var disponibilita: Boolean
+        var stringadiritorno=""
+        if (username.isNotEmpty() && password.isNotEmpty() && email.isNotEmpty()) {
+            if (password.length >= 8 && password.length <= 25) {
+                if (isValidEmail(email)) {
+                    Client.retrofit.checkDisponibilita(username, email).enqueue(
+                        object : Callback<JsonArray> {
+                            override fun onResponse(
+                                call: Call<JsonArray>, response:
+                                Response<JsonArray>
+                            ) {
+                                if (response.isSuccessful) {
+                                    val array = parseJsonToModel2(response.body().toString())
+                                    if (array.isEmpty()) {
+                                        disponibilita = true
+                                    } else {
+                                        disponibilita = false
+                                        stringadiritorno= "Username o email già in uso"
+                                    }
+                                    if (disponibilita) {
+                                        Client.retrofit.registeruser(username, password, email)
+                                            .enqueue(
+                                                object : Callback<JsonObject> {
+                                                    override fun onResponse(
+                                                        call: Call<JsonObject>, response:
+                                                        Response<JsonObject>
+                                                    ) {
+                                                        if (response.isSuccessful) {
+                                                            stringadiritorno =
+                                                                "Registrazione avvenuta con successo"
+                                                        }else{
+                                                            stringadiritorno="Errore di connessione"
+                                                        }
+                                                    }
+
+                                                    override fun onFailure(
+                                                        call: Call<JsonObject>?, t:
+                                                        Throwable?
+                                                    ) {
+                                                        stringadiritorno="Errore di connessione"
+                                                    }
+                                                })
+                                    }
+                                }else{
+                                    stringadiritorno="Errore di connessione"
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<JsonArray>?, t:
+                                Throwable?
+                            ) {
+                                stringadiritorno="Errore di connessione"
+                            }
+
+                        }
+                    )
+                } else {
+                    stringadiritorno = "Email non valida"
                 }
-                else{
-                return "Email non valida"
-                }
+            } else {
+                stringadiritorno = "Password non formattata correttamente"
             }
-            else{
-                    return "Password non formattata correttamente"
-                }
+        } else {
+            stringadiritorno = "Campi lasciati vuoti"
         }
-        else{
-              return "Campi lasciati vuoti"
-            }
+        return stringadiritorno
     }
+
     private fun isValidEmail(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }

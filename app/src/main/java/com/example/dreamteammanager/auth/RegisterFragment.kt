@@ -60,44 +60,19 @@ class RegisterFragment : Fragment() {
                     replace<LoginFragment>(R.id.fragment_container)
                     addToBackStack("back")
                 }
-            } else if (registrato == "Email non valida") {
+            } else{
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
                 ).create()
-                alertDialog.setTitle("Attenzione")
+                alertDialog.setTitle("ATTENZIONE")
                 alertDialog.setMessage(registrato)
                 alertDialog.setButton(
-                    AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
+                    AlertDialog.BUTTON_NEGATIVE, "RIPROVA",
                 ) { dialog, which -> dialog.dismiss() }
                 alertDialog.show()
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
 
-            } else if (registrato == "Password non formattata correttamente") {
-                val alertDialog = AlertDialog.Builder(
-                    requireContext(),
-                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
-                ).create()
-                alertDialog.setTitle("Attenzione")
-                alertDialog.setMessage(registrato)
-                alertDialog.setButton(
-                    AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
-                ) { dialog, which -> dialog.dismiss() }
-                alertDialog.show()
-                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
-
-            } else if (registrato == "Campi lasciati vuoti") {
-                val alertDialog = AlertDialog.Builder(
-                    requireContext(),
-                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
-                ).create()
-                alertDialog.setTitle("Attenzione")
-                alertDialog.setMessage(registrato)
-                alertDialog.setButton(
-                    AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
-                ) { dialog, which -> dialog.dismiss() }
-                alertDialog.show()
-                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
             }
         }
 

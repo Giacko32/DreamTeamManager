@@ -3,6 +3,7 @@ package com.example.dreamteammanager.auth
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
@@ -19,6 +20,7 @@ import com.example.dreamteammanager.viewmodel.UserViewModel
 import kotlin.math.log
 
 class AccessActivity : AppCompatActivity() {
+    private val userViewModel:UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
