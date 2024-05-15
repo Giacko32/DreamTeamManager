@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.option_1 -> {
                     supportFragmentManager.commit {
                         setReorderingAllowed(true)
-                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         replace<ProfileFragment>(R.id.fragmentContainerView, )
                         addToBackStack("profilo")
                     }
