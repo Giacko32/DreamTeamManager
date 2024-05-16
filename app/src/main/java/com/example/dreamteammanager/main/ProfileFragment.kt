@@ -20,8 +20,11 @@ class ProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        userViewModel.setUtente(userViewModel.parseJsonToModel(UserViewModel.SharedPreferencesManager.getString("utente", "")))
         userViewModel.user.observe(viewLifecycleOwner) {
             if (it != null) {
                 binding.Username.setText(it.username)
