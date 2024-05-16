@@ -128,6 +128,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                             _user.value = parseJsonToModel(utente)
                             if (user.value!!.username != null) {
                                 _loggato.value=true
+                                if(flagRicordami.value!!){
+                                    insert(user.value!!)
+                                }
                             }else{
                                 _loggato.value=false
                             }

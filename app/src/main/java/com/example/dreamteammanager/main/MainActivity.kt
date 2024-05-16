@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-       // userviewModel.setUtente(userviewModel.parseJsonToModel(UserViewModel.SharedPreferencesManager.getString("utente", "")))
+        intent.getParcelableExtra("user", Utente::class.java)?.let { userviewModel.setUtente(it) }
         binding.menuIcon.setOnClickListener { v: View ->
             showMenu(v, R.menu.menu_main_activity)
         }

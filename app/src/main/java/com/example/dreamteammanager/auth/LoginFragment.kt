@@ -31,22 +31,17 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         userviewModel.getUtente()
-       /* try {
+        try {
 
-            val login=userviewModel.failogin(
+            userviewModel.failogin(
                 userviewModel.user.value!!.username,
                 userviewModel.user.value!!.password
             )
-            if(login){
-                val MainIntent = Intent(context, MainActivity::class.java)
-                MainIntent.putExtra("user", userviewModel.user.value)
-                MainIntent.putExtra("flag",userviewModel.flagRicordami.value)
-                (context as AppCompatActivity).startActivity(MainIntent)
-                (context as AppCompatActivity).finish()
-            }
-        }catch (e:Exception){
 
-        }*/
+            }
+        catch (e:Exception){
+            e.printStackTrace()
+        }
 
         userviewModel.loggato.observe(requireActivity()) { login ->
             if (login==true) {
