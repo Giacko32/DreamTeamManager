@@ -3,6 +3,7 @@ package com.example.dreamteammanager.retrofit
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -15,10 +16,8 @@ interface UserAPI {
     @GET("pwm/username/{username}/email/{email}")
     fun checkDisponibilita(@Path("username")username:String,
                            @Path("email")email:String): Call<JsonArray>
-    @POST("pwm/username/{username}/pass/{password}/email/{email}")
-    fun registeruser(@Path("username")username:String,
-                     @Path("password")password:String,
-                     @Path("email")email:String): Call<JsonObject>
+    @POST("pwm/user")
+    fun registeruser(@Body user:JsonObject):Call<JsonObject>
 
 
     companion object {

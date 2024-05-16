@@ -39,22 +39,47 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userviewModel.stringadiritorno
+
+
 
 
         bind.ButtonRegistrati.setOnClickListener {
             val username = bind.UsernameText.text.toString()
             val password = bind.PasswordText.text.toString()
             val email = bind.EmailText.text.toString()
-            userviewModel.registrati(username, password, email)
+            Log.d("username",username)
+            userviewModel.checkdisponibilita(username,password,email)
+        }
 
-           /* if (registrato == "Registrazione avvenuta con successo") {
+        userviewModel.disponibilita.observe(requireActivity()){
+            val username = bind.UsernameText.text.toString()
+            val password = bind.PasswordText.text.toString()
+            val email = bind.EmailText.text.toString()
+            if (it == true){
+                userviewModel.registrazione(username,password,email)
+            }else if(it==false){
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("ATTENZIONE")
+                alertDialog.setMessage("Credenziali già registrate")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEGATIVE, "RIPROVA",
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
+            }
+        }
+
+        userviewModel.stringadiritorno.observe(requireActivity()){
+            if(it=="Registrazione effettuata"){
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
                 ).create()
                 alertDialog.setTitle("CONFIRM")
-                alertDialog.setMessage(registrato)
+                alertDialog.setMessage(it)
                 alertDialog.setButton(
                     AlertDialog.BUTTON_NEGATIVE, "VAI A LOGIN",
                 ) { dialog, which -> dialog.dismiss() }
@@ -63,23 +88,25 @@ class RegisterFragment : Fragment() {
                 (context as AppCompatActivity).supportFragmentManager.commit {
                     setReorderingAllowed(true)
                     replace<LoginFragment>(R.id.fragment_container)
-                    addToBackStack("back")
                 }
-            } else{
+
+
+            }else if(it!=null){
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
                 ).create()
                 alertDialog.setTitle("ATTENZIONE")
-                alertDialog.setMessage(registrato)
+                alertDialog.setMessage(it)
                 alertDialog.setButton(
                     AlertDialog.BUTTON_NEGATIVE, "RIPROVA",
                 ) { dialog, which -> dialog.dismiss() }
                 alertDialog.show()
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
-
             }
-        }*/
+        }
+
+
 
         bind.LoginText.setOnClickListener {
             (context as AppCompatActivity).supportFragmentManager.commit {
@@ -94,5 +121,4 @@ class RegisterFragment : Fragment() {
 
 
 
-}
 }
