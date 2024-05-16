@@ -88,6 +88,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         if (jsonString.isNotEmpty()) {
             val utente = parseJsonToModel(jsonString)
             _flagRicordami.value = true
+            _loggato.value = "loggato"
             _user.value = utente
         } else {
             _user.value = null

@@ -35,28 +35,17 @@ class LoginFragment : Fragment() {
 
         val progressBar = (context as AppCompatActivity).findViewById<ProgressBar>(R.id.progress_bar)
 
-
-        try {
-
-            userviewModel.failogin(
-                userviewModel.user.value!!.username,
-                userviewModel.user.value!!.password
-            )
-
-            }
-        catch (e:Exception){
-            e.printStackTrace()
-        }
-
         userviewModel.loggato.observe(requireActivity()) { login ->
             if (login=="loggato") {
+                progressBar.visibility = View.GONE
                 val MainIntent = Intent(context, MainActivity::class.java)
                 MainIntent.putExtra("user", userviewModel.user.value)
                 MainIntent.putExtra("flag",userviewModel.flagRicordami.value)
                 (context as AppCompatActivity).startActivity(MainIntent)
                 (context as AppCompatActivity).finish()
 
-            }else if(login=="errore"){
+            }else if(login=="non loggato"){
+                progressBar.visibility = View.GONE
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -72,8 +61,6 @@ class LoginFragment : Fragment() {
                 progressBar.visibility = View.VISIBLE
             }
         }
-
-
 
         binding.remembermebox.setOnCheckedChangeListener { buttonView, isChecked ->
             userviewModel.updateFlag(isChecked)
@@ -93,7 +80,6 @@ class LoginFragment : Fragment() {
             val username = binding.usernametext.text.toString()
             val password = binding.passwordtext.text.toString()
             userviewModel.failogin(username, password)
-            progressBar.visibility = View.VISIBLE
         }
 
         binding.recuperaPassword.setOnClickListener {
