@@ -1,14 +1,23 @@
 package com.example.dreamteammanager.viewmodel
 
 import android.app.Application
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.util.Log
 import android.util.Patterns
+import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.dreamteammanager.R
+import com.example.dreamteammanager.auth.AccessActivity
+import com.example.dreamteammanager.auth.LoginFragment
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.retrofit.Client
 import com.google.gson.Gson
@@ -144,8 +153,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         _loggato.value=false
                     }
                 })
-
-
     }
     }
 

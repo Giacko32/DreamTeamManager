@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
@@ -31,6 +32,10 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         userviewModel.getUtente()
+
+        val progressBar = (context as AppCompatActivity).findViewById<ProgressBar>(R.id.progress_bar)
+
+
         try {
 
             userviewModel.failogin(
@@ -67,6 +72,7 @@ class LoginFragment : Fragment() {
         }
 
 
+
         binding.remembermebox.setOnCheckedChangeListener { buttonView, isChecked ->
             userviewModel.updateFlag(isChecked)
         }
@@ -79,10 +85,13 @@ class LoginFragment : Fragment() {
             }
         }
 
+
+
         binding.LoginButton.setOnClickListener {
             val username = binding.usernametext.text.toString()
             val password = binding.passwordtext.text.toString()
             userviewModel.failogin(username, password)
+            progressBar.visibility = View.VISIBLE
         }
 
         binding.recuperaPassword.setOnClickListener {
