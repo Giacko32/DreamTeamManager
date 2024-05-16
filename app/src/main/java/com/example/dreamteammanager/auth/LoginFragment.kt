@@ -31,7 +31,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         userviewModel.getUtente()
-        try {
+       /* try {
 
             val login=userviewModel.failogin(
                 userviewModel.user.value!!.username,
@@ -46,6 +46,29 @@ class LoginFragment : Fragment() {
             }
         }catch (e:Exception){
 
+        }*/
+
+        userviewModel.loggato.observe(requireActivity()) { login ->
+            if (login) {
+                val MainIntent = Intent(context, MainActivity::class.java)
+                MainIntent.putExtra("user", userviewModel.user.value)
+                MainIntent.putExtra("flag",userviewModel.flagRicordami.value)
+                (context as AppCompatActivity).startActivity(MainIntent)
+                (context as AppCompatActivity).finish()
+
+            }else{
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("Attenzione")
+                alertDialog.setMessage("Le credenziali sono errate o i campi sono vuoti")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
+            }
         }
 
 
@@ -64,28 +87,7 @@ class LoginFragment : Fragment() {
         binding.LoginButton.setOnClickListener {
             val username = binding.usernametext.text.toString()
             val password = binding.passwordtext.text.toString()
-            val login = userviewModel.failogin(username, password)
-            Log.d("LOGIN", login.toString())
-            if (login) {
-                val MainIntent = Intent(context, MainActivity::class.java)
-                MainIntent.putExtra("user", userviewModel.user.value)
-                MainIntent.putExtra("flag",userviewModel.flagRicordami.value)
-                (context as AppCompatActivity).startActivity(MainIntent)
-                (context as AppCompatActivity).finish()
-            } else {
-                val alertDialog = AlertDialog.Builder(
-                    requireContext(),
-                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
-                ).create()
-                alertDialog.setTitle("Attenzione")
-                alertDialog.setMessage("Le credenziali sono errate o i campi sono vuoti")
-                alertDialog.setButton(
-                    AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
-                ) { dialog, which -> dialog.dismiss() }
-                alertDialog.show()
-                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
-
-            }
+            userviewModel.failogin(username, password)
         }
 
         binding.recuperaPassword.setOnClickListener {

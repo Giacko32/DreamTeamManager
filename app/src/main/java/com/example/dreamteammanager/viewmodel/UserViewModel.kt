@@ -107,10 +107,14 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         val jsonString = parseModelToJson(utente)
         SharedPreferencesManager.saveString("utente", jsonString)
     }
+    private val _loggato=MutableLiveData<Boolean>()
+    val loggato:LiveData<Boolean>
+            get() = _loggato
 
-    fun failogin(username: String, password: String): Boolean {
+
+    fun failogin(username: String, password: String) {
         if (username.isNotEmpty() && password.isNotEmpty()) {
-            /*Client.retrofit.getuser(username, password).enqueue(
+            Client.retrofit.getuser(username, password).enqueue(
                 object : Callback<JsonObject> {
                     override fun onResponse(
                         call: Call<JsonObject>, response:
@@ -118,7 +122,12 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     ) {
                         if (response.isSuccessful) {
                             val utente = response.body().toString()
-                            _user.value = parseJsonToModel(utente)
+                            if (utente.isNotEmpty()) {
+                                _user.value = parseJsonToModel(utente)
+                                _loggato.value=true
+                            }else{
+                                _loggato.value=false
+                            }
                         }
                     }
 
@@ -128,19 +137,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     ) {
 
                     }
-                })*/
-            _user.value = Utente(1, "admin", "123", "admin@gmail.com")
-            if (_user.value != null) {
-                if (flagRicordami.value == true) {
-                    _user.value?.let { insert(it) }
-                }
-                return true
-            } else {
-                return false
-            }
-        } else {
-            return false
-        }
+                })
+
+    }
     }
 
 
