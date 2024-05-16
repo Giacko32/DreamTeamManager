@@ -116,8 +116,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         val jsonString = parseModelToJson(utente)
         SharedPreferencesManager.saveString("utente", jsonString)
     }
-    private val _loggato=MutableLiveData<Boolean?>()
-    val loggato:LiveData<Boolean?>
+    private val _loggato=MutableLiveData<String?>()
+    val loggato:LiveData<String?>
             get() = _loggato
     init {
         _loggato.value=null
@@ -126,6 +126,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     fun failogin(username: String, password: String) {
         if (username.isNotEmpty() && password.isNotEmpty()) {
+            _loggato.value="accesso in corso"
             Client.retrofit.getuser(username, password).enqueue(
                 object : Callback<JsonObject> {
                     override fun onResponse(
@@ -136,12 +137,12 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                             val utente = response.body().toString()
                             _user.value = parseJsonToModel(utente)
                             if (user.value!!.username != null) {
-                                _loggato.value=true
+                                _loggato.value="loggato"
                                 if(flagRicordami.value!!){
                                     insert(user.value!!)
                                 }
                             }else{
-                                _loggato.value=false
+                                _loggato.value="non loggato"
                             }
                         }
                     }
@@ -150,7 +151,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         call: Call<JsonObject>?, t:
                         Throwable?
                     ) {
-                        _loggato.value=false
+                        _loggato.value="non loggato"
                     }
                 })
     }
@@ -163,10 +164,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
         _user.value = null
     }
+    private val _stringadiritorno = MutableLiveData<String>()
+    val stringadiritorno: LiveData<String>
+        get() = _stringadiritorno
 
-    fun registrati(username: String, password: String, email: String): String {
+
+    fun registrati(username: String, password: String, email: String){
         var disponibilita: Boolean
-        var stringadiritorno = ""
         if (username.isNotEmpty() && password.isNotEmpty() && email.isNotEmpty()) {
             if (password.length >= 8 && password.length <= 25) {
                 if (isValidEmail(email)) {
@@ -178,61 +182,29 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                             ) {
                                 if (response.isSuccessful) {
                                     val array = parseJsonToModel2(response.body().toString())
-                                    if (array.isEmpty()) {
-                                        disponibilita = true
-                                    } else {
-                                        disponibilita = false
-                                        stringadiritorno = "Username o email già in uso"
-                                    }
-                                    if (disponibilita) {
-                                        Client.retrofit.registeruser(username, password, email)
-                                            .enqueue(
-                                                object : Callback<JsonObject> {
-                                                    override fun onResponse(
-                                                        call: Call<JsonObject>, response:
-                                                        Response<JsonObject>
-                                                    ) {
-                                                        if (response.isSuccessful) {
-                                                            stringadiritorno =
-                                                                "Registrazione avvenuta con successo"
-                                                        } else {
-                                                            stringadiritorno =
-                                                                "Errore di connessione"
-                                                        }
-                                                    }
-
-                                                    override fun onFailure(
-                                                        call: Call<JsonObject>?, t:
-                                                        Throwable?
-                                                    ) {
-                                                        stringadiritorno = "Errore di connessione"
-                                                    }
-                                                })
-                                    }
-                                } else {
-                                    stringadiritorno = "Errore di connessione"
-                                }
+                                    Log.d("ARRAY", "onResponse: ${array.size}")
+                            }
                             }
 
                             override fun onFailure(
                                 call: Call<JsonArray>?, t:
                                 Throwable?
                             ) {
-                                stringadiritorno = "Errore di connessione"
+                                _stringadiritorno.value = "Errore di connessione"
                             }
 
                         }
                     )
                 } else {
-                    stringadiritorno = "Email non valida"
+                    _stringadiritorno.value = "Email non valida"
                 }
             } else {
-                stringadiritorno = "Password non formattata correttamente"
+                _stringadiritorno.value = "Password non formattata correttamente"
             }
         } else {
-            stringadiritorno = "Campi lasciati vuoti"
+            _stringadiritorno.value = "Campi lasciati vuoti"
         }
-        return stringadiritorno
+
     }
 
     private fun isValidEmail(email: String): Boolean {

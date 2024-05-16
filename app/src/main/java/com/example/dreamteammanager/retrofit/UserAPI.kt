@@ -12,10 +12,10 @@ interface UserAPI {
     @GET("pwm/username/{username}/pass/{password}")
     fun getuser(@Path("username")username:String,
                 @Path("password")password:String): Call<JsonObject>
-    @GET("/username/{username}/email/{email}")
+    @GET("pwm/username/{username}/email/{email}")
     fun checkDisponibilita(@Path("username")username:String,
                            @Path("email")email:String): Call<JsonArray>
-    @POST("username/{username}/pass/{password}/email/{email}")
+    @POST("pwm/username/{username}/pass/{password}/email/{email}")
     fun registeruser(@Path("username")username:String,
                      @Path("password")password:String,
                      @Path("email")email:String): Call<JsonObject>

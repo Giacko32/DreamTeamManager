@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
@@ -19,7 +20,7 @@ import com.example.dreamteammanager.viewmodel.UserViewModel
 
 class RegisterFragment : Fragment() {
     lateinit var bind: FragmentRegisterBinding
-    private val userviewModel: UserViewModel by viewModels()
+    private val userviewModel: UserViewModel by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,13 +38,17 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        userviewModel.stringadiritorno
+
+
         bind.ButtonRegistrati.setOnClickListener {
             val username = bind.UsernameText.text.toString()
             val password = bind.PasswordText.text.toString()
             val email = bind.EmailText.text.toString()
-            val registrato = userviewModel.registrati(username, password, email)
+            userviewModel.registrati(username, password, email)
 
-            if (registrato == "Registrazione avvenuta con successo") {
+           /* if (registrato == "Registrazione avvenuta con successo") {
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -74,7 +79,7 @@ class RegisterFragment : Fragment() {
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
 
             }
-        }
+        }*/
 
         bind.LoginText.setOnClickListener {
             (context as AppCompatActivity).supportFragmentManager.commit {
@@ -85,13 +90,9 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        val tag = parentFragmentManager.findFragmentById(R.id.fragment_container)!!.tag.toString()
-        Log.d("TAG", "onSaveInstanceState: $tag")
-        outState.putString("tag", tag)
-    }
 
 
 
+
+}
 }

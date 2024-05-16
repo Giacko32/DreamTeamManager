@@ -49,14 +49,14 @@ class LoginFragment : Fragment() {
         }
 
         userviewModel.loggato.observe(requireActivity()) { login ->
-            if (login==true) {
+            if (login=="loggato") {
                 val MainIntent = Intent(context, MainActivity::class.java)
                 MainIntent.putExtra("user", userviewModel.user.value)
                 MainIntent.putExtra("flag",userviewModel.flagRicordami.value)
                 (context as AppCompatActivity).startActivity(MainIntent)
                 (context as AppCompatActivity).finish()
 
-            }else if(login==false){
+            }else if(login=="errore"){
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -68,6 +68,8 @@ class LoginFragment : Fragment() {
                 ) { dialog, which -> dialog.dismiss() }
                 alertDialog.show()
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
+            }else if(login=="accesso in corso"){
+                progressBar.visibility = View.VISIBLE
             }
         }
 
