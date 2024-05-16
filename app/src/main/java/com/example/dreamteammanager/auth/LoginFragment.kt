@@ -49,14 +49,14 @@ class LoginFragment : Fragment() {
         }*/
 
         userviewModel.loggato.observe(requireActivity()) { login ->
-            if (login) {
+            if (login==true) {
                 val MainIntent = Intent(context, MainActivity::class.java)
                 MainIntent.putExtra("user", userviewModel.user.value)
                 MainIntent.putExtra("flag",userviewModel.flagRicordami.value)
                 (context as AppCompatActivity).startActivity(MainIntent)
                 (context as AppCompatActivity).finish()
 
-            }else{
+            }else if(login==false){
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert

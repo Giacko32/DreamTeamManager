@@ -107,9 +107,12 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         val jsonString = parseModelToJson(utente)
         SharedPreferencesManager.saveString("utente", jsonString)
     }
-    private val _loggato=MutableLiveData<Boolean>()
-    val loggato:LiveData<Boolean>
+    private val _loggato=MutableLiveData<Boolean?>()
+    val loggato:LiveData<Boolean?>
             get() = _loggato
+    init {
+        _loggato.value=null
+    }
 
 
     fun failogin(username: String, password: String) {
@@ -122,8 +125,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     ) {
                         if (response.isSuccessful) {
                             val utente = response.body().toString()
-                            if (utente.isNotEmpty()) {
-                                _user.value = parseJsonToModel(utente)
+                            _user.value = parseJsonToModel(utente)
+                            if (user.value!!.username != null) {
                                 _loggato.value=true
                             }else{
                                 _loggato.value=false
@@ -135,9 +138,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         call: Call<JsonObject>?, t:
                         Throwable?
                     ) {
-
+                        _loggato.value=false
                     }
                 })
+
 
     }
     }
