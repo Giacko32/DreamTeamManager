@@ -70,14 +70,19 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         get() = _user
 
     init {
+        _user.value = null
+    }
+
+    fun getUtente()
+    {
         val jsonString = SharedPreferencesManager.getString("utente", "")
         if (jsonString.isNotEmpty()) {
             val utente = parseJsonToModel(jsonString)
+            _flagRicordami.value = true
             _user.value = utente
         } else {
             _user.value = null
         }
-        Log.d("USER", "user: ${user.value}")
     }
 
     fun setUtente(utente: Utente) {

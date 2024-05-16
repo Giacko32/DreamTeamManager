@@ -30,6 +30,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        userviewModel.getUtente()
         try {
 
             val login=userviewModel.failogin(
