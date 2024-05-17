@@ -68,7 +68,7 @@ class RecuperoCredenzialiFragment : Fragment() {
                    }
              }else {
                 if(userViewModel.controllacodice(binding.codeEditText.text.toString().toInt())){
-                    (context as AppCompatActivity).supportFragmentManager.commit {
+                   parentFragmentManager.commit {
                         setReorderingAllowed(true)
                         replace<CambioPasswordFragment>(com.example.dreamteammanager.R.id.fragment_container)
                         addToBackStack("go-on")

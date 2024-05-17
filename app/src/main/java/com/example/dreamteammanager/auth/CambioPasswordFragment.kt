@@ -2,11 +2,13 @@ package com.example.dreamteammanager.auth
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.TextUtils.replace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -46,7 +48,7 @@ class CambioPasswordFragment : Fragment() {
                 alertDialog.show()
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
 
-            (context as AppCompatActivity).supportFragmentManager.commit {
+                parentFragmentManager.commit {
                 setReorderingAllowed(true)
                 replace<LoginFragment>(R.id.fragment_container)
             }

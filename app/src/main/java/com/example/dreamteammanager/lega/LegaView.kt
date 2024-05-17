@@ -28,7 +28,7 @@ class LegaView : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.CompetizioniButton.setOnClickListener{
-            (context as AppCompatActivity).supportFragmentManager.commit {
+            parentFragmentManager.commit {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace<ListaCompetizioni>(R.id.legafragmentcontainer)
