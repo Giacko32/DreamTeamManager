@@ -36,7 +36,7 @@ class LoginFragment : Fragment() {
         val progressBar =
             (context as AppCompatActivity).findViewById<ProgressBar>(R.id.progress_bar)
 
-        if (UserViewModel.SharedPreferencesManager.getString("flagRicordami", "") != "false") {
+        if (UserViewModel.SharedPreferencesManager.getString("flagRicordami", "") == "true") {
             Log.d("TRASIVU", "")
             userviewModel.failogin(
                 userviewModel.user.value!!.username,
