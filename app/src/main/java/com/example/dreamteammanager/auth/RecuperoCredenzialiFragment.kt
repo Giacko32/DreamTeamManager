@@ -37,24 +37,23 @@ class RecuperoCredenzialiFragment : Fragment() {
 
         binding.actionButton.setOnClickListener {
             if (binding.codicefield.visibility == View.GONE) {
-                if(userViewModel.recuperaCredenziali(binding.EmailEditText.text.toString())){
+                userViewModel.recuperaCredenziali(binding.EmailEditText.text.toString())
                 binding.codicefield.visibility = View.VISIBLE
                 binding.mailfield.visibility = View.GONE
-
-
-                    val alertDialog = AlertDialog.Builder(
-                        requireContext(),
-                        androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
-                    ).create()
-                    alertDialog.setTitle("SUCCESSO")
-                    alertDialog.setMessage("Il codice è stato inviato con successo all'indirizzo email inserito")
-                    alertDialog.setButton(
-                        AlertDialog.BUTTON_NEGATIVE, "VAI AVANTI"
-                    ) { dialog, which -> dialog.dismiss() }
-                    alertDialog.show()
-                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("SUCCESSO")
+                alertDialog.setMessage("Il codice è stato inviato con successo all'indirizzo email inserito")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEGATIVE, "VAI AVANTI"
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(Color.parseColor("#ff5722"))
                 binding.actionButton.text = "Conferma Codice"
-                }else{
+                /*}else{
                     val alertDialog = AlertDialog.Builder(
                         requireContext(),
                         androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -87,11 +86,12 @@ class RecuperoCredenzialiFragment : Fragment() {
                     alertDialog.show()
                     alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
                 }
-                }
+                }*/
 
             }
         }
-
-
-
+    }
 }
+
+
+
