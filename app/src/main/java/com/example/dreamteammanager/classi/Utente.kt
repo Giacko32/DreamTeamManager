@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Utente(
     val id: Int,
-    val username:String,
+    var username:String,
     var password:String,
     val email:String):Parcelable{
     override fun toString(): String {

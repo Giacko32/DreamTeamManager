@@ -85,15 +85,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        userviewModel.logout(intent.getBooleanExtra("flag", false))
+        UserViewModel.SharedPreferencesManager.saveString("user", "")
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        userviewModel.logout(intent.getBooleanExtra("flag", false))
-    }
-
-
 
 }
 

@@ -68,12 +68,11 @@ class LoginFragment : Fragment() {
                 ) { dialog, which -> dialog.dismiss() }
                 alertDialog.show()
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
+                progressBar.visibility = View.INVISIBLE
             }else if(login=="accesso in corso"){
                 progressBar.visibility = View.VISIBLE
             }
         }
-
-
 
         binding.remembermebox.setOnCheckedChangeListener { buttonView, isChecked ->
             userviewModel.updateFlag(isChecked)
@@ -93,7 +92,6 @@ class LoginFragment : Fragment() {
             val username = binding.usernametext.text.toString()
             val password = binding.passwordtext.text.toString()
             userviewModel.failogin(username, password)
-            progressBar.visibility = View.VISIBLE
         }
 
         binding.recuperaPassword.setOnClickListener {

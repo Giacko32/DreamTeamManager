@@ -21,6 +21,6 @@ interface UserAPI {
 
 
     companion object {
-        const val BASE_URL = "http://192.168.133.165:9000"
+        const val BASE_URL = "http://192.168.119.139:9000"
     }
 }

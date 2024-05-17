@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.auth.AccessActivity
 import com.example.dreamteammanager.auth.LoginFragment
@@ -30,7 +31,6 @@ import com.google.gson.JsonParser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
@@ -86,8 +86,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         _user.value = null
     }
 
-    fun getUtente()
-    {
+    fun getUtente() {
         val jsonString = SharedPreferencesManager.getString("utente", "")
         if (jsonString.isNotEmpty()) {
             val utente = parseJsonToModel(jsonString)
@@ -121,17 +120,19 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         val jsonString = parseModelToJson(utente)
         SharedPreferencesManager.saveString("utente", jsonString)
     }
-    private val _loggato=MutableLiveData<String?>()
-    val loggato:LiveData<String?>
-            get() = _loggato
+
+    private val _loggato = MutableLiveData<String?>()
+    val loggato: LiveData<String?>
+        get() = _loggato
+
     init {
-        _loggato.value=null
+        _loggato.value = null
     }
 
 
     fun failogin(username: String, password: String) {
         if (username.isNotEmpty() && password.isNotEmpty()) {
-            _loggato.value="accesso in corso"
+            _loggato.value = "accesso in corso"
             Client.retrofit.getuser(username, password).enqueue(
                 object : Callback<JsonObject> {
                     override fun onResponse(
@@ -142,12 +143,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                             val utente = response.body().toString()
                             _user.value = parseJsonToModel(utente)
                             if (user.value!!.username != null) {
-                                _loggato.value="loggato"
-                                if(flagRicordami.value!!){
-                                    insert(user.value!!)
-                                }
-                            }else{
-                                _loggato.value="non loggato"
+                                _loggato.value = "loggato"
+                                insert(user.value!!)
+
+                            } else {
+                                _loggato.value = "errore"
                             }
                         }
                     }
@@ -156,10 +156,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         call: Call<JsonObject>?, t:
                         Throwable?
                     ) {
-                        _loggato.value="non loggato"
+                        _loggato.value = "non loggato"
                     }
                 })
-    }
+        }
     }
 
 
@@ -169,24 +169,28 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
         _user.value = null
     }
+
     private val _stringadiritorno = MutableLiveData<String?>()
     val stringadiritorno: LiveData<String?>
         get() = _stringadiritorno
+
     init {
-        _stringadiritorno.value=null
-    }
-    private val _disponibilita=MutableLiveData<Boolean?>()
-    val disponibilita:LiveData<Boolean?>
-        get()=_disponibilita
-    init {
-        _disponibilita.value=null
+        _stringadiritorno.value = null
     }
 
-    fun checkdisponibilita(username: String, password: String, email: String){
+    private val _disponibilita = MutableLiveData<Boolean?>()
+    val disponibilita: LiveData<Boolean?>
+        get() = _disponibilita
+
+    init {
+        _disponibilita.value = null
+    }
+
+    fun checkdisponibilita(username: String, password: String, email: String) {
         if (username.isNotEmpty() && password.isNotEmpty() && email.isNotEmpty()) {
             if (password.length in 1..25) {
                 if (isValidEmail(email)) {
-                    Log.d("PRIMA","sto per andare")
+                    Log.d("PRIMA", "sto per andare")
                     Client.retrofit.checkDisponibilita(username, email).enqueue(
                         object : Callback<JsonArray> {
                             override fun onResponse(
@@ -194,9 +198,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                                 Response<JsonArray>
                             ) {
                                 if (response.isSuccessful) {
-                                    Log.d("DISP PRIMA",_disponibilita.value.toString())
+                                    Log.d("DISP PRIMA", _disponibilita.value.toString())
                                     _disponibilita.value = response.body().isEmpty
-                                    Log.d("DISP DOPO",_disponibilita.value.toString())
+                                    Log.d("DISP DOPO", _disponibilita.value.toString())
 
                                 }
                             }
@@ -221,8 +225,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         }
 
     }
-    fun registrazione(username: String,password: String,email: String){
-        val gson=JsonParser.parseString(parseModelToJson(RegistraUtente(username,password,email)))
+
+    fun registrazione(username: String, password: String, email: String) {
+        val gson =
+            JsonParser.parseString(parseModelToJson(RegistraUtente(username, password, email)))
         Client.retrofit.registeruser(gson.asJsonObject).enqueue(
             object : Callback<JsonObject> {
                 override fun onResponse(
@@ -230,7 +236,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     Response<JsonObject>
                 ) {
                     if (response.isSuccessful) {
-                        _stringadiritorno.value="Registrazione effettuata"
+                        _stringadiritorno.value = "Registrazione effettuata"
                     }
                 }
 

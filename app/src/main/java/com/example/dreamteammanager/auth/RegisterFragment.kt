@@ -74,23 +74,7 @@ class RegisterFragment : Fragment() {
 
         userviewModel.stringadiritorno.observe(requireActivity()){
             if(it=="Registrazione effettuata"){
-                val alertDialog = AlertDialog.Builder(
-                    requireContext(),
-                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
-                ).create()
-                alertDialog.setTitle("CONFIRM")
-                alertDialog.setMessage(it)
-                alertDialog.setButton(
-                    AlertDialog.BUTTON_NEGATIVE, "VAI A LOGIN",
-                ) { dialog, which -> dialog.dismiss() }
-                alertDialog.show()
-                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
-                (context as AppCompatActivity).supportFragmentManager.commit {
-                    setReorderingAllowed(true)
-                    replace<LoginFragment>(R.id.fragment_container)
-                }
-
-
+                userviewModel.failogin(bind.UsernameText.text.toString(), bind.PasswordText.text.toString())
             }else if(it!=null){
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
