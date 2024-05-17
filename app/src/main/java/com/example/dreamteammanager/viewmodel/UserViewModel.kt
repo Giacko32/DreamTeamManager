@@ -142,6 +142,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         if (response.isSuccessful) {
                             val utente = response.body().toString()
                             _user.value = parseJsonToModel(utente)
+                            Log.d("USER", "onResponse: ${user.value}")
                             if (user.value!!.username != null) {
                                 _loggato.value = "loggato"
                                 insert(user.value!!)
@@ -268,15 +269,36 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         _codice.value = (100000..999999).random()
     }
 
-    fun recuperaCredenziali(email: String): Boolean {
+    fun recuperaCredenziali(email: String){
         if (email.isNotEmpty() && isValidEmail(email)) {
             generatecodice()
-            Log.d("CODICE", "recuperaCredenziali: ${codice.value} ed email inviata")
-            //sendEmail(email,getApplication())
-            return true
+            //Log.d("CODICE", "recuperaCredenziali: ${codice.value} ed email inviata")
+            val gson=JsonParser.parseString(parseModelToJson(Emailcode(email,codice.value!!)))
+            Log.d("CODICE", "recuperaCredenziali: $gson")
+            Client.retrofit.inviamail(Emailcode(email,codice.value!!)).enqueue(
+                object : Callback<JsonObject> {
+                    override fun onResponse(
+                        call: Call<JsonObject>, response:
+                        Response<JsonObject>
+                    ) {
+                        if (response.isSuccessful) {
+                            //_stringadiritorno.value="Registrazione effettuata"
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<JsonObject>?, t:
+                        Throwable?
+                    ) {
+                        //_stringadiritorno.value = "Errore di connessione"
+
+                    }
+
+                }
+            )
+
         } else {
             Log.d("CODICE", "recuperaCredenziali: email non valida")
-            return false
         }
     }
 
@@ -298,3 +320,4 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 }
+class Emailcode(val email: String,val codice: Int)

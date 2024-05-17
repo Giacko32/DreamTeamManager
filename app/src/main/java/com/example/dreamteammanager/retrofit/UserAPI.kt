@@ -1,5 +1,6 @@
 package com.example.dreamteammanager.retrofit
 
+import com.example.dreamteammanager.viewmodel.Emailcode
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import retrofit2.Call
@@ -18,6 +19,8 @@ interface UserAPI {
                            @Path("email")email:String): Call<JsonArray>
     @POST("pwm/user")
     fun registeruser(@Body user:JsonObject):Call<JsonObject>
+    @POST("pwn/recovery")
+    fun inviamail(@Body emailcode: Emailcode):Call<JsonObject>
 
 
     companion object {

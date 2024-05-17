@@ -56,7 +56,8 @@ class LoginFragment : Fragment() {
                 (context as AppCompatActivity).startActivity(MainIntent)
                 (context as AppCompatActivity).finish()
 
-            }else if(login=="errore"){
+            }else if(login=="non loggato"){
+                progressBar.visibility = View.GONE
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
