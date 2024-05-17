@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.option_2 -> {
-                    userviewModel.logout(false)
+                    userviewModel.logout()
                     val logoutintent = Intent(this, AccessActivity::class.java)
                     startActivity(logoutintent)
                     finish()

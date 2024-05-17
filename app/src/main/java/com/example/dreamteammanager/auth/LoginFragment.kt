@@ -24,7 +24,7 @@ import com.example.dreamteammanager.viewmodel.UserViewModel
 
 class LoginFragment : Fragment() {
     lateinit var binding: FragmentLoginBinding
-    private val userviewModel: UserViewModel by activityViewModels()
+    private val userviewModel: UserViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -33,30 +33,30 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         userviewModel.getUtente()
 
-        val progressBar = (context as AppCompatActivity).findViewById<ProgressBar>(R.id.progress_bar)
+        val progressBar =
+            (context as AppCompatActivity).findViewById<ProgressBar>(R.id.progress_bar)
 
-
-        try {
-
+        if (UserViewModel.SharedPreferencesManager.getString("flagRicordami", "") != "false") {
+            Log.d("TRASIVU", "")
             userviewModel.failogin(
                 userviewModel.user.value!!.username,
                 userviewModel.user.value!!.password
             )
-
-            }
-        catch (e:Exception){
-            e.printStackTrace()
         }
 
         userviewModel.loggato.observe(requireActivity()) { login ->
-            if (login=="loggato") {
+            if (login == "loggato") {
+                progressBar.visibility = View.GONE
                 val MainIntent = Intent(context, MainActivity::class.java)
                 MainIntent.putExtra("user", userviewModel.user.value)
-                MainIntent.putExtra("flag",userviewModel.flagRicordami.value)
+                MainIntent.putExtra("flag", userviewModel.flagRicordami.value)
                 (context as AppCompatActivity).startActivity(MainIntent)
                 (context as AppCompatActivity).finish()
-
-            }else if(login=="non loggato"){
+            }
+            if (login == "non loggato") {
+                progressBar.visibility = View.GONE
+            }
+            if (login == "errore") {
                 progressBar.visibility = View.GONE
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
@@ -68,9 +68,11 @@ class LoginFragment : Fragment() {
                     AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
                 ) { dialog, which -> dialog.dismiss() }
                 alertDialog.show()
-                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
-                progressBar.visibility = View.INVISIBLE
-            }else if(login=="accesso in corso"){
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(Color.parseColor("#ff5722"))
+                userviewModel.resetloggato()
+            }
+            if (login == "accesso in corso") {
                 progressBar.visibility = View.VISIBLE
             }
         }
@@ -80,13 +82,12 @@ class LoginFragment : Fragment() {
         }
 
         binding.registratilabel.setOnClickListener {
-            (context as AppCompatActivity).supportFragmentManager.commit {
+            parentFragmentManager.commit {
                 setReorderingAllowed(true)
-                add<RegisterFragment>(R.id.fragment_container)
+                replace<RegisterFragment>(R.id.fragment_container)
                 addToBackStack("registrati")
             }
         }
-
 
 
         binding.LoginButton.setOnClickListener {
@@ -96,8 +97,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.recuperaPassword.setOnClickListener {
-            val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-            fragmentManager.commit {
+            parentFragmentManager.commit {
                 setReorderingAllowed(true)
                 replace<RecuperoCredenzialiFragment>(R.id.fragment_container)
                 addToBackStack("login_to_recupero")

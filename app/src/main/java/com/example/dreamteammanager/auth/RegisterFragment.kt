@@ -20,7 +20,7 @@ import com.example.dreamteammanager.viewmodel.UserViewModel
 
 class RegisterFragment : Fragment() {
     lateinit var bind: FragmentRegisterBinding
-    private val userviewModel: UserViewModel by activityViewModels()
+    private val userviewModel: UserViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,15 +39,10 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-
-
         bind.ButtonRegistrati.setOnClickListener {
             val username = bind.UsernameText.text.toString()
             val password = bind.PasswordText.text.toString()
             val email = bind.EmailText.text.toString()
-            Log.d("username",username)
             userviewModel.checkdisponibilita(username,password,email)
         }
 
@@ -74,7 +69,10 @@ class RegisterFragment : Fragment() {
 
         userviewModel.stringadiritorno.observe(requireActivity()){
             if(it=="Registrazione effettuata"){
-                userviewModel.failogin(bind.UsernameText.text.toString(), bind.PasswordText.text.toString())
+                parentFragmentManager.commit {
+                    setReorderingAllowed(true)
+                    replace<LoginFragment>(R.id.fragment_container)
+                }
             }else if(it!=null){
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
@@ -90,19 +88,13 @@ class RegisterFragment : Fragment() {
             }
         }
 
-
-
         bind.LoginText.setOnClickListener {
-            (context as AppCompatActivity).supportFragmentManager.commit {
+            parentFragmentManager.commit {
                 setReorderingAllowed(true)
                 replace<LoginFragment>(R.id.fragment_container)
                 addToBackStack("back")
             }
         }
     }
-
-
-
-
 
 }

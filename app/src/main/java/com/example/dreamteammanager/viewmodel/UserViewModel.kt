@@ -87,9 +87,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getUtente() {
-        val jsonString = SharedPreferencesManager.getString("utente", "")
-        if (jsonString.isNotEmpty()) {
-            val utente = parseJsonToModel(jsonString)
+        val ricordami = SharedPreferencesManager.getString("flagRicordami", "")
+        val utentepreso = SharedPreferencesManager.getString("utente", "")
+        if (ricordami != "false" && utentepreso.isNotEmpty()) {
+            Log.d("GETTATO", utentepreso)
+            val utente = parseJsonToModel(utentepreso)
             _flagRicordami.value = true
             _loggato.value = "loggato"
             _user.value = utente
@@ -119,6 +121,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     fun insert(utente: Utente) {
         val jsonString = parseModelToJson(utente)
         SharedPreferencesManager.saveString("utente", jsonString)
+        SharedPreferencesManager.saveString("flagRicordami", flagRicordami.value.toString())
     }
 
     private val _loggato = MutableLiveData<String?>()
@@ -127,6 +130,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         _loggato.value = null
+    }
+
+    public fun resetloggato()
+    {
+        _loggato.value = "non loggato"
     }
 
 
@@ -141,12 +149,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     ) {
                         if (response.isSuccessful) {
                             val utente = response.body().toString()
-                            _user.value = parseJsonToModel(utente)
-                            Log.d("USER", "onResponse: ${user.value}")
-                            if (user.value!!.username != null) {
+                            Log.d("USER", "onResponse: ${utente}")
+                            if(utente != "{}") {
+                                _user.value = parseJsonToModel(utente)
                                 _loggato.value = "loggato"
                                 insert(user.value!!)
-
                             } else {
                                 _loggato.value = "errore"
                             }
@@ -157,18 +164,18 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         call: Call<JsonObject>?, t:
                         Throwable?
                     ) {
-                        _loggato.value = "non loggato"
+                        _loggato.value = "errore"
                     }
                 })
+        } else {
+            _loggato.value = "errore"
         }
     }
 
 
-    fun logout(flag: Boolean) {
-        if (!flag) {
-            SharedPreferencesManager.saveString("utente", "")
-        }
-        _user.value = null
+    fun logout() {
+        SharedPreferencesManager.saveString("flagRicordami", "false")
+        //_user.value = null
     }
 
     private val _stringadiritorno = MutableLiveData<String?>()
@@ -189,9 +196,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     fun checkdisponibilita(username: String, password: String, email: String) {
         if (username.isNotEmpty() && password.isNotEmpty() && email.isNotEmpty()) {
-            if (password.length in 1..25) {
+            if (password.length in 2..25) {
                 if (isValidEmail(email)) {
-                    Log.d("PRIMA", "sto per andare")
                     Client.retrofit.checkDisponibilita(username, email).enqueue(
                         object : Callback<JsonArray> {
                             override fun onResponse(
@@ -199,10 +205,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                                 Response<JsonArray>
                             ) {
                                 if (response.isSuccessful) {
-                                    Log.d("DISP PRIMA", _disponibilita.value.toString())
                                     _disponibilita.value = response.body().isEmpty
-                                    Log.d("DISP DOPO", _disponibilita.value.toString())
-
                                 }
                             }
 
@@ -246,9 +249,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     Throwable?
                 ) {
                     _stringadiritorno.value = "Errore di connessione"
-
                 }
-
             }
         )
     }
@@ -269,13 +270,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         _codice.value = (100000..999999).random()
     }
 
-    fun recuperaCredenziali(email: String){
+    fun recuperaCredenziali(email: String) {
         if (email.isNotEmpty() && isValidEmail(email)) {
             generatecodice()
             //Log.d("CODICE", "recuperaCredenziali: ${codice.value} ed email inviata")
-            val gson=JsonParser.parseString(parseModelToJson(Emailcode(email,codice.value!!)))
+            val gson = JsonParser.parseString(parseModelToJson(Emailcode(email, codice.value!!)))
             Log.d("CODICE", "recuperaCredenziali: $gson")
-            Client.retrofit.inviamail(Emailcode(email,codice.value!!)).enqueue(
+            Client.retrofit.inviamail(Emailcode(email, codice.value!!)).enqueue(
                 object : Callback<JsonObject> {
                     override fun onResponse(
                         call: Call<JsonObject>, response:
@@ -320,4 +321,5 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 }
-class Emailcode(val email: String,val codice: Int)
+
+class Emailcode(val email: String, val codice: Int)
