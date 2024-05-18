@@ -19,11 +19,13 @@ interface UserAPI {
                            @Path("email")email:String): Call<JsonArray>
     @POST("pwm/user")
     fun registeruser(@Body user:JsonObject):Call<JsonObject>
+    @GET("pwm/recovery/{email}")
+    fun verificaemail(@Path("email")email:String):Call<JsonObject>
     @POST("pwn/recovery")
     fun inviamail(@Body emailcode: Emailcode):Call<JsonObject>
 
 
     companion object {
-        const val BASE_URL = "http://192.168.119.139:9000"
+        const val BASE_URL = "http://192.168.133.165:9000"
     }
 }

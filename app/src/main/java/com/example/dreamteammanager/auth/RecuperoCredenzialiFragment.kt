@@ -15,12 +15,13 @@ import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.savedstate.R
 import com.example.dreamteammanager.databinding.FragmentRecuperoCredenzialiBinding
+import com.example.dreamteammanager.viewmodel.RecoveryViewModel
 import com.example.dreamteammanager.viewmodel.UserViewModel
 
 
 class RecuperoCredenzialiFragment : Fragment() {
     lateinit var binding: FragmentRecuperoCredenzialiBinding
-    private val userViewModel: UserViewModel by viewModels()
+    private val recoveryViewModel:RecoveryViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -35,9 +36,8 @@ class RecuperoCredenzialiFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.actionButton.setOnClickListener {
-            if (binding.codicefield.visibility == View.GONE) {
-                userViewModel.recuperaCredenziali(binding.EmailEditText.text.toString())
+        recoveryViewModel.mailverificata.observe(viewLifecycleOwner){
+            if(it=="Mail associata"){
                 binding.codicefield.visibility = View.VISIBLE
                 binding.mailfield.visibility = View.GONE
                 val alertDialog = AlertDialog.Builder(
@@ -53,18 +53,31 @@ class RecuperoCredenzialiFragment : Fragment() {
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                     .setTextColor(Color.parseColor("#ff5722"))
                 binding.actionButton.text = "Conferma Codice"
+            }else if(it=="Mail non associata"){
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("ATTENZIONE")
+                alertDialog.setMessage("Email inserita non valida")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
+            }
+        }
+
+        binding.actionButton.setOnClickListener {
+            if (binding.codicefield.visibility == View.GONE) {
+                recoveryViewModel.verificamail(binding.EmailEditText.text.toString())
+            }else{
+
+            }
+
+
                 /*}else{
-                    val alertDialog = AlertDialog.Builder(
-                        requireContext(),
-                        androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
-                    ).create()
-                    alertDialog.setTitle("ATTENZIONE")
-                    alertDialog.setMessage("EMAIL INSERITA NON VALIDA")
-                    alertDialog.setButton(
-                        AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
-                    ) { dialog, which -> dialog.dismiss() }
-                    alertDialog.show()
-                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
+
                    }
              }else {
                 if(userViewModel.controllacodice(binding.codeEditText.text.toString().toInt())){
@@ -91,7 +104,7 @@ class RecuperoCredenzialiFragment : Fragment() {
             }
         }
     }
-}
+
 
 
 

@@ -19,6 +19,7 @@ import androidx.fragment.app.viewModels
 import com.example.dreamteammanager.main.MainActivity
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.databinding.FragmentLoginBinding
+import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.UserViewModel
 
 
@@ -36,7 +37,7 @@ class LoginFragment : Fragment() {
         val progressBar =
             (context as AppCompatActivity).findViewById<ProgressBar>(R.id.progress_bar)
 
-        if (UserViewModel.SharedPreferencesManager.getString("flagRicordami", "") == "true") {
+        if (SharedPreferencesManager.getString("flagRicordami", "") == "true") {
             Log.d("TRASIVU", "")
             userviewModel.failogin(
                 userviewModel.user.value!!.username,

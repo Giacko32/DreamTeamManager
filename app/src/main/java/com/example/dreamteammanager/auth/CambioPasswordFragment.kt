@@ -32,7 +32,7 @@ class CambioPasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.confermaButton.setOnClickListener {
+       /* binding.confermaButton.setOnClickListener {
             val nuovaPassword = binding.NuovaPassword.text.toString()
             val confermaPassword = binding.ConfermaPassword.text.toString()
             if(userviewModel.cambiapassword(nuovaPassword,confermaPassword)){
@@ -66,7 +66,7 @@ class CambioPasswordFragment : Fragment() {
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
             }
 
-        }
+        }*/
     }
 
 }

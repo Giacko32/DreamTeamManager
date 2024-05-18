@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.databinding.FragmentProfileBinding
+import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.UserViewModel
 
 class ProfileFragment : Fragment() {
@@ -51,7 +52,7 @@ class ProfileFragment : Fragment() {
     ): View? {
         userViewModel.setUtente(
             userViewModel.parseJsonToModel(
-                UserViewModel.SharedPreferencesManager.getString(
+                SharedPreferencesManager.getString(
                     "utente",
                     ""
                 )

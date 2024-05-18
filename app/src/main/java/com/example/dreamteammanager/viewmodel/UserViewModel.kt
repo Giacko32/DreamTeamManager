@@ -60,23 +60,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-    object SharedPreferencesManager {
 
-        private const val PREF_NAME = "MySharedPrefs"
-        private lateinit var sharedPreferences: SharedPreferences
-
-        fun init(context: Context) {
-            sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-        }
-
-        fun saveString(key: String, value: String) {
-            sharedPreferences.edit().putString(key, value).apply()
-        }
-
-        fun getString(key: String, defaultValue: String): String {
-            return sharedPreferences.getString(key, defaultValue) ?: defaultValue
-        }
-    }
 
     private val _user = MutableLiveData<Utente?>()
     val user: LiveData<Utente?>
@@ -132,8 +116,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         _loggato.value = null
     }
 
-    public fun resetloggato()
-    {
+    public fun resetloggato() {
         _loggato.value = "non loggato"
     }
 
@@ -150,7 +133,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                         if (response.isSuccessful) {
                             val utente = response.body().toString()
                             Log.d("USER", "onResponse: ${utente}")
-                            if(utente != "{}") {
+                            if (utente != "{}") {
                                 _user.value = parseJsonToModel(utente)
                                 _loggato.value = "loggato"
                                 insert(user.value!!)
@@ -258,68 +241,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    private val _codice = MutableLiveData<Int>()
-    val codice: LiveData<Int>
-        get() = _codice
-
-    init {
-        _codice.value = 0
-    }
-
-    private fun generatecodice() {
-        _codice.value = (100000..999999).random()
-    }
-
-    fun recuperaCredenziali(email: String) {
-        if (email.isNotEmpty() && isValidEmail(email)) {
-            generatecodice()
-            //Log.d("CODICE", "recuperaCredenziali: ${codice.value} ed email inviata")
-            val gson = JsonParser.parseString(parseModelToJson(Emailcode(email, codice.value!!)))
-            Log.d("CODICE", "recuperaCredenziali: $gson")
-            Client.retrofit.inviamail(Emailcode(email, codice.value!!)).enqueue(
-                object : Callback<JsonObject> {
-                    override fun onResponse(
-                        call: Call<JsonObject>, response:
-                        Response<JsonObject>
-                    ) {
-                        if (response.isSuccessful) {
-                            //_stringadiritorno.value="Registrazione effettuata"
-                        }
-                    }
-
-                    override fun onFailure(
-                        call: Call<JsonObject>?, t:
-                        Throwable?
-                    ) {
-                        //_stringadiritorno.value = "Errore di connessione"
-
-                    }
-
-                }
-            )
-
-        } else {
-            Log.d("CODICE", "recuperaCredenziali: email non valida")
-        }
-    }
-
-    fun controllacodice(codice: Int): Boolean {
-        if (codice == this.codice.value) {
-            return true
-        }
-        return false
-    }
-
-    fun cambiapassword(password: String, confirm: String): Boolean {
-        if (password.isNotEmpty() && password.length >= 8 && password.length <= 25) {
-            if (password == confirm) {
-                //Cambia password in DB remoto
-                return true
-            }
-        }
-        return false
-    }
 
 }
-
 class Emailcode(val email: String, val codice: Int)

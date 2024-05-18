@@ -25,6 +25,7 @@ import com.example.dreamteammanager.R
 import com.example.dreamteammanager.auth.AccessActivity
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.databinding.ActivityMainBinding
+import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.UserViewModel
 
 
@@ -85,7 +86,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        UserViewModel.SharedPreferencesManager.saveString("user", "")
+        SharedPreferencesManager.saveString("user", "")
     }
 
 }
