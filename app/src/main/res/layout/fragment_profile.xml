@@ -119,21 +119,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/EmailProfile"
                 app:layout_constraintVertical_bias="0.128" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="Numero di Leghe: _"
-                android:textColor="@color/bluelight"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/EmailProfile" />
-
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/ModifyButton"
                 android:layout_width="wrap_content"

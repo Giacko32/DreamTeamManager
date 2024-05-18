@@ -142,6 +142,10 @@ class legheVM : ViewModel() {
         _inviando.value = null
     }
 
+    fun resetinviando() {
+        _inviando.value = null
+    }
+
     fun aggiungialega(utente: Utente, lega: Lega) {
         _scaricando.value = true
         val gson = JsonParser.parseString(parseModelToJson(UtenteLega(utente.id, lega.id)))
@@ -190,6 +194,7 @@ class legheVM : ViewModel() {
             }
         )
     }
+
     private val _checkrichiesta = MutableLiveData<Boolean?>()
     val checkrichiest: LiveData<Boolean?>
         get() = _checkrichiesta
@@ -198,20 +203,24 @@ class legheVM : ViewModel() {
         _checkrichiesta.value = null
     }
 
-    fun checkrichiesta(utente: Utente,lega: Lega){
-        _scaricando.value=true
-        Client.retrofit.checkrequest(lega.id,utente.id).enqueue(
+    fun resetcheckrichiesta() {
+        _checkrichiesta.value = null
+    }
+
+    fun checkrichiesta(utente: Utente, lega: Lega) {
+        _scaricando.value = true
+        Client.retrofit.checkrequest(lega.id, utente.id).enqueue(
             object : Callback<JsonArray> {
                 override fun onResponse(
                     call: Call<JsonArray>, response:
                     Response<JsonArray>
                 ) {
                     if (response.isSuccessful) {
-                        Log.d("TAG",response.body().toString())
-                        if (response.body().toString() == "[]"){
-                            _checkrichiesta.value=true
-                        }else{
-                            _checkrichiesta.value=false
+                        Log.d("TAG", response.body().toString())
+                        if (response.body().toString() == "[]") {
+                            _checkrichiesta.value = true
+                        } else {
+                            _checkrichiesta.value = false
                         }
                     }
                 }
@@ -226,14 +235,16 @@ class legheVM : ViewModel() {
         )
     }
 
-    private val _selectedlega=MutableLiveData<Lega?>()
-    val selectedlega:LiveData<Lega?>
-        get()=_selectedlega
+    private val _selectedlega = MutableLiveData<Lega?>()
+    val selectedlega: LiveData<Lega?>
+        get() = _selectedlega
+
     init {
-        _selectedlega.value=null
+        _selectedlega.value = null
     }
-    fun setSelectedLeague(lega: Lega){
-        _selectedlega.value=lega
+
+    fun setSelectedLeague(lega: Lega) {
+        _selectedlega.value = lega
     }
 
 }

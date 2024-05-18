@@ -28,7 +28,7 @@ import com.example.dreamteammanager.viewmodel.parseJsonToModel
 class MainFragment : Fragment() {
 
     lateinit var binding: FragmentMainBinding
-    private val legheVM:legheVM by viewModels()
+    private val legheVM: legheVM by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,7 +40,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val utente= parseJsonToModel(
+        val utente = parseJsonToModel(
             SharedPreferencesManager.getString(
                 "utente",
                 ""
@@ -55,7 +55,7 @@ class MainFragment : Fragment() {
             creaLegaDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             creaLegaDialog.findViewById<Button>(R.id.creaLegaButton).setOnClickListener {
                 val nome = creaLegaDialog.findViewById<TextView>(R.id.NomeLega).text.toString()
-                legheVM.creanuovalega(Lega(0,nome,1,utente.id))
+                legheVM.creanuovalega(Lega(0, nome, 1, utente.id))
                 creaLegaDialog.dismiss()
             }
             creaLegaDialog.show()
@@ -63,44 +63,48 @@ class MainFragment : Fragment() {
 
         }
 
-        legheVM.scaricando.observe(viewLifecycleOwner){
-            if(it==true){
-                binding.progressBar.visibility=View.VISIBLE
-            }else if(it==false){
-                binding.progressBar.visibility=View.GONE
+        legheVM.scaricando.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else if (it == false) {
+                binding.progressBar.visibility = View.GONE
             }
         }
 
-        legheVM.listaLeghe.observe(viewLifecycleOwner){
-            val adapter= LegheAdapter(it)
-            if(legheVM.mieleghe.value==true){
-            adapter.setonclick(object : LegheAdapter.SetOnClickListener{
-                override fun onClick(position: Int, lega: Lega){
-                    val legaintent = Intent(requireActivity(), LegaActivity::class.java)
-                    legaintent.putExtra("lega",lega)
-                    startActivity(legaintent)
-                }
-        })}
-            else{
-                adapter.setonclick(object : LegheAdapter.SetOnClickListener{
-                    override fun onClick(position: Int, lega: Lega){
+        legheVM.listaLeghe.observe(viewLifecycleOwner) {
+            val adapter = LegheAdapter(it)
+            if (legheVM.mieleghe.value == true) {
+                adapter.setonclick(object : LegheAdapter.SetOnClickListener {
+                    override fun onClick(position: Int, lega: Lega) {
+                        val legaintent = Intent(requireActivity(), LegaActivity::class.java)
+                        legaintent.putExtra("lega", lega)
+                        startActivity(legaintent)
+                    }
+                })
+            } else {
+                adapter.setonclick(object : LegheAdapter.SetOnClickListener {
+                    override fun onClick(position: Int, lega: Lega) {
                         legheVM.setSelectedLeague(lega)
-                        legheVM.checkrichiesta(parseJsonToModel(
-                            SharedPreferencesManager.getString(
-                                "utente",
-                                ""
-                            )),lega)
+                        legheVM.checkrichiesta(
+                            parseJsonToModel(
+                                SharedPreferencesManager.getString(
+                                    "utente",
+                                    ""
+                                )
+                            ), lega
+                        )
 
-            }})
+                    }
+                })
             }
-            binding.recyclerView.layoutManager=LinearLayoutManager(context)
-            binding.recyclerView.adapter=adapter
+            binding.recyclerView.layoutManager = LinearLayoutManager(context)
+            binding.recyclerView.adapter = adapter
         }
-        legheVM.inviando.observe(viewLifecycleOwner){
-            if(it==true){
-                binding.progressBar.visibility=View.VISIBLE
-            }else if(it==false){
-                binding.progressBar.visibility=View.GONE
+        legheVM.inviando.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else if (it == false) {
+                binding.progressBar.visibility = View.GONE
                 IscrizioneDialog.dismiss()
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
@@ -110,34 +114,45 @@ class MainFragment : Fragment() {
                 alertDialog.setMessage("La tua richiesta è stata correttamente inviata")
                 alertDialog.setButton(
                     AlertDialog.BUTTON_POSITIVE, "OK",
-                ) { dialog, which -> dialog.dismiss() }
+                ) { dialog, which ->
+                    dialog.dismiss()
+                    legheVM.resetinviando()
+                }
                 alertDialog.show()
-                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#ff5722"))
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    .setTextColor(Color.parseColor("#ff5722"))
             }
         }
-        legheVM.checkrichiest.observe(viewLifecycleOwner){
-            if(it==true){
-                binding.progressBar.visibility=View.GONE
+        legheVM.checkrichiest.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.progressBar.visibility = View.GONE
                 IscrizioneDialog.setContentView(R.layout.fragment_custom_dialog)
-                IscrizioneDialog.findViewById<TextView>(R.id.dialogTitle).setText("Vuoi iscriverti alla lega:"+ (legheVM.selectedlega.value?.name
-                    ?: ""))
+                IscrizioneDialog.findViewById<TextView>(R.id.dialogTitle).setText(
+                    "Vuoi iscriverti alla lega ${
+                        legheVM.selectedlega.value?.name
+                            ?: ""
+                    }?"
+                )
                 IscrizioneDialog.findViewById<Button>(R.id.yesButton).setOnClickListener {
                     legheVM.selectedlega.value?.let { it1 ->
-                        legheVM.chiedidipartecipare(parseJsonToModel(
-                            SharedPreferencesManager.getString(
-                                "utente",
-                                ""
-                            )), it1
+                        legheVM.chiedidipartecipare(
+                            parseJsonToModel(
+                                SharedPreferencesManager.getString(
+                                    "utente",
+                                    ""
+                                )
+                            ), it1
                         )
                     }
                 }
                 IscrizioneDialog.findViewById<Button>(R.id.noButton).setOnClickListener {
                     IscrizioneDialog.dismiss()
+                    legheVM.resetcheckrichiesta()
                 }
                 IscrizioneDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
                 IscrizioneDialog.show()
-            }else if(it==false){
-                binding.progressBar.visibility=View.GONE
+            } else if (it == false) {
+                binding.progressBar.visibility = View.GONE
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -146,23 +161,26 @@ class MainFragment : Fragment() {
                 alertDialog.setMessage("Hai già fatto richiesta oppure sei stato invitato a questa lega")
                 alertDialog.setButton(
                     AlertDialog.BUTTON_NEGATIVE, "OK",
-                ) { dialog, which -> dialog.dismiss() }
+                ) { dialog, which ->
+                    dialog.dismiss()
+                    legheVM.resetcheckrichiesta()
+                }
                 alertDialog.show()
-                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(Color.parseColor("#ff5722"))
 
             }
         }
-        binding.buttonMyLeagues.setOnClickListener{
+        binding.buttonMyLeagues.setOnClickListener {
             legheVM.setMieleghe(true)
             legheVM.scaricaleghe(utente.id)
         }
-        binding.buttonJoinLeague.setOnClickListener{
+        binding.buttonJoinLeague.setOnClickListener {
             legheVM.setMieleghe(false)
             legheVM.scaricaleghe(utente.id)
         }
 
 
-
-        }
+    }
 
 }
