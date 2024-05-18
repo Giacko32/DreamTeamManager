@@ -25,7 +25,11 @@ class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
 
     private val pickPhoto = registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) {
-        binding.userimage.setImageURI(it.firstOrNull())
+        if(it.firstOrNull() != null) {
+            binding.userimage.setImageURI(it.firstOrNull())
+        }else{
+            binding.userimage.setImageResource(R.drawable.baseline_account_circle_24)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
