@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.dreamteammanager.classi.Lega
+import com.example.dreamteammanager.classi.RegistraUtente
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.retrofit.Client
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -90,6 +92,33 @@ class legheVM : ViewModel() {
                 }
             )
         }
+    }
+    fun creanuovalega(lega: Lega){
+        _scaricando.value=true
+        val gson= JsonParser.parseString(parseModelToJson(lega))
+        Client.retrofit.insertlega(gson.asJsonObject).enqueue(
+            object : Callback<JsonObject> {
+                override fun onResponse(
+                    call: Call<JsonObject>, response:
+                    Response<JsonObject>
+                ) {
+                    if (response.isSuccessful) {
+                        _scaricando.value=false
+
+                    }
+                }
+                override fun onFailure(
+                    call: Call<JsonObject>?, t:
+                    Throwable?
+                ) {
+
+                }
+            }
+
+        )
+    }
+    fun aggiungialega(){
+
     }
 
 }

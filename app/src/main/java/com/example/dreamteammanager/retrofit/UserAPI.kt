@@ -29,9 +29,14 @@ interface UserAPI {
     fun scaricamieleghe(@Path("id")id:Int):Call<JsonArray>
     @GET("pwm/tutteleghe/{id}")
     fun scaricatutteleghe(@Path("id")id:Int):Call<JsonArray>
+    @POST("pwm/insertlega")
+    fun insertlega(@Body lega:JsonObject):Call<JsonObject>
+    @POST("pwm/insertutente")
+    fun insertutente(@Body utente:JsonObject):Call<JsonObject>
+
 
 
     companion object {
-        const val BASE_URL = "http://192.168.119.139:9000"
+        const val BASE_URL = "http://192.168.133.165:9000"
     }
 }
