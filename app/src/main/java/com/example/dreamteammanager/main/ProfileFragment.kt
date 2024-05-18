@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -20,6 +23,10 @@ import com.example.dreamteammanager.viewmodel.parseJsonToModel
 class ProfileFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()
     lateinit var binding: FragmentProfileBinding
+
+    private val pickPhoto = registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) {
+        binding.userimage.setImageURI(it.firstOrNull())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +44,12 @@ class ProfileFragment : Fragment() {
             passwordDialog.show()
         }
 
+        binding.userimage.setOnClickListener {
+            pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+
         binding.Username.setText(userViewModel.user.value!!.username)
         binding.Email.setText(userViewModel.user.value!!.email)
-
 
     }
 
