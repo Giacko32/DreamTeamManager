@@ -85,18 +85,32 @@
                 android:id="@+id/CompetizioniButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/arancione"
+                android:padding="10dp"
+                android:text="Competizioni"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@id/imageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/CreaCompetizioneButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:backgroundTint="@color/arancione"
                 android:padding="10dp"
-                android:text="Competizioni Attive"
+                android:text="Nuova Competizione"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.85"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/barrier2"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier1"
@@ -111,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="top"
-                app:constraint_referenced_ids="CompetizioniButton" />
+                app:constraint_referenced_ids="CreaCompetizioneButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
