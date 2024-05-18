@@ -33,9 +33,12 @@ interface UserAPI {
     fun insertlega(@Body lega:JsonObject):Call<JsonObject>
     @POST("pwm/insertutente")
     fun insertutente(@Body utente:JsonObject):Call<JsonObject>
+    @POST("pwm/richiestadipart")
+    fun richiestadipart(@Body utente:JsonObject):Call<JsonObject>
 
-
-
+    @GET("pwm/checkrequest/{idlega}/{idutente}")
+    fun checkrequest(@Path("idlega")idlega:Int,
+                     @Path("idutente")idutente:Int):Call<JsonArray>
     companion object {
         const val BASE_URL = "http://192.168.133.165:9000"
     }

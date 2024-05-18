@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
@@ -83,15 +84,70 @@ class MainFragment : Fragment() {
             else{
                 adapter.setonclick(object : LegheAdapter.SetOnClickListener{
                     override fun onClick(position: Int, lega: Lega){
-                        IscrizioneDialog.setContentView(R.layout.fragment_custom_dialog)
-                        IscrizioneDialog.findViewById<TextView>(R.id.dialogTitle).setText("Vuoi iscriverti alla lega:"+lega.name)
-                        IscrizioneDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
-                        IscrizioneDialog.show()
+                        legheVM.setSelectedLeague(lega)
+                        legheVM.checkrichiesta(parseJsonToModel(
+                            SharedPreferencesManager.getString(
+                                "utente",
+                                ""
+                            )),lega)
 
             }})
             }
             binding.recyclerView.layoutManager=LinearLayoutManager(context)
             binding.recyclerView.adapter=adapter
+        }
+        legheVM.inviando.observe(viewLifecycleOwner){
+            if(it==true){
+                binding.progressBar.visibility=View.VISIBLE
+            }else if(it==false){
+                binding.progressBar.visibility=View.GONE
+                IscrizioneDialog.dismiss()
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("SUCCESSO")
+                alertDialog.setMessage("La tua richiesta è stata correttamente inviata")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_POSITIVE, "OK",
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#ff5722"))
+            }
+        }
+        legheVM.checkrichiest.observe(viewLifecycleOwner){
+            if(it==true){
+                binding.progressBar.visibility=View.GONE
+                IscrizioneDialog.setContentView(R.layout.fragment_custom_dialog)
+                IscrizioneDialog.findViewById<TextView>(R.id.dialogTitle).setText("Vuoi iscriverti alla lega:"+ (legheVM.selectedlega.value?.name
+                    ?: ""))
+                IscrizioneDialog.findViewById<Button>(R.id.yesButton).setOnClickListener {
+                    legheVM.selectedlega.value?.let { it1 ->
+                        legheVM.chiedidipartecipare(parseJsonToModel(
+                            SharedPreferencesManager.getString(
+                                "utente",
+                                ""
+                            )), it1
+                        )
+                    }
+                }
+                IscrizioneDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+                IscrizioneDialog.show()
+            }else if(it==false){
+                binding.progressBar.visibility=View.GONE
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("ATTENZIONE")
+                alertDialog.setMessage("Hai già fatto richiesta oppure sei stato invitato a questa lega")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEGATIVE, "OK",
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
+
+            }
         }
         binding.buttonMyLeagues.setOnClickListener{
             legheVM.setMieleghe(true)
