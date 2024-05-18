@@ -22,6 +22,7 @@ class legheVM : ViewModel() {
         _listaLeghe.value = ArrayList()
     }
 
+
     fun addLega(lega: Lega) {
         _listaLeghe.value?.add(lega)
     }
