@@ -15,6 +15,7 @@ import com.example.dreamteammanager.R
 import com.example.dreamteammanager.databinding.FragmentProfileBinding
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.UserViewModel
+import com.example.dreamteammanager.viewmodel.parseJsonToModel
 
 class ProfileFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()
@@ -51,7 +52,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         userViewModel.setUtente(
-            userViewModel.parseJsonToModel(
+            parseJsonToModel(
                 SharedPreferencesManager.getString(
                     "utente",
                     ""

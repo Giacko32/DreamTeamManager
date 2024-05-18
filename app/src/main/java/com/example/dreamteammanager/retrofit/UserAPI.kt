@@ -23,6 +23,8 @@ interface UserAPI {
     fun verificaemail(@Path("email")email:String):Call<JsonObject>
     @POST("pwn/recovery")
     fun inviamail(@Body emailcode: Emailcode):Call<JsonObject>
+    @PUT("pwm/change/")
+    fun cambiapassword(@Body user:JsonObject):Call<JsonObject>
 
 
     companion object {

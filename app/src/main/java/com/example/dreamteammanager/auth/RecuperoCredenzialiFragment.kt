@@ -38,6 +38,7 @@ class RecuperoCredenzialiFragment : Fragment() {
 
         recoveryViewModel.mailverificata.observe(viewLifecycleOwner){
             if(it=="Mail associata"){
+                binding.progressBar.visibility=View.GONE
                 binding.codicefield.visibility = View.VISIBLE
                 binding.mailfield.visibility = View.GONE
                 val alertDialog = AlertDialog.Builder(
@@ -54,6 +55,7 @@ class RecuperoCredenzialiFragment : Fragment() {
                     .setTextColor(Color.parseColor("#ff5722"))
                 binding.actionButton.text = "Conferma Codice"
             }else if(it=="Mail non associata"){
+                binding.progressBar.visibility=View.GONE
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -65,6 +67,8 @@ class RecuperoCredenzialiFragment : Fragment() {
                 ) { dialog, which -> dialog.dismiss() }
                 alertDialog.show()
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
+            }else if(it=="Verificando"){
+                binding.progressBar.visibility=View.VISIBLE
             }
         }
 
@@ -72,34 +76,28 @@ class RecuperoCredenzialiFragment : Fragment() {
             if (binding.codicefield.visibility == View.GONE) {
                 recoveryViewModel.verificamail(binding.EmailEditText.text.toString())
             }else{
-
-            }
-
-
-                /*}else{
-
-                   }
-             }else {
-                if(userViewModel.controllacodice(binding.codeEditText.text.toString().toInt())){
-                   parentFragmentManager.commit {
+                if(recoveryViewModel.controllacodice(binding.codeEditText.text.toString().toInt())){
+                    parentFragmentManager.commit {
                         setReorderingAllowed(true)
                         replace<CambioPasswordFragment>(com.example.dreamteammanager.R.id.fragment_container)
                         addToBackStack("go-on")
                     }
                 }else{
-                    val alertDialog = AlertDialog.Builder(
-                        requireContext(),
-                        androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
-                    ).create()
-                    alertDialog.setTitle("ATTENZIONE")
-                    alertDialog.setMessage("Codice inserito non corretto")
-                    alertDialog.setButton(
-                        AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
-                    ) { dialog, which -> dialog.dismiss() }
-                    alertDialog.show()
-                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
-                }
-                }*/
+                        val alertDialog = AlertDialog.Builder(
+                            requireContext(),
+                            androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                        ).create()
+                        alertDialog.setTitle("ATTENZIONE")
+                        alertDialog.setMessage("Codice inserito non corretto")
+                        alertDialog.setButton(
+                            AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
+                        ) { dialog, which -> dialog.dismiss() }
+                        alertDialog.show()
+                        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
+                    }
+
+            }
+
 
             }
         }

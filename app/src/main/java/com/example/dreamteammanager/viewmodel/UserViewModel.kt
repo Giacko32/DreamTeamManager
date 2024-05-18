@@ -38,26 +38,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         SharedPreferencesManager.init(application)
     }
 
-    fun parseJsonToModel(jsonString: String): Utente {
-        val gson = Gson()
-        return gson.fromJson(
-            jsonString,
-            object : com.google.gson.reflect.TypeToken<Utente>() {}.type
-        )
-    }
-
-    fun parseJsonToModel2(jsonString: String): ArrayList<Utente> {
-        val gson = Gson()
-        return gson.fromJson(
-            jsonString,
-            object : com.google.gson.reflect.TypeToken<Utente>() {}.type
-        )
-    }
-
-    fun parseModelToJson(utente: Any): String {
-        val gson = Gson()
-        return gson.toJson(utente)
-    }
 
 
 
@@ -244,3 +224,24 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
 }
 class Emailcode(val email: String, val codice: Int)
+fun parseJsonToModel(jsonString: String): Utente {
+    val gson = Gson()
+    return gson.fromJson(
+        jsonString,
+        object : com.google.gson.reflect.TypeToken<Utente>() {}.type
+    )
+}
+
+fun parseJsonToModel2(jsonString: String): ArrayList<Utente> {
+    val gson = Gson()
+    return gson.fromJson(
+        jsonString,
+        object : com.google.gson.reflect.TypeToken<Utente>() {}.type
+    )
+}
+
+fun parseModelToJson(utente: Any): String {
+    val gson = Gson()
+    return gson.toJson(utente)
+}
+

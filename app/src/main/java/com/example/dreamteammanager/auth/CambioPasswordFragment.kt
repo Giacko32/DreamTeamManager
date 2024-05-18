@@ -16,11 +16,12 @@ import androidx.fragment.app.viewModels
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.databinding.FragmentCambioPasswordBinding
 import com.example.dreamteammanager.databinding.FragmentRecuperoCredenzialiBinding
+import com.example.dreamteammanager.viewmodel.ChangePasswordVM
 import com.example.dreamteammanager.viewmodel.UserViewModel
 
 class CambioPasswordFragment : Fragment() {
     lateinit var binding: FragmentCambioPasswordBinding
-    private val userviewModel: UserViewModel by viewModels()
+    private val changePasswordVM: ChangePasswordVM by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,10 +33,14 @@ class CambioPasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       /* binding.confermaButton.setOnClickListener {
+        binding.confermaButton.setOnClickListener {
             val nuovaPassword = binding.NuovaPassword.text.toString()
             val confermaPassword = binding.ConfermaPassword.text.toString()
-            if(userviewModel.cambiapassword(nuovaPassword,confermaPassword)){
+            changePasswordVM.cambiapassword(nuovaPassword, confermaPassword)
+        }
+
+        changePasswordVM.passwordmodified.observe(viewLifecycleOwner) {
+            if (it == "Modificato") {
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -46,27 +51,31 @@ class CambioPasswordFragment : Fragment() {
                     AlertDialog.BUTTON_NEGATIVE, "VAI AL LOGIN"
                 ) { dialog, which -> dialog.dismiss() }
                 alertDialog.show()
-                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
-
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(Color.parseColor("#ff5722"))
                 parentFragmentManager.commit {
-                setReorderingAllowed(true)
-                replace<LoginFragment>(R.id.fragment_container)
-            }
-            }else{
+                    setReorderingAllowed(true)
+                    replace<LoginFragment>(R.id.fragment_container)
+                }
+            } else if (it == "Modificando") {
+                binding.progressBar.visibility = View.VISIBLE
+            } else if(it !=null) {
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
                 ).create()
                 alertDialog.setTitle("ATTENZIONE")
-                alertDialog.setMessage("Le password non coincidono oppure la nuova password non è formattata correttamente")
+                alertDialog.setMessage(it)
                 alertDialog.setButton(
                     AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
                 ) { dialog, which -> dialog.dismiss() }
                 alertDialog.show()
-                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#ff5722"))
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(Color.parseColor("#ff5722"))
+
             }
 
-        }*/
+        }
     }
-
 }
+

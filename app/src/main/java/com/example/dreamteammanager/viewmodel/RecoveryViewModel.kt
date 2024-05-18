@@ -14,14 +14,16 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RecoveryViewModel(app:Application): AndroidViewModel(app) {
+class RecoveryViewModel(app: Application) : AndroidViewModel(app) {
     init {
         SharedPreferencesManager.init(app)
     }
+
     fun parseModelToJson(utente: Any): String {
         val gson = Gson()
         return gson.toJson(utente)
     }
+
     private val _codice = MutableLiveData<Int>()
     val codice: LiveData<Int>
         get() = _codice
@@ -33,14 +35,18 @@ class RecoveryViewModel(app:Application): AndroidViewModel(app) {
     private fun generatecodice() {
         _codice.value = (100000..999999).random()
     }
+
     private val _mailverificata = MutableLiveData<String?>()
     val mailverificata: LiveData<String?>
         get() = _mailverificata
+
     init {
         _mailverificata.value = ""
     }
-    fun verificamail(email: String){
+
+    fun verificamail(email: String) {
         if (email.isNotEmpty() && isValidEmail(email)) {
+            _mailverificata.value = "Verificando"
             Client.retrofit.verificaemail(email).enqueue(
                 object : Callback<JsonObject> {
                     override fun onResponse(
@@ -49,11 +55,11 @@ class RecoveryViewModel(app:Application): AndroidViewModel(app) {
                     ) {
                         if (response.isSuccessful) {
                             val utente = response.body().toString()
-                            if(utente !="{}"){
+                            if (utente != "{}") {
                                 _mailverificata.value = "Mail associata"
-                                SharedPreferencesManager.saveString("user",utente)
+                                SharedPreferencesManager.saveString("user", utente)
                                 inviamail(email)
-                            }else{
+                            } else {
                                 _mailverificata.value = "Mail non associata"
                             }
 
@@ -72,35 +78,38 @@ class RecoveryViewModel(app:Application): AndroidViewModel(app) {
             )
 
 
+        } else {
+            _mailverificata.value = "Mail non associata"
         }
 
     }
 
     fun inviamail(email: String) {
-            generatecodice()
-            val gson = JsonParser.parseString(parseModelToJson(Emailcode(email, codice.value!!)))
-            Log.d("CODICE", "recuperaCredenziali: $gson")
-            Client.retrofit.inviamail(Emailcode(email, codice.value!!)).enqueue(
-                object : Callback<JsonObject> {
-                    override fun onResponse(
-                        call: Call<JsonObject>, response:
-                        Response<JsonObject>
-                    ) {
-                        if (response.isSuccessful) {
-                            //_stringadiritorno.value="Registrazione effettuata"
-                        }
+        //generatecodice()
+        _codice.value = 123456
+        val gson = JsonParser.parseString(parseModelToJson(Emailcode(email, codice.value!!)))
+        Log.d("CODICE", "recuperaCredenziali: $gson")
+        Client.retrofit.inviamail(Emailcode(email, codice.value!!)).enqueue(
+            object : Callback<JsonObject> {
+                override fun onResponse(
+                    call: Call<JsonObject>, response:
+                    Response<JsonObject>
+                ) {
+                    if (response.isSuccessful) {
+                        //_stringadiritorno.value="Registrazione effettuata"
                     }
+                }
 
-                    override fun onFailure(
-                        call: Call<JsonObject>?, t:
-                        Throwable?
-                    ) {
-                        //_stringadiritorno.value = "Errore di connessione"
-
-                    }
+                override fun onFailure(
+                    call: Call<JsonObject>?, t:
+                    Throwable?
+                ) {
+                    //_stringadiritorno.value = "Errore di connessione"
 
                 }
-            )
+
+            }
+        )
 
     }
 
@@ -111,15 +120,7 @@ class RecoveryViewModel(app:Application): AndroidViewModel(app) {
         return false
     }
 
-    fun cambiapassword(password: String, confirm: String): Boolean {
-        if (password.isNotEmpty() && password.length >= 8 && password.length <= 25) {
-            if (password == confirm) {
-                //Cambia password in DB remoto
-                return true
-            }
-        }
-        return false
-    }
+
     private fun isValidEmail(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
