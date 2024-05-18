@@ -131,6 +131,9 @@ class MainFragment : Fragment() {
                         )
                     }
                 }
+                IscrizioneDialog.findViewById<Button>(R.id.noButton).setOnClickListener {
+                    IscrizioneDialog.dismiss()
+                }
                 IscrizioneDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
                 IscrizioneDialog.show()
             }else if(it==false){
