@@ -24,7 +24,9 @@ class ChangePasswordVM:ViewModel() {
         if (password.isNotEmpty() && password.length >= 8 && password.length <= 25) {
             if (password == confirm) {
                 _passwordmodified.value = "Modificando"
-                val gson=JsonParser.parseString(SharedPreferencesManager.getString("user",""))
+                val utente= parseJsonToModel(SharedPreferencesManager.getString("user",""))
+                val pass=Password(password,utente.email)
+                val gson=JsonParser.parseString(parseModelToJson(pass))
                 Client.retrofit.cambiapassword(gson.asJsonObject).enqueue(
                     object : Callback<JsonObject> {
                         override fun onResponse(
@@ -56,3 +58,4 @@ class ChangePasswordVM:ViewModel() {
 
     }
 }
+ class Password(val password: String,val email:String)

@@ -23,11 +23,15 @@ interface UserAPI {
     fun verificaemail(@Path("email")email:String):Call<JsonObject>
     @POST("pwn/recovery")
     fun inviamail(@Body emailcode: Emailcode):Call<JsonObject>
-    @PUT("pwm/change/")
+    @PUT("pwm/change")
     fun cambiapassword(@Body user:JsonObject):Call<JsonObject>
+    @GET("pwm/mieleghe/{id}")
+    fun scaricamieleghe(@Path("id")id:Int):Call<JsonArray>
+    @GET("pwm/tutteleghe/{id}")
+    fun scaricatutteleghe(@Path("id")id:Int):Call<JsonArray>
 
 
     companion object {
-        const val BASE_URL = "http://192.168.119.139:9000"
+        const val BASE_URL = "http://192.168.133.165:9000"
     }
 }
