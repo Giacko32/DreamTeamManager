@@ -35,53 +35,18 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import android.util.Base64
+import com.example.dreamteammanager.viewmodel.ProfileImageVM
 
 
 class ProfileFragment : Fragment() {
-    private val userViewModel: UserViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by viewModels()
+    private val profimgViewModel: ProfileImageVM by viewModels()
     lateinit var binding: FragmentProfileBinding
 
     private val pickPhoto =
         registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) {
             if (it.firstOrNull() != null) {
-                val contentResolver = requireContext().contentResolver
-                val inputStream = contentResolver.openInputStream(it.first())
-                val bitmap = BitmapFactory.decodeStream(inputStream)
-                inputStream?.close()
-                val aspectRatio = bitmap.width.toFloat() / bitmap.height.toFloat()
-                val newWidth: Float = 500.0F
-                var newHeight: Float = 500.0F
-                newHeight = newWidth / aspectRatio
-                val finalBitmap =
-                    Bitmap.createScaledBitmap(bitmap, newWidth.toInt(), newHeight.toInt(), true)
-                val bos = ByteArrayOutputStream()
-                finalBitmap.compress(Bitmap.CompressFormat.PNG, 100, bos)
-                val toload = bos.toByteArray()
-                val encodedImage = Base64.encodeToString(toload, Base64.NO_WRAP)
-                val utente = parseJsonToModel(SharedPreferencesManager.getString("utente", ""))
-                val profimg = ProfileImage(utente.id, encodedImage)
-                val gson =
-                    JsonParser.parseString(parseModelToJson(profimg))
-                Log.d("ProfileFragment", gson.asJsonObject.toString())
-                Client.retrofit.insertImage(gson.asJsonObject).enqueue(
-                    object : Callback<JsonObject> {
-                        override fun onResponse(
-                            call: Call<JsonObject>, response:
-                            Response<JsonObject>
-                        ) {
-                            if (response.isSuccessful) {
-                                binding.userimage.setImageBitmap(finalBitmap)
-                            }
-                        }
-
-                        override fun onFailure(
-                            call: Call<JsonObject>?, t:
-                            Throwable?
-                        ) {
-                            binding.userimage.setImageResource(R.drawable.baseline_account_circle_24)
-                        }
-
-                    })
+                profimgViewModel.uploadProfileImage(requireContext(), it.first())
             } else {
                 binding.userimage.setImageResource(R.drawable.baseline_account_circle_24)
             }
@@ -95,6 +60,18 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        profimgViewModel.image.observe(viewLifecycleOwner) {
+            if (it == null) {
+                binding.userimage.setImageResource(R.drawable.baseline_account_circle_24)
+            } else {
+                binding.userimage.setImageBitmap(profimgViewModel.image.value)
+            }
+        }
+
+        profimgViewModel.getProfileImage(
+            userViewModel.user.value
+            !!.id
+        )
         val passwordDialog = Dialog(requireActivity())
 
         binding.ChangePasswordButton.setOnClickListener {
@@ -133,4 +110,3 @@ class ProfileFragment : Fragment() {
 
 }
 
-class ProfileImage(val userid: Int, val image: String)

@@ -4,14 +4,18 @@ import android.app.Application
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
+import android.util.Base64
 import android.util.Log
 import android.util.Patterns
 import android.view.ViewGroup
 import android.widget.MultiAutoCompleteTextView
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.AndroidViewModel
@@ -32,6 +36,7 @@ import com.google.gson.JsonParser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
 
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
@@ -219,8 +224,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private fun isValidEmail(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
-
-
 }
 class Emailcode(val email: String, val codice: Int)
 fun parseJsonToModel(jsonString: String): Utente {

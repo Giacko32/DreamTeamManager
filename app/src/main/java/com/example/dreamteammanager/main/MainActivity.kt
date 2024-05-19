@@ -15,6 +15,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.IntentCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.FragmentManager.BackStackEntry
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
@@ -58,16 +59,20 @@ class MainActivity : AppCompatActivity() {
     private fun showMenu(v: View, @MenuRes menuRes: Int) {
         val popup = PopupMenu(v.context!!, v)
         popup.menuInflater.inflate(menuRes, popup.menu)
-        popup.setOnMenuItemClickListener {item: MenuItem? ->
-            when(item!!.itemId) {
+        popup.setOnMenuItemClickListener { item: MenuItem? ->
+            when (item!!.itemId) {
                 R.id.option_1 -> {
-                    supportFragmentManager.commit {
-                        setReorderingAllowed(true)
-                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        replace<ProfileFragment>(R.id.fragmentContainerView, )
-                        addToBackStack("profilo")
+                    val myfragment = supportFragmentManager.findFragmentByTag("PROFILO")
+                    if (myfragment == null) {
+                        supportFragmentManager.commit {
+                            setReorderingAllowed(true)
+                            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            replace<ProfileFragment>(R.id.fragmentContainerView, "PROFILO")
+                            addToBackStack("profilo")
+                        }
                     }
                 }
+
                 R.id.option_2 -> {
                     userviewModel.logout()
                     val logoutintent = Intent(this, AccessActivity::class.java)
