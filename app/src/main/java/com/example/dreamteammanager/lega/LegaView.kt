@@ -48,6 +48,23 @@ class LegaView : Fragment() {
             listaCompetizioni.show()
         }
 
+        val listaInvitaUtente = Dialog(requireActivity())
+        binding.invitaButton.setOnClickListener{
+            listaInvitaUtente.setContentView(R.layout.dialog_invita_giocatore)
+            listaInvitaUtente.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val rvInvita = listaInvitaUtente.findViewById<RecyclerView>(R.id.recycler_view_invita)
+            val listaGiocatori = ArrayList<Utente>()
+            for(i in 1..50)
+            {
+                listaGiocatori.add(Utente(username = "Username", password = "password", id = 1, email = "email"))
+            }
+            val adapter = InvitaGiocatoriAdapter(listaGiocatori)
+            rvInvita.layoutManager = LinearLayoutManager(context)
+            rvInvita.adapter = adapter
+            listaInvitaUtente.show()
+        }
+
+
         val lista = ArrayList<Utente>()
         for(i in 1..50)
         {

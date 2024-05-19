@@ -71,7 +71,7 @@
                 app:layout_constraintTop_toBottomOf="@id/invitagiocatoretext" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
+                android:id="@+id/recycler_view_invita"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="20dp"
