@@ -65,6 +65,13 @@
                 app:layout_constraintStart_toEndOf="@+id/cardView"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                app:barrierDirection="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="numeroPartecipanti" />
+
             <TextView
                 android:id="@+id/nomeLega"
                 android:layout_width="wrap_content"
@@ -77,7 +84,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/numeroPartecipanti"
+                app:layout_constraintStart_toEndOf="@id/barrier"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Guideline
