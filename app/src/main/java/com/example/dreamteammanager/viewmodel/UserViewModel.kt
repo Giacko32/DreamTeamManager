@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.net.Uri
 import android.util.Log
 import android.util.Patterns
 import android.view.ViewGroup
@@ -37,8 +38,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     init {
         SharedPreferencesManager.init(application)
     }
-
-
 
 
 
@@ -244,4 +243,3 @@ fun parseModelToJson(utente: Any): String {
     val gson = Gson()
     return gson.toJson(utente)
 }
-
