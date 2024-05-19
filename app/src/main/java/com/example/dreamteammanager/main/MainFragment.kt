@@ -46,6 +46,7 @@ class MainFragment : Fragment() {
                 ""
             )
         )
+        legheVM.resetcheckrichiesta()
         legheVM.scaricaleghe(utente.id)
         val creaLegaDialog = Dialog(requireActivity())
         val IscrizioneDialog = Dialog(requireActivity())
