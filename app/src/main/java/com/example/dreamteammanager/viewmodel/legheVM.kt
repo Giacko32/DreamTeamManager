@@ -42,8 +42,11 @@ class legheVM : ViewModel() {
         _mieleghe.value = true
     }
 
-    fun setMieleghe(mieleghe: Boolean) {
-        _mieleghe.value = mieleghe
+    fun setMieleghe(sceltaleghe: Boolean, id: Int) {
+        if (_mieleghe.value != sceltaleghe) {
+            _mieleghe.value = sceltaleghe
+            this.scaricaleghe(id)
+        }
     }
 
     private val _scaricando = MutableLiveData<Boolean?>()

@@ -173,12 +173,10 @@ class MainFragment : Fragment() {
             }
         }
         binding.buttonMyLeagues.setOnClickListener {
-            legheVM.setMieleghe(true)
-            legheVM.scaricaleghe(utente.id)
+            legheVM.setMieleghe(true, utente.id)
         }
         binding.buttonJoinLeague.setOnClickListener {
-            legheVM.setMieleghe(false)
-            legheVM.scaricaleghe(utente.id)
+            legheVM.setMieleghe(false, utente.id)
         }
 
 
