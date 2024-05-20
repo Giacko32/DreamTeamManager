@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Lega
 
-class LegheAdapter(val data: ArrayList<Lega>) : RecyclerView.Adapter<LegheAdapter.MyViewHolder>() {
+class LegheAdapter(val data: List<Lega>) : RecyclerView.Adapter<LegheAdapter.MyViewHolder>() {
     var onClickListener: SetOnClickListener? = null
 
     interface SetOnClickListener {

@@ -5,6 +5,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -177,6 +180,58 @@ class MainFragment : Fragment() {
         }
         binding.buttonJoinLeague.setOnClickListener {
             legheVM.setMieleghe(false, utente.id)
+        }
+
+
+        val textWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Code to execute before the text is changed
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+               legheVM.setLegheFiltrate(s.toString())
+                Log.d("TAG", "onTextChanged: ${s.toString()}")
+            }
+        }
+        binding.searched.addTextChangedListener(textWatcher)
+
+        legheVM.filtrate.observe(viewLifecycleOwner) {
+            if(it!=null){
+                if(it==true){
+                    val adapter = legheVM.leghefiltrate.value?.let { it1 -> LegheAdapter(it1.toList()) }
+                    if (legheVM.mieleghe.value == true) {
+                        adapter?.setonclick(object : LegheAdapter.SetOnClickListener {
+                            override fun onClick(position: Int, lega: Lega) {
+                                val legaintent = Intent(requireActivity(), LegaActivity::class.java)
+                                legaintent.putExtra("lega", lega)
+                                startActivity(legaintent)
+                            }
+                        })
+                    } else {
+                        adapter?.setonclick(object : LegheAdapter.SetOnClickListener {
+                            override fun onClick(position: Int, lega: Lega) {
+                                legheVM.setSelectedLeague(lega)
+                                legheVM.checkrichiesta(
+                                    parseJsonToModel(
+                                        SharedPreferencesManager.getString(
+                                            "utente",
+                                            ""
+                                        )
+                                    ), lega
+                                )
+
+                            }
+                        })
+                    }
+                    binding.recyclerView.layoutManager = LinearLayoutManager(context)
+                    binding.recyclerView.adapter = adapter
+
+                }
+            }
         }
 
 
