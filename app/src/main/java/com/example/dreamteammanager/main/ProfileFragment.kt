@@ -98,7 +98,7 @@ class ProfileFragment : Fragment() {
                 if(email == userViewModel.user.value!!.email){
 
                 }else{
-                    userViewModel.checkModifica(email, "")
+                    userViewModel.checkModifica(email, "null")
                 }
             }
 
@@ -106,7 +106,7 @@ class ProfileFragment : Fragment() {
                 if(username == userViewModel.user.value!!.username){
 
                 }else{
-                    userViewModel.checkModifica("", username)
+                    userViewModel.checkModifica("null", username)
                 }
             }else{
                 userViewModel.checkModifica(email, username)
