@@ -8,16 +8,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Competizione
 import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.competizione.CompetizioniAdapter
+import com.example.dreamteammanager.competizione.CreaCompetizioneFragment
 import com.example.dreamteammanager.databinding.FragmentLegaviewBinding
 
 
@@ -70,9 +69,17 @@ class LegaView : Fragment() {
         {
             lista.add(Utente(username = "nome a caso", password = "password", id = 1, email = "email"))
         }
-        val adapter = LegheAdapter(lista)
+        val adapter = LegheAdapter(lista, false)
         binding.recview.layoutManager = LinearLayoutManager(context)
         binding.recview.adapter = adapter
+
+        binding.CreaCompetizioneButton.setOnClickListener {
+            parentFragmentManager.commit {
+                setReorderingAllowed(true)
+                replace<CreaCompetizioneFragment>(R.id.legafragmentcontainer)
+                addToBackStack("CreaComp")
+            }
+        }
     }
 
 

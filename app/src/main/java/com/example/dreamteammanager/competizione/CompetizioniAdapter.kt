@@ -1,4 +1,4 @@
-package com.example.dreamteammanager.lega
+package com.example.dreamteammanager.competizione
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Competizione
-import com.example.dreamteammanager.classi.Utente
 
 class CompetizioniAdapter(val data: ArrayList<Competizione>) : RecyclerView.Adapter<CompetizioniAdapter.MyViewHolder>() {
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
