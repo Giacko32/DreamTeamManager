@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.util.Base64
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,13 +23,15 @@ import java.io.ByteArrayOutputStream
 
 class ProfileImageVM : ViewModel() {
 
-    private val _image = MutableLiveData<Bitmap?>()
-    val image: LiveData<Bitmap?>
-        get() = _image
+
+    private val _changed = MutableLiveData<Boolean?>()
+    val changed: LiveData<Boolean?>
+        get() = _changed
 
     init {
-        _image.value = null
+        _changed.value = false
     }
+
 
     public fun uploadProfileImage(context: Context, uri: Uri) {
         val contentResolver = context.contentResolver
@@ -55,7 +59,7 @@ class ProfileImageVM : ViewModel() {
                     Response<JsonObject>
                 ) {
                     if (response.isSuccessful) {
-                        _image.value = finalBitmap
+                        _changed.value = true
                         val alertDialog = AlertDialog.Builder(
                             context,
                             androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -92,33 +96,6 @@ class ProfileImageVM : ViewModel() {
                     alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
                         .setTextColor(Color.parseColor("#ff5722"))
 
-                }
-            })
-    }
-
-    public fun getProfileImage(userId: Int) {
-        Client.retrofit.getProfileImage(userId).enqueue(
-            object : Callback<JsonObject> {
-                override fun onResponse(
-                    call: Call<JsonObject>, response:
-                    Response<JsonObject>
-                ) {
-                    if (response.isSuccessful) {
-                        val jsonObject = response.body()
-                        val encodedImage = jsonObject?.get("image")?.asString
-                        if (encodedImage != null) {
-                            val imageBytes = Base64.decode(encodedImage, Base64.DEFAULT)
-                            _image.value =
-                                BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                        }
-                    }
-                }
-
-                override fun onFailure(
-                    call: Call<JsonObject>?, t:
-                    Throwable?
-                ) {
-                    _image.value = null
                 }
             })
     }

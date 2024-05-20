@@ -58,10 +58,8 @@ interface UserAPI {
     ): Call<JsonArray>
 
     @POST("pwm/insertImage")
-    fun insertImage(@Body utente: JsonObject): Call<JsonObject>
+    fun insertImage(@Body userimage: JsonObject): Call<JsonObject>
 
-    @GET("pwm/requireImage/{id}")
-    fun getProfileImage(@Path("id") id: Int): Call<JsonObject>
 
     @PUT("pwm/changeProfileData")
     fun changeCredenzialiProfile(
@@ -70,6 +68,6 @@ interface UserAPI {
 
 
     companion object {
-        const val BASE_URL = "http://147.163.219.202:9000"
+        const val BASE_URL = "http://192.168.118.139:9000"
     }
 }

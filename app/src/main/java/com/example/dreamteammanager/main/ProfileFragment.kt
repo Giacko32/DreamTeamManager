@@ -38,6 +38,8 @@ import java.io.ByteArrayOutputStream
 import android.util.Base64
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.dreamteammanager.viewmodel.ProfileImageVM
 import com.google.android.material.textfield.TextInputEditText
 
@@ -51,12 +53,6 @@ class ProfileFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) {
             if (it.firstOrNull() != null) {
                 profimgViewModel.uploadProfileImage(requireContext(), it.first())
-            } else {
-                if(profimgViewModel.image.value != null) {
-                    binding.userimage.setImageBitmap(profimgViewModel.image.value)
-                } else {
-                    binding.userimage.setImageResource(R.drawable.baseline_account_circle_24)
-                }
             }
         }
 
@@ -68,28 +64,35 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        profimgViewModel.image.observe(viewLifecycleOwner) {
-            if (it != null) {
-                binding.userimage.setImageBitmap(profimgViewModel.image.value)
-            }
+        profimgViewModel.changed.observe(viewLifecycleOwner) {
+            Glide.with(requireContext())
+                .load("${UserAPI.BASE_URL}/pwm/img/img${userViewModel.user.value!!.id}.jpg")
+                .apply(
+                    RequestOptions()
+                        .placeholder(R.drawable.baseline_account_circle_24) // Placeholder image
+                        .error(R.drawable.baseline_account_circle_24) // Error image in case of loading failure
+                ).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+                .into(binding.userimage)
+
         }
 
-        profimgViewModel.getProfileImage(
-            userViewModel.user.value
-            !!.id
-        )
         val passwordDialog = Dialog(requireActivity())
 
         binding.ChangePasswordButton.setOnClickListener {
             passwordDialog.setContentView(R.layout.dialog_change_password)
             passwordDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
-            passwordDialog.findViewById<Button>(R.id.ChangeButton).setOnClickListener{
-                val new_password = passwordDialog.findViewById<TextInputEditText>(R.id.newpasswordfield).text.toString()
-                val old_password = passwordDialog.findViewById<TextInputEditText>(R.id.oldpasswordfield).text.toString()
-                if(old_password == userViewModel.user.value!!.password){
-                    userViewModel.changeProfilePassword(new_password, userViewModel.user.value!!.email)
+            passwordDialog.findViewById<Button>(R.id.ChangeButton).setOnClickListener {
+                val new_password =
+                    passwordDialog.findViewById<TextInputEditText>(R.id.newpasswordfield).text.toString()
+                val old_password =
+                    passwordDialog.findViewById<TextInputEditText>(R.id.oldpasswordfield).text.toString()
+                if (old_password == userViewModel.user.value!!.password) {
+                    userViewModel.changeProfilePassword(
+                        new_password,
+                        userViewModel.user.value!!.email
+                    )
 
-                }else{
+                } else {
                     val alertDialog = AlertDialog.Builder(
                         requireContext(),
                         androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -109,8 +112,8 @@ class ProfileFragment : Fragment() {
 
         }
 
-        userViewModel.modificaPassword.observe(requireActivity()){
-            if( it == true){
+        userViewModel.modificaPassword.observe(requireActivity()) {
+            if (it == true) {
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -123,7 +126,7 @@ class ProfileFragment : Fragment() {
                 alertDialog.show()
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                     .setTextColor(Color.parseColor("#ff5722"))
-            }else if(it == false){
+            } else if (it == false) {
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -146,19 +149,19 @@ class ProfileFragment : Fragment() {
         binding.Username.setText(userViewModel.user.value!!.username)
         binding.Email.setText(userViewModel.user.value!!.email)
 
-        binding.ModifyButton.setOnClickListener{
+        binding.ModifyButton.setOnClickListener {
             val username = binding.Username.text.toString()
             val email = binding.Email.text.toString()
-            if( username == userViewModel.user.value!!.username ){
-                if(email == userViewModel.user.value!!.email){
+            if (username == userViewModel.user.value!!.username) {
+                if (email == userViewModel.user.value!!.email) {
 
-                }else{
+                } else {
                     userViewModel.checkModifica(email, "null")
                 }
             }
 
-            if( email == userViewModel.user.value!!.email ){
-                if(username == userViewModel.user.value!!.username){
+            if (email == userViewModel.user.value!!.email) {
+                if (username == userViewModel.user.value!!.username) {
                     val alertDialog = AlertDialog.Builder(
                         requireContext(),
                         androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -171,21 +174,25 @@ class ProfileFragment : Fragment() {
                     alertDialog.show()
                     alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                         .setTextColor(Color.parseColor("#ff5722"))
-                }else{
+                } else {
                     userViewModel.checkModifica("null", username)
                 }
-            }else{
+            } else {
                 userViewModel.checkModifica(email, username)
             }
 
 
         }
-        userViewModel.disponibilitàModifica.observe(requireActivity()){
-            if( it == true){
+        userViewModel.disponibilitàModifica.observe(requireActivity()) {
+            if (it == true) {
                 val username = binding.Username.text.toString()
                 val email = binding.Email.text.toString()
-                userViewModel.modificaCredenzialiProfilo(email,username, userViewModel.user.value!!.id)
-            }else if(it == false){
+                userViewModel.modificaCredenzialiProfilo(
+                    email,
+                    username,
+                    userViewModel.user.value!!.id
+                )
+            } else if (it == false) {
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -201,8 +208,8 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        userViewModel.stringaCredenziali.observe(requireActivity()){
-            if( it == "Credenziali aggiornate" ){
+        userViewModel.stringaCredenziali.observe(requireActivity()) {
+            if (it == "Credenziali aggiornate") {
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
