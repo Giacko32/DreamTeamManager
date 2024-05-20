@@ -3,6 +3,7 @@ package com.example.dreamteammanager.lega
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -10,10 +11,12 @@ import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
 
-class LegheAdapter(val data: ArrayList<Utente>) : RecyclerView.Adapter<LegheAdapter.MyViewHolder>() {
+class LegheAdapter(val data: ArrayList<Utente>, val selectable: Boolean) :
+    RecyclerView.Adapter<LegheAdapter.MyViewHolder>() {
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val nomeutente = row.findViewById<TextView>(R.id.username)
         val immagine = row.findViewById<ImageView>(R.id.profileimage)
+        val selector = row.findViewById<CheckBox>(R.id.selector)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -29,6 +32,11 @@ class LegheAdapter(val data: ArrayList<Utente>) : RecyclerView.Adapter<LegheAdap
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val context = holder.row.context
         holder.nomeutente.text = data[position].username
+        if (selectable) {
+            holder.selector.visibility = View.VISIBLE
+        } else {
+            holder.selector.visibility = View.GONE
+        }
     }
 
     override fun getItemCount(): Int = data.size

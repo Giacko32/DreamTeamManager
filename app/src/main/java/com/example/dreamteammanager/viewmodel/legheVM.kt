@@ -249,6 +249,29 @@ class legheVM : ViewModel() {
     fun setSelectedLeague(lega: Lega) {
         _selectedlega.value = lega
     }
+    private val _leghefiltrate=MutableLiveData<MutableSet<Lega>>()
+    val leghefiltrate:LiveData<MutableSet<Lega>>
+        get()=_leghefiltrate
+    init {
+        _leghefiltrate.value= mutableSetOf()
+    }
+    private val _filtrate=MutableLiveData<Boolean?>()
+    val filtrate:LiveData<Boolean?>
+        get()=_filtrate
+    init {
+        _filtrate.value=null
+    }
+    fun setLegheFiltrate(filtro:String){
+        _leghefiltrate.value!!.clear()
+        listaLeghe.value!!.forEach{
+            if(it.name.contains(filtro)){
+                _leghefiltrate.value?.add(it)
+                Log.d("TAG",it.name)
+            }
+        }
+        _filtrate.value=true
+    }
+
 
 }
 
