@@ -149,7 +149,14 @@ class ProfileFragment : Fragment() {
                 alertDialog.show()
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                     .setTextColor(Color.parseColor("#ff5722"))
-
+                userViewModel.setUtente(
+                    parseJsonToModel(
+                        SharedPreferencesManager.getString(
+                            "utente",
+                            ""
+                        )
+                    )
+                )
             }
 
         }

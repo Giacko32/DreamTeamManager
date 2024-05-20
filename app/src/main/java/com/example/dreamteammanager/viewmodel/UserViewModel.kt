@@ -239,6 +239,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 ) {
                     if (response.isSuccessful) {
                         _stringaCredenziali.value = "Credenziali aggiornate"
+                        val utente =  parseJsonToModel(
+                            SharedPreferencesManager.getString(
+                                "utente",
+                                ""
+                            )
+                        )
+                        SharedPreferencesManager.saveString("utente",parseModelToJson(Utente(utente.id,username,utente.password, email)))
                     }
                 }
 
