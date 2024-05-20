@@ -104,7 +104,18 @@ class ProfileFragment : Fragment() {
 
             if( email == userViewModel.user.value!!.email ){
                 if(username == userViewModel.user.value!!.username){
-
+                    val alertDialog = AlertDialog.Builder(
+                        requireContext(),
+                        androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                    ).create()
+                    alertDialog.setTitle("ATTENZIONE")
+                    alertDialog.setMessage("Le credenziali sono uguali a quelle attuali")
+                    alertDialog.setButton(
+                        AlertDialog.BUTTON_NEGATIVE, "OK"
+                    ) { dialog, which -> dialog.dismiss() }
+                    alertDialog.show()
+                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                        .setTextColor(Color.parseColor("#ff5722"))
                 }else{
                     userViewModel.checkModifica("null", username)
                 }
