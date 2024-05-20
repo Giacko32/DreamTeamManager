@@ -287,6 +287,39 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             }
         )
     }
+    private val _modificaPassword = MutableLiveData<Boolean?>()
+    val modificaPassword: LiveData<Boolean?>
+        get() = _modificaPassword
+
+    init {
+        _modificaPassword.value = null
+    }
+
+    fun changeProfilePassword(password: String, id: Int){
+        val gson =
+            JsonParser.parseString(parseModelToJson(ModifyPasswordProfile(password, id)))
+        Client.retrofit.cambiapassword(gson.asJsonObject).enqueue(
+            object : Callback<JsonObject> {
+                override fun onResponse(
+                    call: Call<JsonObject>, response:
+                    Response<JsonObject>
+                ) {
+                    if (response.isSuccessful) {
+                        _modificaPassword.value = true
+
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonObject>?, t:
+                    Throwable?
+                ) {
+                    _modificaPassword.value = false
+                }
+            }
+        )
+
+    }
 
     private fun isValidEmail(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
@@ -294,6 +327,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 }
 class Emailcode(val email: String, val codice: Int)
 class ModifyCredenzialiProfile(val email: String, val username : String, val id : Int)
+
+class ModifyPasswordProfile(val password: String, val id : Int)
 fun parseJsonToModel(jsonString: String): Utente {
     val gson = Gson()
     return gson.fromJson(

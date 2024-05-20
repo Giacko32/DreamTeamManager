@@ -36,8 +36,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import android.util.Base64
+import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import com.example.dreamteammanager.viewmodel.ProfileImageVM
+import com.google.android.material.textfield.TextInputEditText
 
 
 class ProfileFragment : Fragment() {
@@ -81,7 +83,60 @@ class ProfileFragment : Fragment() {
         binding.ChangePasswordButton.setOnClickListener {
             passwordDialog.setContentView(R.layout.dialog_change_password)
             passwordDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+            passwordDialog.findViewById<Button>(R.id.ChangeButton).setOnClickListener{
+                val new_password = passwordDialog.findViewById<TextInputEditText>(R.id.newpasswordfield).text.toString()
+                val old_password = passwordDialog.findViewById<TextInputEditText>(R.id.oldpasswordfield).text.toString()
+                if(old_password == userViewModel.user.value!!.password){
+                    userViewModel.changeProfilePassword(new_password, userViewModel.user.value!!.id)
+
+                }else{
+                    val alertDialog = AlertDialog.Builder(
+                        requireContext(),
+                        androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                    ).create()
+                    alertDialog.setTitle("ATTENZIONE")
+                    alertDialog.setMessage("La vecchia password inserita non corrisponde")
+                    alertDialog.setButton(
+                        AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
+                    ) { dialog, which -> dialog.dismiss() }
+                    alertDialog.show()
+                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                        .setTextColor(Color.parseColor("#ff5722"))
+                }
+            }
             passwordDialog.show()
+
+
+        }
+
+        userViewModel.modificaPassword.observe(requireActivity()){
+            if( it == true){
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("SUCCESSO")
+                alertDialog.setMessage("Password modificata")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEGATIVE, "OK"
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(Color.parseColor("#ff5722"))
+            }else if(it == false){
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("ATTENZIONE")
+                alertDialog.setMessage("Si è verificato un errore nel cambio password")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(Color.parseColor("#ff5722"))
+            }
         }
 
         binding.userimage.setOnClickListener {
@@ -171,6 +226,8 @@ class ProfileFragment : Fragment() {
             }
 
         }
+
+
     }
 
     override fun onResume() {
