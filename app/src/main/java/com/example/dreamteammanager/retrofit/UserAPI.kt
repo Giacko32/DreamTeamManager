@@ -1,6 +1,7 @@
 package com.example.dreamteammanager.retrofit
 
 import com.example.dreamteammanager.viewmodel.Emailcode
+import com.example.dreamteammanager.viewmodel.ModifyCredenzialiProfile
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import retrofit2.Call
@@ -61,6 +62,11 @@ interface UserAPI {
 
     @GET("pwm/requireImage/{id}")
     fun getProfileImage(@Path("id") id: Int): Call<JsonObject>
+
+    @PUT("pwm/changeProfileData")
+    fun changeCredenzialiProfile(
+        @Body modifyCredenzialiProfile: JsonObject
+    ): Call<JsonObject>
 
     companion object {
         const val BASE_URL = "http://192.168.133.165:9000"

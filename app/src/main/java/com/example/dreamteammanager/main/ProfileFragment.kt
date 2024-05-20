@@ -109,6 +109,13 @@ class ProfileFragment : Fragment() {
 
         binding.Username.setText(userViewModel.user.value!!.username)
         binding.Email.setText(userViewModel.user.value!!.email)
+
+        binding.ModifyButton.setOnClickListener{
+            val username = binding.Username.text.toString()
+            val email = binding.Email.text.toString()
+            userViewModel.modificaCredenzialiProfilo(email, username, userViewModel.user.value!!.id)
+
+        }
     }
 
     override fun onResume() {

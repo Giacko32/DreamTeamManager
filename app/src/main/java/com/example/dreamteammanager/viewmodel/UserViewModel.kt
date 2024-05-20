@@ -215,6 +215,37 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             }
         )
     }
+    private val _stringaCredenziali = MutableLiveData<String?>()
+    val stringaCredenziali: LiveData<String?>
+        get() = _stringaCredenziali
+
+    init {
+        _stringaCredenziali.value = null
+    }
+
+    fun modificaCredenzialiProfilo(email: String, username: String, id: Int){
+        val gson =
+            JsonParser.parseString(parseModelToJson(ModifyCredenzialiProfile(email, username, id)))
+        Client.retrofit.changeCredenzialiProfile(gson.asJsonObject).enqueue(
+            object : Callback<JsonObject> {
+                override fun onResponse(
+                    call: Call<JsonObject>, response:
+                    Response<JsonObject>
+                ) {
+                    if (response.isSuccessful) {
+                        _stringaCredenziali.value = "Credenziali aggiornate "
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonObject>?, t:
+                    Throwable?
+                ) {
+                    _stringaCredenziali.value = "Errore di connessione"
+                }
+            }
+        )
+    }
 
     private fun isValidEmail(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
@@ -223,6 +254,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
 }
 class Emailcode(val email: String, val codice: Int)
+class ModifyCredenzialiProfile(val email: String, val username : String, val id : Int)
 fun parseJsonToModel(jsonString: String): Utente {
     val gson = Gson()
     return gson.fromJson(
