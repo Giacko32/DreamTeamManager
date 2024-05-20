@@ -1,8 +1,8 @@
 package com.example.dreamteammanager.classi
 
 class Competizione(
-    val id: Int,
+    var id: Int,
     val nome:String,
-    val sport:String,
+    var sport:String,
     val lega_id:Int
 )

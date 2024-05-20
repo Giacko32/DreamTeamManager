@@ -87,7 +87,7 @@ class ProfileFragment : Fragment() {
                 val new_password = passwordDialog.findViewById<TextInputEditText>(R.id.newpasswordfield).text.toString()
                 val old_password = passwordDialog.findViewById<TextInputEditText>(R.id.oldpasswordfield).text.toString()
                 if(old_password == userViewModel.user.value!!.password){
-                    userViewModel.changeProfilePassword(new_password, userViewModel.user.value!!.id)
+                    userViewModel.changeProfilePassword(new_password, userViewModel.user.value!!.email)
 
                 }else{
                     val alertDialog = AlertDialog.Builder(

@@ -44,8 +44,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         SharedPreferencesManager.init(application)
     }
 
-
-
     private val _user = MutableLiveData<Utente?>()
     val user: LiveData<Utente?>
         get() = _user
@@ -295,9 +293,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         _modificaPassword.value = null
     }
 
-    fun changeProfilePassword(password: String, id: Int){
+    fun changeProfilePassword(password: String, mail: String){
         val gson =
-            JsonParser.parseString(parseModelToJson(ModifyPasswordProfile(password, id)))
+            JsonParser.parseString(parseModelToJson(ModifyPasswordProfile(password, mail)))
         Client.retrofit.cambiapassword(gson.asJsonObject).enqueue(
             object : Callback<JsonObject> {
                 override fun onResponse(
@@ -328,7 +326,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 class Emailcode(val email: String, val codice: Int)
 class ModifyCredenzialiProfile(val email: String, val username : String, val id : Int)
 
-class ModifyPasswordProfile(val password: String, val id : Int)
+class ModifyPasswordProfile(val password: String, val mail : String)
 fun parseJsonToModel(jsonString: String): Utente {
     val gson = Gson()
     return gson.fromJson(
