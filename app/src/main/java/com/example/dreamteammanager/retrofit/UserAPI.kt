@@ -63,6 +63,6 @@ interface UserAPI {
     fun getProfileImage(@Path("id") id: Int): Call<JsonObject>
 
     companion object {
-        const val BASE_URL = "http://192.168.118.139:9000"
+        const val BASE_URL = "http://147.163.219.202:9000"
     }
 }

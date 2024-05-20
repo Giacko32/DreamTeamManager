@@ -48,7 +48,11 @@ class ProfileFragment : Fragment() {
             if (it.firstOrNull() != null) {
                 profimgViewModel.uploadProfileImage(requireContext(), it.first())
             } else {
-                binding.userimage.setImageResource(R.drawable.baseline_account_circle_24)
+                if(profimgViewModel.image.value != null) {
+                    binding.userimage.setImageBitmap(profimgViewModel.image.value)
+                } else {
+                    binding.userimage.setImageResource(R.drawable.baseline_account_circle_24)
+                }
             }
         }
 
@@ -61,9 +65,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         profimgViewModel.image.observe(viewLifecycleOwner) {
-            if (it == null) {
-                binding.userimage.setImageResource(R.drawable.baseline_account_circle_24)
-            } else {
+            if (it != null) {
                 binding.userimage.setImageBitmap(profimgViewModel.image.value)
             }
         }
