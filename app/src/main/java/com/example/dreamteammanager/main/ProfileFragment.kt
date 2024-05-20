@@ -94,7 +94,24 @@ class ProfileFragment : Fragment() {
         binding.ModifyButton.setOnClickListener{
             val username = binding.Username.text.toString()
             val email = binding.Email.text.toString()
-            userViewModel.checkModifica(email, username)
+            if( username == userViewModel.user.value!!.username ){
+                if(email == userViewModel.user.value!!.email){
+
+                }else{
+                    userViewModel.checkModifica(email, "")
+                }
+            }
+
+            if( email == userViewModel.user.value!!.email ){
+                if(username == userViewModel.user.value!!.username){
+
+                }else{
+                    userViewModel.checkModifica("", username)
+                }
+            }else{
+                userViewModel.checkModifica(email, username)
+            }
+
 
         }
         userViewModel.disponibilitàModifica.observe(requireActivity()){
