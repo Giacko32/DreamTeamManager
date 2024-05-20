@@ -3,6 +3,7 @@ package com.example.dreamteammanager.main
 import android.app.Dialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -35,6 +36,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import android.util.Base64
+import androidx.appcompat.app.AlertDialog
 import com.example.dreamteammanager.viewmodel.ProfileImageVM
 
 
@@ -92,7 +94,46 @@ class ProfileFragment : Fragment() {
         binding.ModifyButton.setOnClickListener{
             val username = binding.Username.text.toString()
             val email = binding.Email.text.toString()
-            userViewModel.modificaCredenzialiProfilo(email, username, userViewModel.user.value!!.id)
+            userViewModel.checkModifica(email, username)
+
+        }
+        userViewModel.disponibilitàModifica.observe(requireActivity()){
+            if( it == true){
+                val username = binding.Username.text.toString()
+                val email = binding.Email.text.toString()
+                userViewModel.modificaCredenzialiProfilo(email,username, userViewModel.user.value!!.id)
+            }else if(it == false){
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("ATTENZIONE")
+                alertDialog.setMessage("Le credenziali non sono disponibili")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEGATIVE, "OK"
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(Color.parseColor("#ff5722"))
+            }
+        }
+
+        userViewModel.stringaCredenziali.observe(requireActivity()){
+            if( it == "Credenziali aggiornate" ){
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("Successo")
+                alertDialog.setMessage("Le credenziali sono state cambiate")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEGATIVE, "OK"
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(Color.parseColor("#ff5722"))
+
+            }
 
         }
     }

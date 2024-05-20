@@ -238,7 +238,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     Response<JsonObject>
                 ) {
                     if (response.isSuccessful) {
-                        _stringaCredenziali.value = "Credenziali aggiornate "
+                        _stringaCredenziali.value = "Credenziali aggiornate"
                     }
                 }
 
@@ -248,6 +248,35 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 ) {
                     _stringaCredenziali.value = "Errore di connessione"
                 }
+            }
+        )
+    }
+    private val _disponibilitàModifica = MutableLiveData<Boolean?>()
+    val disponibilitàModifica: LiveData<Boolean?>
+        get() = _disponibilitàModifica
+
+    init {
+        _disponibilitàModifica.value = null
+    }
+    fun checkModifica(email: String, username: String){
+        Client.retrofit.checkDisponibilita(username, email).enqueue(
+            object : Callback<JsonArray> {
+                override fun onResponse(
+                    call: Call<JsonArray>, response:
+                    Response<JsonArray>
+                ) {
+                    if (response.isSuccessful) {
+                        _disponibilitàModifica.value = response.body().isEmpty
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonArray>?, t:
+                    Throwable?
+                ) {
+
+                }
+
             }
         )
     }
