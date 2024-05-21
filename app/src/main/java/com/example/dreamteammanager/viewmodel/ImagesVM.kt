@@ -117,6 +117,18 @@ class ImagesVM : ViewModel() {
     }
 
 
+    public fun getLegaImage(context: Context, img: Int, place: ImageView)
+    {
+        Glide.with(context)
+            .load("${UserAPI.BASE_URL}/pwm/img/lega${img}.jpeg")
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.baseline_account_circle_24) // Placeholder image
+                    .error(R.drawable.baseline_account_circle_24) // Error image in case of loading failure
+            ).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+            .into(place)
+    }
+
 }
 
 class ProfileImage(val userid: Int, val image: String)

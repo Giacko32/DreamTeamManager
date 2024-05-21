@@ -7,7 +7,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 class Lega(
     val id: Int,
-    val name: String,
-    val numeropartecipanti: Int,
+    var name: String,
+    var image: Int,
+    var numeropartecipanti: Int,
     val id_amministratore:Int
 ): Parcelable

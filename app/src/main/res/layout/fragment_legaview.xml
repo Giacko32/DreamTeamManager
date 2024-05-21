@@ -59,7 +59,6 @@
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:layout_margin="20dp"
-                android:src="@drawable/img4"
                 app:layout_constraintBottom_toTopOf="@+id/recview"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -96,6 +95,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/barrier1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/VisualizzaRichiesteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/arancione"
+                android:padding="10dp"
+                android:text="Richieste"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/CompetizioniButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/nomelega" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/CompetizioniButton"

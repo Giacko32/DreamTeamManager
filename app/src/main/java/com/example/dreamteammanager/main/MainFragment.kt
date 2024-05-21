@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.commit
@@ -23,6 +24,7 @@ import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.databinding.FragmentMainBinding
 import com.example.dreamteammanager.lega.LegaActivity
+import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.legheVM
 import com.example.dreamteammanager.viewmodel.parseJsonToModel
@@ -33,6 +35,8 @@ class MainFragment : Fragment() {
 
     lateinit var binding: FragmentMainBinding
     private val legheVM: legheVM by viewModels()
+    private val imagesVM: ImagesVM by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,11 +60,13 @@ class MainFragment : Fragment() {
         val IscrizioneDialog = Dialog(requireActivity())
 
         binding.creaNuovaLegaButton.setOnClickListener {
+            val newLega = Lega(0, "", 1, 1, utente.id)
             creaLegaDialog.setContentView(R.layout.dialog_crea_lega)
             creaLegaDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val legaimg = creaLegaDialog.findViewById<ImageView>(R.id.image)
             creaLegaDialog.findViewById<Button>(R.id.creaLegaButton).setOnClickListener {
-                val nome = creaLegaDialog.findViewById<TextView>(R.id.NomeLega).text.toString()
-                legheVM.creanuovalega(Lega(0, nome, 1, utente.id))
+                newLega.name = creaLegaDialog.findViewById<TextView>(R.id.NomeLega).text.toString()
+                legheVM.creanuovalega(newLega)
                 creaLegaDialog.dismiss()
             }
             creaLegaDialog.show()
