@@ -64,6 +64,11 @@ class MainFragment : Fragment() {
             creaLegaDialog.setContentView(R.layout.dialog_crea_lega)
             creaLegaDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val legaimg = creaLegaDialog.findViewById<ImageView>(R.id.image)
+            imagesVM.getLegaImage(requireContext(), newLega.image, legaimg)
+            creaLegaDialog.findViewById<TextView>(R.id.changeImage).setOnClickListener {
+                newLega.image = (newLega.image%4) + 1
+                imagesVM.getLegaImage(requireContext(), newLega.image, legaimg)
+            }
             creaLegaDialog.findViewById<Button>(R.id.creaLegaButton).setOnClickListener {
                 newLega.name = creaLegaDialog.findViewById<TextView>(R.id.NomeLega).text.toString()
                 legheVM.creanuovalega(newLega)

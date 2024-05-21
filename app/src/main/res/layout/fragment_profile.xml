@@ -63,8 +63,7 @@
                     android:id="@+id/userimage"
                     android:layout_width="220dp"
                     android:layout_height="220dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img4"/>
+                    android:scaleType="centerCrop"/>
 
             </androidx.cardview.widget.CardView>
 
