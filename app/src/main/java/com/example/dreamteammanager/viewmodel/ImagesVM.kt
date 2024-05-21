@@ -6,11 +6,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.util.Base64
-import android.util.Log
-import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,7 +15,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.dreamteammanager.R
-import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.retrofit.Client
 import com.example.dreamteammanager.retrofit.UserAPI
 import com.google.gson.JsonObject
@@ -28,7 +24,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 
-class ProfileImageVM : ViewModel() {
+class ImagesVM : ViewModel() {
 
 
     private val _changed = MutableLiveData<Boolean?>()
@@ -119,7 +115,6 @@ class ProfileImageVM : ViewModel() {
             ).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
             .into(place)
     }
-
 
 
 }

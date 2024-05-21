@@ -41,13 +41,14 @@ import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.dreamteammanager.classi.Utente
-import com.example.dreamteammanager.viewmodel.ProfileImageVM
+import com.example.dreamteammanager.viewmodel.ImagesVM
+
 import com.google.android.material.textfield.TextInputEditText
 
 
 class ProfileFragment : Fragment() {
     private val userViewModel: UserViewModel by viewModels()
-    private val profimgViewModel: ProfileImageVM by viewModels()
+    private val profimgViewModel: ImagesVM by viewModels()
     lateinit var binding: FragmentProfileBinding
 
 
