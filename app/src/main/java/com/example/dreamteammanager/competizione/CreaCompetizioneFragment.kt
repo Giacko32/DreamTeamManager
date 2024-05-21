@@ -13,7 +13,7 @@ import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Competizione
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.databinding.FragmentCreaCompetizioneBinding
-import com.example.dreamteammanager.lega.LegheAdapter
+import com.example.dreamteammanager.lega.PartecipantiAdapter
 import com.example.dreamteammanager.viewmodel.CompetizioniVM
 
 class CreaCompetizioneFragment : Fragment() {
@@ -49,7 +49,7 @@ class CreaCompetizioneFragment : Fragment() {
                 )
             )
         }
-        val adapter = LegheAdapter(lista, true)
+        val adapter = PartecipantiAdapter(lista, true)
         binding.listaUserSelectable.layoutManager = LinearLayoutManager(context)
         binding.listaUserSelectable.adapter = adapter
 

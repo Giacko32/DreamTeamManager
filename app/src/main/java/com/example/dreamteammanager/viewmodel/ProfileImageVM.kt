@@ -39,23 +39,26 @@ class ProfileImageVM : ViewModel() {
         _changed.value = false
     }
 
-
-    public fun uploadProfileImage(context: Context, uri: Uri) {
+    public fun BitmaptoBase64(context: Context, uri: Uri, size: Int): String {
         val contentResolver = context.contentResolver
         val inputStream = contentResolver.openInputStream(uri)
         val bitmap = BitmapFactory.decodeStream(inputStream)
         inputStream?.close()
         val aspectRatio = bitmap.width.toFloat() / bitmap.height.toFloat()
-        val newWidth: Float = 600.0F
-        var newHeight: Float = 600.0F
+        val newWidth: Float = size.toFloat()
+        var newHeight: Float = size.toFloat()
         newHeight = newWidth / aspectRatio
         val finalBitmap =
             Bitmap.createScaledBitmap(bitmap, newWidth.toInt(), newHeight.toInt(), true)
         val bos = ByteArrayOutputStream()
         finalBitmap.compress(Bitmap.CompressFormat.PNG, 100, bos)
-        val encodedImage = Base64.encodeToString(bos.toByteArray(), Base64.NO_WRAP)
+        return Base64.encodeToString(bos.toByteArray(), Base64.NO_WRAP)
+    }
+
+
+    public fun uploadProfileImage(context: Context, uri: Uri) {
         val utente = parseJsonToModel(SharedPreferencesManager.getString("utente", ""))
-        val profimg = ProfileImage(utente.id, encodedImage)
+        val profimg = ProfileImage(utente.id, BitmaptoBase64(context, uri, 600))
         val gson =
             JsonParser.parseString(parseModelToJson(profimg))
         Client.retrofit.insertImage(gson.asJsonObject).enqueue(
@@ -116,6 +119,8 @@ class ProfileImageVM : ViewModel() {
             ).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
             .into(place)
     }
+
+
 
 }
 

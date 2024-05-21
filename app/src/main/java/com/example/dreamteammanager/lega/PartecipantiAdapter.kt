@@ -11,8 +11,8 @@ import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
 
-class LegheAdapter(val data: ArrayList<Utente>, val selectable: Boolean) :
-    RecyclerView.Adapter<LegheAdapter.MyViewHolder>() {
+class PartecipantiAdapter(val data: ArrayList<Utente>, val selectable: Boolean) :
+    RecyclerView.Adapter<PartecipantiAdapter.MyViewHolder>() {
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val nomeutente = row.findViewById<TextView>(R.id.username)
         val immagine = row.findViewById<ImageView>(R.id.profileimage)

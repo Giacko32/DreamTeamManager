@@ -18,6 +18,7 @@ import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.competizione.CompetizioniAdapter
 import com.example.dreamteammanager.competizione.CreaCompetizioneFragment
 import com.example.dreamteammanager.databinding.FragmentLegaviewBinding
+import com.example.dreamteammanager.databinding.PartecipanteItemBinding
 
 
 class LegaView : Fragment() {
@@ -69,7 +70,7 @@ class LegaView : Fragment() {
         {
             lista.add(Utente(username = "nome a caso", password = "password", id = 1, email = "email"))
         }
-        val adapter = LegheAdapter(lista, false)
+        val adapter = PartecipantiAdapter(lista, false)
         binding.recview.layoutManager = LinearLayoutManager(context)
         binding.recview.adapter = adapter
 
