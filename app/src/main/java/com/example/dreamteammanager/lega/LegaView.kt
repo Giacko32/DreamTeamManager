@@ -8,21 +8,28 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Competizione
+import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.competizione.CompetizioniAdapter
 import com.example.dreamteammanager.competizione.CreaCompetizioneFragment
 import com.example.dreamteammanager.databinding.FragmentLegaviewBinding
-import com.example.dreamteammanager.databinding.PartecipanteItemBinding
+import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
+import com.example.dreamteammanager.viewmodel.SingleLegaVM
+import com.example.dreamteammanager.viewmodel.parseJsonToLega
+import com.google.gson.Gson
 
 
 class LegaView : Fragment() {
     lateinit var binding: FragmentLegaviewBinding
+    private val singleLegaVM: SingleLegaVM by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,7 +37,8 @@ class LegaView : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.nomelega.text = singleLegaVM.lega.value!!.name
+        singleLegaVM.getPartecipanti()
         val listaCompetizioni = Dialog(requireActivity())
 
         binding.CompetizioniButton.setOnClickListener{
@@ -65,14 +73,19 @@ class LegaView : Fragment() {
         }
 
 
-        val lista = ArrayList<Utente>()
-        for(i in 1..50)
-        {
-            lista.add(Utente(username = "nome a caso", password = "password", id = 1, email = "email"))
+        singleLegaVM.scaricando.observe(viewLifecycleOwner){
+            if(it==true){
+                binding.progressBar.visibility = View.VISIBLE
+            }
+            else if(it==false){
+                val adapter = PartecipantiAdapter(singleLegaVM.partecipanti.value!!, false)
+                binding.recview.layoutManager = LinearLayoutManager(context)
+                binding.recview.adapter = adapter
+                binding.progressBar.visibility = View.INVISIBLE
+            }
         }
-        val adapter = PartecipantiAdapter(lista, false)
-        binding.recview.layoutManager = LinearLayoutManager(context)
-        binding.recview.adapter = adapter
+
+
 
         binding.CreaCompetizioneButton.setOnClickListener {
             parentFragmentManager.commit {

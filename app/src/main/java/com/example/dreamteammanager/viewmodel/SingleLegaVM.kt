@@ -39,6 +39,7 @@ class SingleLegaVM:ViewModel() {
     }
     fun getPartecipanti(){
         _scaricando.value=true
+        _partecipanti.value?.clear()
         Client.retrofit.getPartecipanti(_lega.value!!.id).enqueue(
             object : Callback<JsonArray> {
                 override fun onResponse(
