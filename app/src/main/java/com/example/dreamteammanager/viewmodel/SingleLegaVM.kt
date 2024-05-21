@@ -1,5 +1,6 @@
 package com.example.dreamteammanager.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -47,6 +48,7 @@ class SingleLegaVM:ViewModel() {
                     Response<JsonArray>
                 ) {
                     if (response.isSuccessful) {
+                        Log.d("partecipanti", response.body().toString())
                         _partecipanti.value = parseJsonToArrayUtenti(response.body().toString())
                         _scaricando.value = false
                     }
@@ -67,6 +69,6 @@ class SingleLegaVM:ViewModel() {
         val gson = Gson()
         return gson.fromJson(
             jsonString,
-            object : com.google.gson.reflect.TypeToken<Utente>() {}.type
+            object : com.google.gson.reflect.TypeToken<ArrayList<Utente>>() {}.type
         )
     }
