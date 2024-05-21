@@ -67,19 +67,10 @@ class SingleLegaVM:ViewModel() {
     init {
         _richiedenti.value=ArrayList()
     }
-    private val _scaricando2 = MutableLiveData<Boolean?>()
-    val scaricando2: LiveData<Boolean?>
-        get() = _scaricando
 
-    init {
-        _scaricando2.value = null
-    }
-    fun resetscaricando2(){
-        _scaricando2.value=null
-    }
 
     fun getrichiedenti() {
-        _scaricando2.value = true
+        _scaricando.value = true
         _richiedenti.value?.clear()
         Client.retrofit.getrichiedenti(_lega.value!!.id).enqueue(
             object : Callback<JsonArray> {
@@ -90,7 +81,7 @@ class SingleLegaVM:ViewModel() {
                     if (response.isSuccessful) {
                         Log.d("richiedenti",response.body().toString())
                         _richiedenti.value = parseJsonToArrayUtenti(response.body().toString())
-                        _scaricando2.value = false
+                        _scaricando.value = false
                     }
                 }
 
@@ -103,6 +94,10 @@ class SingleLegaVM:ViewModel() {
             }
         )
 
+    }
+
+    fun setLega(lega: Lega){
+        _lega.value = lega
     }
 
 }

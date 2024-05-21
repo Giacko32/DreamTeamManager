@@ -21,6 +21,7 @@ import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.competizione.CompetizioniAdapter
 import com.example.dreamteammanager.competizione.CreaCompetizioneFragment
 import com.example.dreamteammanager.databinding.FragmentLegaviewBinding
+import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.SingleLegaVM
 import com.example.dreamteammanager.viewmodel.parseJsonToLega
@@ -30,6 +31,7 @@ import com.google.gson.Gson
 class LegaView : Fragment() {
     lateinit var binding: FragmentLegaviewBinding
     private val singleLegaVM: SingleLegaVM by activityViewModels()
+    private val imagesVM: ImagesVM by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,6 +41,7 @@ class LegaView : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.nomelega.text = singleLegaVM.lega.value!!.name
         singleLegaVM.getPartecipanti()
+        imagesVM.getLegaImage(requireContext(), singleLegaVM.lega.value!!.image, binding.imageView)
         val listaCompetizioni = Dialog(requireActivity())
 
         binding.CompetizioniButton.setOnClickListener{
@@ -78,7 +81,7 @@ class LegaView : Fragment() {
                 binding.progressBar.visibility = View.VISIBLE
             }
             else if(it==false){
-                val adapter = PartecipantiAdapter(singleLegaVM.partecipanti.value!!, false)
+                val adapter = PartecipantiAdapter(singleLegaVM.partecipanti.value!!, false, imagesVM)
                 binding.recview.layoutManager = LinearLayoutManager(context)
                 binding.recview.adapter = adapter
                 binding.progressBar.visibility = View.GONE

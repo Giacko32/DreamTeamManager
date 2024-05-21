@@ -33,6 +33,7 @@ class LegaActivity : AppCompatActivity() {
         if(intent.getParcelableExtra("lega",Lega::class.java)!=null){
         singleLegaVM.setlega(intent.getParcelableExtra("lega",Lega::class.java)!!)
         }
+
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add<LegaView>(R.id.legafragmentcontainer)

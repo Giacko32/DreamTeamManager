@@ -88,7 +88,7 @@ class MainFragment : Fragment() {
         }
 
         legheVM.listaLeghe.observe(viewLifecycleOwner) {
-            val adapter = LegheAdapter(it)
+            val adapter = LegheAdapter(it, imagesVM)
             if (legheVM.mieleghe.value == true) {
                 adapter.setonclick(object : LegheAdapter.SetOnClickListener {
                     override fun onClick(position: Int, lega: Lega) {
@@ -214,7 +214,7 @@ class MainFragment : Fragment() {
         legheVM.filtrate.observe(viewLifecycleOwner) {
             if(it!=null){
                 if(it==true){
-                    val adapter = legheVM.leghefiltrate.value?.let { it1 -> LegheAdapter(it1.toList()) }
+                    val adapter = legheVM.leghefiltrate.value?.let { it1 -> LegheAdapter(it1.toList(), imagesVM) }
                     if (legheVM.mieleghe.value == true) {
                         adapter?.setonclick(object : LegheAdapter.SetOnClickListener {
                             override fun onClick(position: Int, lega: Lega) {

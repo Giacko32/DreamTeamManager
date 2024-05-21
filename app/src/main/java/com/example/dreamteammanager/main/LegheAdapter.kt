@@ -3,12 +3,15 @@ package com.example.dreamteammanager.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Lega
+import com.example.dreamteammanager.viewmodel.ImagesVM
 
-class LegheAdapter(val data: List<Lega>) : RecyclerView.Adapter<LegheAdapter.MyViewHolder>() {
+class LegheAdapter(val data: List<Lega>, val imagesVM: ImagesVM) : RecyclerView.Adapter<LegheAdapter.MyViewHolder>() {
     var onClickListener: SetOnClickListener? = null
 
     interface SetOnClickListener {
@@ -18,6 +21,7 @@ class LegheAdapter(val data: List<Lega>) : RecyclerView.Adapter<LegheAdapter.MyV
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val nomelega = row.findViewById<TextView>(R.id.nomeLega)
         val numeropartecipanti = row.findViewById<TextView>(R.id.numeroPartecipanti)
+        val img = row.findViewById<ImageView>(R.id.immagine)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -36,6 +40,7 @@ class LegheAdapter(val data: List<Lega>) : RecyclerView.Adapter<LegheAdapter.MyV
         val context = holder.row.context
         holder.nomelega.text = data[position].name
         holder.numeropartecipanti.text = "${data[position].numeropartecipanti} partecipanti"
+        imagesVM.getLegaImage(context, data[position].image, holder.img)
         holder.itemView.setOnClickListener {
             onClickListener?.onClick(position, data[position])
             notifyDataSetChanged()
