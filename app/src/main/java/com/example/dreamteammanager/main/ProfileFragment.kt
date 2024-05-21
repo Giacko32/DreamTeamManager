@@ -65,15 +65,11 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         profimgViewModel.changed.observe(viewLifecycleOwner) {
-            Glide.with(requireContext())
-                .load("${UserAPI.BASE_URL}/pwm/img/img${userViewModel.user.value!!.id}.jpg")
-                .apply(
-                    RequestOptions()
-                        .placeholder(R.drawable.baseline_account_circle_24) // Placeholder image
-                        .error(R.drawable.baseline_account_circle_24) // Error image in case of loading failure
-                ).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
-                .into(binding.userimage)
-
+            profimgViewModel.getProfilePic(
+                requireContext(),
+                userViewModel.user.value!!.id,
+                binding.userimage
+            )
         }
 
         val passwordDialog = Dialog(requireActivity())

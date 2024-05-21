@@ -7,13 +7,20 @@ import android.graphics.Color
 import android.net.Uri
 import android.util.Base64
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.retrofit.Client
+import com.example.dreamteammanager.retrofit.UserAPI
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import retrofit2.Call
@@ -39,15 +46,14 @@ class ProfileImageVM : ViewModel() {
         val bitmap = BitmapFactory.decodeStream(inputStream)
         inputStream?.close()
         val aspectRatio = bitmap.width.toFloat() / bitmap.height.toFloat()
-        val newWidth: Float = 500.0F
-        var newHeight: Float = 500.0F
+        val newWidth: Float = 600.0F
+        var newHeight: Float = 600.0F
         newHeight = newWidth / aspectRatio
         val finalBitmap =
             Bitmap.createScaledBitmap(bitmap, newWidth.toInt(), newHeight.toInt(), true)
         val bos = ByteArrayOutputStream()
         finalBitmap.compress(Bitmap.CompressFormat.PNG, 100, bos)
-        val toload = bos.toByteArray()
-        val encodedImage = Base64.encodeToString(toload, Base64.NO_WRAP)
+        val encodedImage = Base64.encodeToString(bos.toByteArray(), Base64.NO_WRAP)
         val utente = parseJsonToModel(SharedPreferencesManager.getString("utente", ""))
         val profimg = ProfileImage(utente.id, encodedImage)
         val gson =
@@ -98,6 +104,17 @@ class ProfileImageVM : ViewModel() {
 
                 }
             })
+    }
+
+    public fun getProfilePic(context: Context, id: Int, place: ImageView) {
+        Glide.with(context)
+            .load("${UserAPI.BASE_URL}/pwm/img/img${id}.jpg")
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.baseline_account_circle_24) // Placeholder image
+                    .error(R.drawable.baseline_account_circle_24) // Error image in case of loading failure
+            ).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+            .into(place)
     }
 
 }
