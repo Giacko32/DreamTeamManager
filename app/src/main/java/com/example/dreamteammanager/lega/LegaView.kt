@@ -81,7 +81,7 @@ class LegaView : Fragment() {
                 val adapter = PartecipantiAdapter(singleLegaVM.partecipanti.value!!, false)
                 binding.recview.layoutManager = LinearLayoutManager(context)
                 binding.recview.adapter = adapter
-                binding.progressBar.visibility = View.INVISIBLE
+                binding.progressBar.visibility = View.GONE
             }
         }
 
@@ -92,6 +92,13 @@ class LegaView : Fragment() {
                 setReorderingAllowed(true)
                 replace<CreaCompetizioneFragment>(R.id.legafragmentcontainer)
                 addToBackStack("CreaComp")
+            }
+        }
+        binding.VisualizzaRichiesteButton.setOnClickListener {
+            parentFragmentManager.commit {
+                setReorderingAllowed(true)
+                replace<RichiesteFragment>(R.id.legafragmentcontainer)
+                addToBackStack("Richieste")
             }
         }
     }

@@ -48,7 +48,6 @@ class SingleLegaVM:ViewModel() {
                     Response<JsonArray>
                 ) {
                     if (response.isSuccessful) {
-                        Log.d("partecipanti", response.body().toString())
                         _partecipanti.value = parseJsonToArrayUtenti(response.body().toString())
                         _scaricando.value = false
                     }
@@ -63,6 +62,49 @@ class SingleLegaVM:ViewModel() {
             }
         )
     }
+    private val _richiedenti=MutableLiveData<ArrayList<Utente>>()
+    val richiedenti:LiveData<ArrayList<Utente>> = _richiedenti
+    init {
+        _richiedenti.value=ArrayList()
+    }
+    private val _scaricando2 = MutableLiveData<Boolean?>()
+    val scaricando2: LiveData<Boolean?>
+        get() = _scaricando
+
+    init {
+        _scaricando2.value = null
+    }
+    fun resetscaricando2(){
+        _scaricando2.value=null
+    }
+
+    fun getrichiedenti() {
+        _scaricando2.value = true
+        _richiedenti.value?.clear()
+        Client.retrofit.getrichiedenti(_lega.value!!.id).enqueue(
+            object : Callback<JsonArray> {
+                override fun onResponse(
+                    call: Call<JsonArray>, response:
+                    Response<JsonArray>
+                ) {
+                    if (response.isSuccessful) {
+                        Log.d("richiedenti",response.body().toString())
+                        _richiedenti.value = parseJsonToArrayUtenti(response.body().toString())
+                        _scaricando2.value = false
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonArray>?, t:
+                    Throwable?
+                ) {
+
+                }
+            }
+        )
+
+    }
+
 }
 
     fun parseJsonToArrayUtenti(jsonString: String): ArrayList<Utente> {

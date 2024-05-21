@@ -66,9 +66,11 @@ interface UserAPI {
     ): Call<JsonObject>
     @GET("pwm/getPartecipanti/{idlega}")
     fun getPartecipanti(@Path("idlega") idlega: Int): Call<JsonArray>
+    @GET("pwm/getrichiedenti/{idlega}")
+    fun getrichiedenti(@Path("idlega") idlega: Int): Call<JsonArray>
 
 
     companion object {
-        const val BASE_URL = "http://192.168.118.139:9000"
+        const val BASE_URL = "http://192.168.133.165:9000"
     }
 }
