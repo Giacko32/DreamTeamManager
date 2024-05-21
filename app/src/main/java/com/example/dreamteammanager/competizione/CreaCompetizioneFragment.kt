@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dreamteammanager.R
@@ -15,10 +16,12 @@ import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.databinding.FragmentCreaCompetizioneBinding
 import com.example.dreamteammanager.lega.PartecipantiAdapter
 import com.example.dreamteammanager.viewmodel.CompetizioniVM
+import com.example.dreamteammanager.viewmodel.SingleLegaVM
 
 class CreaCompetizioneFragment : Fragment() {
     lateinit var binding: FragmentCreaCompetizioneBinding
     val compViewModel: CompetizioniVM by viewModels()
+    private val singleLegaVM: SingleLegaVM by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,18 +41,7 @@ class CreaCompetizioneFragment : Fragment() {
         compViewModel.setCompetizione(Competizione(0, "", "Serie A", 0))
         compViewModel.setSport("Serie A")
 
-        val lista = ArrayList<Utente>()
-        for (i in 1..50) {
-            lista.add(
-                Utente(
-                    username = "nome a caso",
-                    password = "password",
-                    id = 1,
-                    email = "email"
-                )
-            )
-        }
-        val adapter = PartecipantiAdapter(lista, true)
+        val adapter = PartecipantiAdapter(singleLegaVM.partecipanti.value!!, true)
         binding.listaUserSelectable.layoutManager = LinearLayoutManager(context)
         binding.listaUserSelectable.adapter = adapter
 
