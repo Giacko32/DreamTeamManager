@@ -326,7 +326,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 class Emailcode(val email: String, val codice: Int)
 class ModifyCredenzialiProfile(val email: String, val username : String, val id : Int)
 
-class ModifyPasswordProfile(val password: String, val mail : String)
+class ModifyPasswordProfile(val password: String, val email : String)
 fun parseJsonToModel(jsonString: String): Utente {
     val gson = Gson()
     return gson.fromJson(
@@ -335,13 +335,7 @@ fun parseJsonToModel(jsonString: String): Utente {
     )
 }
 
-fun parseJsonToModel2(jsonString: String): ArrayList<Utente> {
-    val gson = Gson()
-    return gson.fromJson(
-        jsonString,
-        object : com.google.gson.reflect.TypeToken<Utente>() {}.type
-    )
-}
+
 
 fun parseModelToJson(utente: Any): String {
     val gson = Gson()

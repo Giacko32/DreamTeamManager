@@ -40,6 +40,7 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.viewmodel.ProfileImageVM
 import com.google.android.material.textfield.TextInputEditText
 
@@ -48,6 +49,7 @@ class ProfileFragment : Fragment() {
     private val userViewModel: UserViewModel by viewModels()
     private val profimgViewModel: ProfileImageVM by viewModels()
     lateinit var binding: FragmentProfileBinding
+
 
     private val pickPhoto =
         registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) {
@@ -63,6 +65,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var newpassword:String=""
 
         profimgViewModel.changed.observe(viewLifecycleOwner) {
             profimgViewModel.getProfilePic(
@@ -78,15 +81,18 @@ class ProfileFragment : Fragment() {
             passwordDialog.setContentView(R.layout.dialog_change_password)
             passwordDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
             passwordDialog.findViewById<Button>(R.id.ChangeButton).setOnClickListener {
+                binding.progressBar.visibility=View.VISIBLE
                 val new_password =
                     passwordDialog.findViewById<TextInputEditText>(R.id.newpasswordfield).text.toString()
                 val old_password =
                     passwordDialog.findViewById<TextInputEditText>(R.id.oldpasswordfield).text.toString()
-                if (old_password == userViewModel.user.value!!.password) {
+                if (old_password == userViewModel.user.value!!.password && new_password.length in  1..25) {
+                    newpassword=new_password
                     userViewModel.changeProfilePassword(
                         new_password,
                         userViewModel.user.value!!.email
                     )
+                    passwordDialog.dismiss()
 
                 } else {
                     val alertDialog = AlertDialog.Builder(
@@ -110,6 +116,12 @@ class ProfileFragment : Fragment() {
 
         userViewModel.modificaPassword.observe(requireActivity()) {
             if (it == true) {
+                val utente=Utente(1,userViewModel.user.value!!.username,
+                    newpassword,
+                    userViewModel.user.value!!.email)
+                userViewModel.setUtente(utente)
+                SharedPreferencesManager.saveString("utente", parseModelToJson(utente))
+                binding.progressBar.visibility=View.GONE
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -122,7 +134,10 @@ class ProfileFragment : Fragment() {
                 alertDialog.show()
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                     .setTextColor(Color.parseColor("#ff5722"))
+
+                passwordDialog.dismiss()
             } else if (it == false) {
+                binding.progressBar.visibility=View.GONE
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -135,6 +150,7 @@ class ProfileFragment : Fragment() {
                 alertDialog.show()
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                     .setTextColor(Color.parseColor("#ff5722"))
+                passwordDialog.dismiss()
             }
         }
 
@@ -146,6 +162,7 @@ class ProfileFragment : Fragment() {
         binding.Email.setText(userViewModel.user.value!!.email)
 
         binding.ModifyButton.setOnClickListener {
+            binding.progressBar.visibility=View.VISIBLE
             val username = binding.Username.text.toString()
             val email = binding.Email.text.toString()
             if (username == userViewModel.user.value!!.username) {
@@ -170,6 +187,7 @@ class ProfileFragment : Fragment() {
                     alertDialog.show()
                     alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                         .setTextColor(Color.parseColor("#ff5722"))
+                    binding.progressBar.visibility=View.GONE
                 } else {
                     userViewModel.checkModifica("null", username)
                 }
@@ -181,8 +199,8 @@ class ProfileFragment : Fragment() {
         }
         userViewModel.disponibilitàModifica.observe(requireActivity()) {
             if (it == true) {
-                val username = binding.Username.text.toString()
-                val email = binding.Email.text.toString()
+                val username = binding.Username.text.toString().trimEnd()
+                val email = binding.Email.text.toString().trimEnd()
                 userViewModel.modificaCredenzialiProfilo(
                     email,
                     username,
@@ -201,11 +219,18 @@ class ProfileFragment : Fragment() {
                 alertDialog.show()
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                     .setTextColor(Color.parseColor("#ff5722"))
+                binding.progressBar.visibility=View.GONE
             }
         }
 
         userViewModel.stringaCredenziali.observe(requireActivity()) {
             if (it == "Credenziali aggiornate") {
+                val username = binding.Username.text.toString().trimEnd()
+                val email = binding.Email.text.toString().trimEnd()
+                val utente=Utente(1,username,userViewModel.user.value!!.password,email)
+                userViewModel.setUtente(utente)
+                SharedPreferencesManager.saveString("utente", parseModelToJson(utente))
+                binding.progressBar.visibility=View.GONE
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -218,14 +243,7 @@ class ProfileFragment : Fragment() {
                 alertDialog.show()
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                     .setTextColor(Color.parseColor("#ff5722"))
-                userViewModel.setUtente(
-                    parseJsonToModel(
-                        SharedPreferencesManager.getString(
-                            "utente",
-                            ""
-                        )
-                    )
-                )
+
             }
 
         }
