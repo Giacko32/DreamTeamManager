@@ -26,6 +26,7 @@ import com.example.dreamteammanager.lega.LegaActivity
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.legheVM
 import com.example.dreamteammanager.viewmodel.parseJsonToModel
+import com.example.dreamteammanager.viewmodel.parseModelToJson
 
 
 class MainFragment : Fragment() {
@@ -194,7 +195,7 @@ class MainFragment : Fragment() {
 
             override fun afterTextChanged(s: Editable?) {
                legheVM.setLegheFiltrate(s.toString())
-                Log.d("TAG", "onTextChanged: ${s.toString()}")
+                //Log.d("TAG", "onTextChanged: ${s.toString()}")
             }
         }
         binding.searched.addTextChangedListener(textWatcher)
