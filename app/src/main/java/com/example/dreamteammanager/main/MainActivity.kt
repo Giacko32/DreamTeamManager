@@ -79,6 +79,10 @@ class MainActivity : AppCompatActivity() {
                     startActivity(logoutintent)
                     finish()
                 }
+
+                R.id.option_3 -> {
+
+                }
             }
             true
         }
