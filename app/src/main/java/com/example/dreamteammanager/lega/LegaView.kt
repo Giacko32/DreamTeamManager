@@ -76,35 +76,14 @@ class LegaView : Fragment() {
             listaCompetizioni.show()
         }
 
-        val listaInvitaUtente = Dialog(requireActivity())
-
         binding.invitaButton.setOnClickListener{
-            singleLegaVM.getutentiinivito()
-
-        }
-        singleLegaVM.utentiinvito.observe(viewLifecycleOwner){
-            if(it==true){
-                var adapter:PartecipantiAdapter
-                listaInvitaUtente.setContentView(R.layout.dialog_invita_giocatore)
-                listaInvitaUtente.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                val rvInvita = listaInvitaUtente.findViewById<RecyclerView>(R.id.recycler_view_invita)
-                listaInvitaUtente.findViewById<ImageView>(R.id.search_icon).setOnClickListener{
-                     val testo=listaInvitaUtente.findViewById<EditText>(R.id.searched).text.toString()
-                    singleLegaVM.setinvitatiFiltrato(testo)
-                    adapter=PartecipantiAdapter(singleLegaVM.invitatifiltrato.value!!,false,imagesVM,null)
-                    rvInvita.adapter = adapter
-                }
-                rvInvita.layoutManager = LinearLayoutManager(requireActivity())
-                adapter=PartecipantiAdapter(singleLegaVM.invitati.value!!,false,imagesVM,null)
-                rvInvita.adapter = adapter
-                singleLegaVM.resetutentiinvito()
-                listaInvitaUtente.show()
-                binding.progressBar.visibility=View.GONE
-            }else if(it==false){
-                binding.progressBar.visibility=View.VISIBLE
+            parentFragmentManager.commit {
+                setReorderingAllowed(true)
+                replace<InvitaFragment>(R.id.legafragmentcontainer)
+                addToBackStack("Invita")
             }
-        }
 
+        }
 
         singleLegaVM.scaricando.observe(viewLifecycleOwner){
             if(it==true){
