@@ -25,6 +25,8 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.main.MainFragment
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.auth.AccessActivity
@@ -42,7 +44,8 @@ class MainActivity : AppCompatActivity() {
     private val userviewModel: UserViewModel by viewModels()
     private val imagesVM: ImagesVM by viewModels()
     lateinit var binding: ActivityMainBinding
-    lateinit var invitiBinding: DialogInvitiBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -91,19 +94,25 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.option_3 -> {
-                    val listaInviti = arrayListOf<Lega>()
-                    userviewModel.getInvitiUtente(listaInviti)
-                    userviewModel.InvitiOttenuti.observe(this){
-                        if(it == true)
-                        {
-                            Log.d("INVITI", listaInviti[0].name)
-                        }
-                    }
-                    invitiBinding = DialogInvitiBinding.inflate(layoutInflater)
                     val invitiDialog = Dialog(this)
                     invitiDialog.setContentView(R.layout.dialog_inviti)
-                    invitiDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                    invitiDialog.show()
+                    userviewModel.getInvitiUtente()
+                    val rcview = invitiDialog.findViewById<RecyclerView>(R.id.recviewInviti)
+                    userviewModel.InvitiOttenuti.observe(this) {
+                        if (it == true) {
+
+                            val adapter =
+                                LegheAdapter(userviewModel.listaInviti.value!!, imagesVM, true)
+                            rcview.adapter = adapter
+                            userviewModel.resetInvitiOttenuti()
+                            invitiDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                            rcview.layoutManager =
+                                LinearLayoutManager(this)
+                            invitiDialog.show()
+                        }
+                    }
+
+
                 }
             }
             true

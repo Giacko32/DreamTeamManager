@@ -40,16 +40,16 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         bind.ButtonRegistrati.setOnClickListener {
-            val username = bind.UsernameText.text.toString()
-            val password = bind.PasswordText.text.toString()
-            val email = bind.EmailText.text.toString()
+            val username = bind.UsernameText.text.toString().trimEnd()
+            val password = bind.PasswordText.text.toString().trimEnd()
+            val email = bind.EmailText.text.toString().trimEnd()
             userviewModel.checkdisponibilita(username,password,email)
         }
 
         userviewModel.disponibilita.observe(requireActivity()){
-            val username = bind.UsernameText.text.toString()
-            val password = bind.PasswordText.text.toString()
-            val email = bind.EmailText.text.toString()
+            val username = bind.UsernameText.text.toString().trimEnd()
+            val password = bind.PasswordText.text.toString().trimEnd()
+            val email = bind.EmailText.text.toString().trimEnd()
             if (it == true){
                 userviewModel.registrazione(username,password,email)
             }else if(it==false){

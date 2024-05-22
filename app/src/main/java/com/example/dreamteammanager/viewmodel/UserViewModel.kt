@@ -334,18 +334,27 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val _InvitiOttenuti = MutableLiveData<Boolean?>()
     val InvitiOttenuti: LiveData<Boolean?>
         get() = _InvitiOttenuti
+
     init {
         _InvitiOttenuti.value = null
     }
 
-    public fun getInvitiUtente(lista: ArrayList<Lega>) {
+    private val _listaInviti = MutableLiveData<ArrayList<Lega>>()
+    val listaInviti: LiveData<ArrayList<Lega>>
+        get() = _listaInviti
+
+    init {
+        _listaInviti.value = arrayListOf()
+    }
+
+    public fun getInvitiUtente() {
         Client.retrofit.getInvitiUtente(_user.value!!.id).enqueue(object : Callback<JsonArray> {
             override fun onResponse(
                 call: Call<JsonArray>, response:
                 Response<JsonArray>
             ) {
                 if (response.isSuccessful) {
-                    lista.addAll(parseJsonToLeghe(response.body().toString()))
+                    _listaInviti.value = (parseJsonToLeghe(response.body().toString()))
                     _InvitiOttenuti.value = true
                 }
             }
@@ -359,6 +368,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
         })
 
+    }
+
+    public fun resetInvitiOttenuti() {
+        _InvitiOttenuti.value = null
     }
 
 }

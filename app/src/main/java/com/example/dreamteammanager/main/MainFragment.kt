@@ -54,6 +54,7 @@ class MainFragment : Fragment() {
                 ""
             )
         )
+        Log.d("UTENTEBESTIA", utente.id.toString())
         legheVM.resetcheckrichiesta()
         legheVM.scaricaleghe(utente.id)
         val creaLegaDialog = Dialog(requireActivity())
@@ -88,7 +89,7 @@ class MainFragment : Fragment() {
         }
 
         legheVM.listaLeghe.observe(viewLifecycleOwner) {
-            val adapter = LegheAdapter(it, imagesVM)
+            val adapter = LegheAdapter(it, imagesVM, false)
             if (legheVM.mieleghe.value == true) {
                 adapter.setonclick(object : LegheAdapter.SetOnClickListener {
                     override fun onClick(position: Int, lega: Lega) {
@@ -214,7 +215,7 @@ class MainFragment : Fragment() {
         legheVM.filtrate.observe(viewLifecycleOwner) {
             if(it!=null){
                 if(it==true){
-                    val adapter = legheVM.leghefiltrate.value?.let { it1 -> LegheAdapter(it1.toList(), imagesVM) }
+                    val adapter = legheVM.leghefiltrate.value?.let { it1 -> LegheAdapter(it1.toList(), imagesVM, false) }
                     if (legheVM.mieleghe.value == true) {
                         adapter?.setonclick(object : LegheAdapter.SetOnClickListener {
                             override fun onClick(position: Int, lega: Lega) {

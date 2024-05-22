@@ -11,7 +11,8 @@ import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.viewmodel.ImagesVM
 
-class LegheAdapter(val data: List<Lega>, val imagesVM: ImagesVM) : RecyclerView.Adapter<LegheAdapter.MyViewHolder>() {
+class LegheAdapter(val data: List<Lega>, val imagesVM: ImagesVM, val inviti: Boolean) :
+    RecyclerView.Adapter<LegheAdapter.MyViewHolder>() {
     var onClickListener: SetOnClickListener? = null
 
     interface SetOnClickListener {
@@ -38,8 +39,15 @@ class LegheAdapter(val data: List<Lega>, val imagesVM: ImagesVM) : RecyclerView.
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val context = holder.row.context
-        holder.nomelega.text = data[position].name
-        holder.numeropartecipanti.text = "${data[position].numeropartecipanti} partecipanti"
+        if (inviti == false) {
+            holder.nomelega.text = data[position].name
+            holder.numeropartecipanti.text = "${data[position].numeropartecipanti} partecipanti"
+        }
+        if(inviti == true)
+        {
+            holder.nomelega.text = "Sei stato invitato dalla lega " + data[position].name
+            holder.numeropartecipanti.text = ""
+        }
         imagesVM.getLegaImage(context, data[position].image, holder.img)
         holder.itemView.setOnClickListener {
             onClickListener?.onClick(position, data[position])
