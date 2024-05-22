@@ -8,8 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.viewmodel.ImagesVM
 
-class InvitaGiocatoriAdapter(val data: ArrayList<Utente>) : RecyclerView.Adapter<InvitaGiocatoriAdapter.MyViewHolder>() {
+class InvitaGiocatoriAdapter(val data: ArrayList<Utente>, val imagesVM: ImagesVM) : RecyclerView.Adapter<InvitaGiocatoriAdapter.MyViewHolder>() {
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val nomeutente = row.findViewById<TextView>(R.id.username)
         val immagine = row.findViewById<ImageView>(R.id.profileimage)
@@ -27,6 +28,7 @@ class InvitaGiocatoriAdapter(val data: ArrayList<Utente>) : RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val context = holder.row.context
+        imagesVM.getProfilePic(context, data[position].id, holder.immagine)
         holder.nomeutente.text = data[position].username
     }
 
