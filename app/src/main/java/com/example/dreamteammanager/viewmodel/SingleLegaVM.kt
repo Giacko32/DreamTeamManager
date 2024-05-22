@@ -211,9 +211,7 @@ class SingleLegaVM:ViewModel() {
             }
         )
     }
-
-
-
+    
 }
 
     fun parseJsonToArrayUtenti(jsonString: String): ArrayList<Utente> {

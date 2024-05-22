@@ -25,6 +25,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.auth.AccessActivity
 import com.example.dreamteammanager.auth.LoginFragment
+import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.RegistraUtente
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.retrofit.Client
@@ -218,6 +219,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             }
         )
     }
+
     private val _stringaCredenziali = MutableLiveData<String?>()
     val stringaCredenziali: LiveData<String?>
         get() = _stringaCredenziali
@@ -226,7 +228,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         _stringaCredenziali.value = null
     }
 
-    fun modificaCredenzialiProfilo(email: String, username: String, id: Int){
+    fun modificaCredenzialiProfilo(email: String, username: String, id: Int) {
         val gson =
             JsonParser.parseString(parseModelToJson(ModifyCredenzialiProfile(email, username, id)))
         Client.retrofit.changeCredenzialiProfile(gson.asJsonObject).enqueue(
@@ -237,13 +239,16 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 ) {
                     if (response.isSuccessful) {
                         _stringaCredenziali.value = "Credenziali aggiornate"
-                        val utente =  parseJsonToModel(
+                        val utente = parseJsonToModel(
                             SharedPreferencesManager.getString(
                                 "utente",
                                 ""
                             )
                         )
-                        SharedPreferencesManager.saveString("utente",parseModelToJson(Utente(utente.id,username,utente.password, email)))
+                        SharedPreferencesManager.saveString(
+                            "utente",
+                            parseModelToJson(Utente(utente.id, username, utente.password, email))
+                        )
                     }
                 }
 
@@ -256,6 +261,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             }
         )
     }
+
     private val _disponibilitàModifica = MutableLiveData<Boolean?>()
     val disponibilitàModifica: LiveData<Boolean?>
         get() = _disponibilitàModifica
@@ -263,7 +269,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     init {
         _disponibilitàModifica.value = null
     }
-    fun checkModifica(email: String, username: String){
+
+    fun checkModifica(email: String, username: String) {
         Client.retrofit.checkDisponibilita(username, email).enqueue(
             object : Callback<JsonArray> {
                 override fun onResponse(
@@ -285,6 +292,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             }
         )
     }
+
     private val _modificaPassword = MutableLiveData<Boolean?>()
     val modificaPassword: LiveData<Boolean?>
         get() = _modificaPassword
@@ -293,7 +301,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         _modificaPassword.value = null
     }
 
-    fun changeProfilePassword(password: String, mail: String){
+    fun changeProfilePassword(password: String, mail: String) {
         val gson =
             JsonParser.parseString(parseModelToJson(ModifyPasswordProfile(password, mail)))
         Client.retrofit.cambiapassword(gson.asJsonObject).enqueue(
@@ -322,11 +330,44 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private fun isValidEmail(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
-}
-class Emailcode(val email: String, val codice: Int)
-class ModifyCredenzialiProfile(val email: String, val username : String, val id : Int)
 
-class ModifyPasswordProfile(val password: String, val email : String)
+    private val _InvitiOttenuti = MutableLiveData<Boolean?>()
+    val InvitiOttenuti: LiveData<Boolean?>
+        get() = _InvitiOttenuti
+    init {
+        _InvitiOttenuti.value = null
+    }
+
+    public fun getInvitiUtente(lista: ArrayList<Lega>) {
+        Client.retrofit.getInvitiUtente(_user.value!!.id).enqueue(object : Callback<JsonArray> {
+            override fun onResponse(
+                call: Call<JsonArray>, response:
+                Response<JsonArray>
+            ) {
+                if (response.isSuccessful) {
+                    lista.addAll(parseJsonToLeghe(response.body().toString()))
+                    _InvitiOttenuti.value = true
+                }
+            }
+
+            override fun onFailure(
+                call: Call<JsonArray>?, t:
+                Throwable?
+            ) {
+                _InvitiOttenuti.value = false
+            }
+
+        })
+
+    }
+
+}
+
+class Emailcode(val email: String, val codice: Int)
+class ModifyCredenzialiProfile(val email: String, val username: String, val id: Int)
+
+class ModifyPasswordProfile(val password: String, val email: String)
+
 fun parseJsonToModel(jsonString: String): Utente {
     val gson = Gson()
     return gson.fromJson(
@@ -334,7 +375,6 @@ fun parseJsonToModel(jsonString: String): Utente {
         object : com.google.gson.reflect.TypeToken<Utente>() {}.type
     )
 }
-
 
 
 fun parseModelToJson(utente: Any): String {
