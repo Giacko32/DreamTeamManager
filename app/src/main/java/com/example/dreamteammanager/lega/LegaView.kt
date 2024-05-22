@@ -85,9 +85,9 @@ class LegaView : Fragment() {
         singleLegaVM.utentiinvito.observe(viewLifecycleOwner){
             if(it==true){
                 var adapter:PartecipantiAdapter
-                val rvInvita = listaInvitaUtente.findViewById<RecyclerView>(R.id.recycler_view_invita)
                 listaInvitaUtente.setContentView(R.layout.dialog_invita_giocatore)
                 listaInvitaUtente.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                val rvInvita = listaInvitaUtente.findViewById<RecyclerView>(R.id.recycler_view_invita)
                 listaInvitaUtente.findViewById<ImageView>(R.id.search_icon).setOnClickListener{
                      val testo=listaInvitaUtente.findViewById<EditText>(R.id.searched).text.toString()
                     singleLegaVM.setinvitatiFiltrato(testo)
