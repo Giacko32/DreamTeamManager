@@ -1,14 +1,15 @@
 package com.example.dreamteammanager.lega
 
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
@@ -21,17 +22,16 @@ import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Competizione
 import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
-import com.example.dreamteammanager.competizione.CompetizioneActivity
 import com.example.dreamteammanager.competizione.CompetizioniAdapter
 import com.example.dreamteammanager.competizione.CreaCompetizioneFragment
 import com.example.dreamteammanager.databinding.FragmentLegaviewBinding
-import com.example.dreamteammanager.main.LegheAdapter
 import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.SingleLegaVM
 import com.example.dreamteammanager.viewmodel.parseJsonToLega
 import com.example.dreamteammanager.viewmodel.parseJsonToModel
 import com.google.gson.Gson
+import kotlin.math.sin
 
 
 class LegaView : Fragment() {
@@ -39,6 +39,7 @@ class LegaView : Fragment() {
     private val singleLegaVM: SingleLegaVM by activityViewModels()
     private val imagesVM: ImagesVM by viewModels()
     lateinit var utente:Utente
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -70,30 +71,31 @@ class LegaView : Fragment() {
                 lista.add(Competizione(0, "competizione a caso", "motogp", 0))
             }
             val adapter = CompetizioniAdapter(lista)
-            adapter.setonclick(object : CompetizioniAdapter.SetOnClickListener {
-                override fun onClick(position: Int, competizione: Competizione) {
-                    val competizioneintent = Intent(requireActivity(), CompetizioneActivity::class.java)
-                    startActivity(competizioneintent)
-                }
-            })
             rv.layoutManager = LinearLayoutManager(context)
             rv.adapter = adapter
             listaCompetizioni.show()
         }
 
         val listaInvitaUtente = Dialog(requireActivity())
+
         binding.invitaButton.setOnClickListener{
             singleLegaVM.getutentiinivito()
 
         }
         singleLegaVM.utentiinvito.observe(viewLifecycleOwner){
             if(it==true){
+                var adapter:PartecipantiAdapter
+                val rvInvita = listaInvitaUtente.findViewById<RecyclerView>(R.id.recycler_view_invita)
                 listaInvitaUtente.setContentView(R.layout.dialog_invita_giocatore)
                 listaInvitaUtente.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                listaInvitaUtente.findViewById<ImageView>(R.id.search_icon)
-                val rvInvita = listaInvitaUtente.findViewById<RecyclerView>(R.id.recycler_view_invita)
-                val adapter = InvitaGiocatoriAdapter(singleLegaVM.invitati.value!!, imagesVM)
-                rvInvita.layoutManager = LinearLayoutManager(context)
+                listaInvitaUtente.findViewById<ImageView>(R.id.search_icon).setOnClickListener{
+                     val testo=listaInvitaUtente.findViewById<EditText>(R.id.searched).text.toString()
+                    singleLegaVM.setinvitatiFiltrato(testo)
+                    adapter=PartecipantiAdapter(singleLegaVM.invitatifiltrato.value!!,false,imagesVM,null)
+                    rvInvita.adapter = adapter
+                }
+                rvInvita.layoutManager = LinearLayoutManager(requireActivity())
+                adapter=PartecipantiAdapter(singleLegaVM.invitati.value!!,false,imagesVM,null)
                 rvInvita.adapter = adapter
                 singleLegaVM.resetutentiinvito()
                 listaInvitaUtente.show()

@@ -1,11 +1,18 @@
 package com.example.dreamteammanager.viewmodel
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.lega.InvitaGiocatoriAdapter
+import com.example.dreamteammanager.lega.LegaActivity
+import com.example.dreamteammanager.lega.PartecipantiAdapter
+import com.example.dreamteammanager.main.LegheAdapter
 import com.example.dreamteammanager.retrofit.Client
 import com.google.gson.Gson
 import com.google.gson.JsonArray
@@ -211,6 +218,27 @@ class SingleLegaVM:ViewModel() {
             }
         )
     }
+    private val _invitatifiltrato=MutableLiveData<ArrayList<Utente>>()
+    val invitatifiltrato:LiveData<ArrayList<Utente>>
+        get()=_invitatifiltrato
+    init {
+        _invitatifiltrato.value= arrayListOf()
+    }
+    fun setinvitatiFiltrato(filtro:String){
+        _invitatifiltrato.value!!.clear()
+        invitati.value!!.forEach{
+            Log.d("invitati",filtro)
+            if(it.username.contains(filtro)){
+                _invitatifiltrato.value?.add(it)
+
+            }
+
+        }
+        Log.d("invitati",_invitatifiltrato.value.toString())
+
+    }
+
+
 
 
 
