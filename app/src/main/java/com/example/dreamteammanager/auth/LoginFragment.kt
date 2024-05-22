@@ -90,8 +90,8 @@ class LoginFragment : Fragment() {
 
 
         binding.LoginButton.setOnClickListener {
-            val username = binding.usernametext.text.toString()
-            val password = binding.passwordtext.text.toString()
+            val username = binding.usernametext.text.toString().trimEnd()
+            val password = binding.passwordtext.text.toString().trimEnd()
             userviewModel.failogin(username, password)
         }
 

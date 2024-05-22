@@ -2,10 +2,12 @@ package com.example.dreamteammanager.retrofit
 
 import com.example.dreamteammanager.viewmodel.Emailcode
 import com.example.dreamteammanager.viewmodel.ModifyCredenzialiProfile
+import com.example.dreamteammanager.viewmodel.UtenteLega
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -67,7 +69,10 @@ interface UserAPI {
     fun getPartecipanti(@Path("idlega") idlega: Int): Call<JsonArray>
     @GET("pwm/getrichiedenti/{idlega}")
     fun getrichiedenti(@Path("idlega") idlega: Int): Call<JsonArray>
-
+    @PUT("/pwm/accettautente")
+    fun accettautente(@Body utenteLega: JsonObject): Call<JsonObject>
+    @PUT("/pwm/rifiutautente")
+    fun rifiutautente(@Body utenteLega: JsonObject): Call<JsonObject>
 
     companion object {
         const val BASE_URL = "http://192.168.133.165:9000"

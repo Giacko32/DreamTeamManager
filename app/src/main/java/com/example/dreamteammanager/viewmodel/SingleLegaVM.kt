@@ -9,6 +9,8 @@ import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.retrofit.Client
 import com.google.gson.Gson
 import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -95,10 +97,82 @@ class SingleLegaVM:ViewModel() {
         )
 
     }
+    private val _accettando = MutableLiveData<Boolean?>()
+    val accettando: LiveData<Boolean?>
+        get() = _accettando
 
-    fun setLega(lega: Lega){
-        _lega.value = lega
+    init {
+        _accettando.value = null
     }
+    fun resetaccettando(){
+        _accettando.value=null
+    }
+    fun accettautente(idutente:Int){
+        _accettando.value=true
+        val gson =
+            JsonParser.parseString(parseModelToJson(UtenteLegaPart(idutente, _lega.value!!.id,_lega.value!!.numeropartecipanti)))
+        Client.retrofit.accettautente(gson.asJsonObject).enqueue(object : Callback<JsonObject> {
+            override fun onResponse(
+                call: Call<JsonObject>, response:
+                Response<JsonObject>
+            ) {
+                if (response.isSuccessful) {
+                    _accettando.value = false
+                }
+            }
+
+            override fun onFailure(
+                call: Call<JsonObject>?, t:
+                Throwable?
+            ) {
+
+            }
+        })
+    }
+    fun eliminarichiedente(idutente: Int){
+        richiedenti.value?.forEach{ utente->
+            if(utente.id==idutente){
+                _richiedenti.value?.removeAt(richiedenti.value!!.indexOf(utente))
+            }
+        }
+    }
+    private val _caricadati = MutableLiveData<Boolean?>()
+    val caricadati: LiveData<Boolean?>
+        get() = _caricadati
+
+    init {
+        _caricadati.value = null
+    }
+    fun resetcaricadati(){
+        _caricadati.value=null
+    }
+    fun updatecaricadati(){
+        _caricadati.value=true
+    }
+    fun rifiutautente(idutente: Int){
+        val gson =
+            JsonParser.parseString(parseModelToJson(UtenteLega(idutente, _lega.value!!.id)))
+        Client.retrofit.rifiutautente(gson.asJsonObject).enqueue(
+            object : Callback<JsonObject> {
+            override fun onResponse(
+                call: Call<JsonObject>, response:
+                Response<JsonObject>
+            ) {
+                if (response.isSuccessful) {
+
+                }
+            }
+
+            override fun onFailure(
+                call: Call<JsonObject>?, t:
+                Throwable?
+            ) {
+
+            }
+        })
+
+    }
+
 
 }
 
@@ -109,3 +183,4 @@ class SingleLegaVM:ViewModel() {
             object : com.google.gson.reflect.TypeToken<ArrayList<Utente>>() {}.type
         )
     }
+class UtenteLegaPart(val idutente:Int,val idlega:Int,val npart:Int)
