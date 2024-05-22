@@ -1,6 +1,9 @@
 package com.example.dreamteammanager.main
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -81,7 +84,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.option_3 -> {
-
+                    val invitiDialog = Dialog(this)
+                    invitiDialog.setContentView(R.layout.dialog_inviti)
+                    invitiDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    invitiDialog.show()
                 }
             }
             true
