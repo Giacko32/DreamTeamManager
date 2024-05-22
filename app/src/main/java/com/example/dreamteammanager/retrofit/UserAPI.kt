@@ -61,21 +61,29 @@ interface UserAPI {
 
     @POST("pwm/insertImage")
     fun insertImage(@Body userimage: JsonObject): Call<JsonObject>
+
     @PUT("pwm/changeProfileData")
     fun changeCredenzialiProfile(
         @Body modifyCredenzialiProfile: JsonObject
     ): Call<JsonObject>
+
     @GET("pwm/getPartecipanti/{idlega}")
     fun getPartecipanti(@Path("idlega") idlega: Int): Call<JsonArray>
+
     @GET("pwm/getrichiedenti/{idlega}")
     fun getrichiedenti(@Path("idlega") idlega: Int): Call<JsonArray>
+
     @PUT("pwm/accettautente")
     fun accettautente(@Body utenteLega: JsonObject): Call<JsonObject>
+
     @PUT("pwm/rifiutautente")
     fun rifiutautente(@Body utenteLega: JsonObject): Call<JsonObject>
+
     @GET("pwm/getnonpartecipanti/{idlega}")
     fun getnonpartecipanti(@Path("idlega") idlega: Int): Call<JsonArray>
 
+    @GET("pwm/getInviti/{id}")
+    fun getInvitiUtente(@Path("id") id: Int): Call<JsonArray>
     companion object {
         const val BASE_URL = "http://192.168.133.165:9000"
     }

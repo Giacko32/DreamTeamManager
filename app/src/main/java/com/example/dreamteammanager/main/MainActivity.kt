@@ -24,18 +24,25 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.dreamteammanager.main.MainFragment
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.auth.AccessActivity
+import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.databinding.ActivityMainBinding
+import com.example.dreamteammanager.databinding.DialogInvitiBinding
+import com.example.dreamteammanager.lega.PartecipantiAdapter
+import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.UserViewModel
 
 
 class MainActivity : AppCompatActivity() {
     private val userviewModel: UserViewModel by viewModels()
+    private val imagesVM: ImagesVM by viewModels()
     lateinit var binding: ActivityMainBinding
+    lateinit var invitiBinding: DialogInvitiBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -84,6 +91,15 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.option_3 -> {
+                    val listaInviti = arrayListOf<Lega>()
+                    userviewModel.getInvitiUtente(listaInviti)
+                    userviewModel.InvitiOttenuti.observe(this){
+                        if(it == true)
+                        {
+                            Log.d("INVITI", listaInviti[0].name)
+                        }
+                    }
+                    invitiBinding = DialogInvitiBinding.inflate(layoutInflater)
                     val invitiDialog = Dialog(this)
                     invitiDialog.setContentView(R.layout.dialog_inviti)
                     invitiDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
