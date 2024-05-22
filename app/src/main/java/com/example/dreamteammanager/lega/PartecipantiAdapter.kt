@@ -10,10 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.main.LegheAdapter
 import com.example.dreamteammanager.viewmodel.ImagesVM
 
 class PartecipantiAdapter(val data: ArrayList<Utente>, val selectable: Boolean, val imagesVM: ImagesVM) :
     RecyclerView.Adapter<PartecipantiAdapter.MyViewHolder>() {
+    var onClickListener: SetOnClickListener? = null
+
+    interface SetOnClickListener {
+        fun onClick(position: Int, utente: Utente)
+    }
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val nomeutente = row.findViewById<TextView>(R.id.username)
         val immagine = row.findViewById<ImageView>(R.id.profileimage)
@@ -39,8 +45,15 @@ class PartecipantiAdapter(val data: ArrayList<Utente>, val selectable: Boolean, 
         } else {
             holder.selector.visibility = View.GONE
         }
+        holder.itemView.setOnClickListener {
+            onClickListener?.onClick(position, data[position])
+            notifyDataSetChanged()
+        }
     }
 
     override fun getItemCount(): Int = data.size
+    fun setonclick(onClickListener: SetOnClickListener) {
+        this.onClickListener = onClickListener
+    }
 
 }

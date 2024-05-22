@@ -25,6 +25,7 @@ import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.SingleLegaVM
 import com.example.dreamteammanager.viewmodel.parseJsonToLega
+import com.example.dreamteammanager.viewmodel.parseJsonToModel
 import com.google.gson.Gson
 
 
@@ -32,6 +33,7 @@ class LegaView : Fragment() {
     lateinit var binding: FragmentLegaviewBinding
     private val singleLegaVM: SingleLegaVM by activityViewModels()
     private val imagesVM: ImagesVM by viewModels()
+    lateinit var utente:Utente
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,6 +41,15 @@ class LegaView : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        utente= parseJsonToModel(SharedPreferencesManager.getString("utente",""))
+        if(utente.id!=singleLegaVM.lega.value!!.id_amministratore)
+        {
+            binding.invitaButton.visibility = View.GONE
+            binding.CreaCompetizioneButton.visibility = View.GONE
+            binding.VisualizzaRichiesteButton.visibility = View.GONE
+        }
+
         binding.nomelega.text = singleLegaVM.lega.value!!.name
         singleLegaVM.getPartecipanti()
         imagesVM.getLegaImage(requireContext(), singleLegaVM.lega.value!!.image, binding.imageView)
