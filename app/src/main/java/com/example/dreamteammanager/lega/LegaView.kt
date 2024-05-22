@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -72,18 +74,24 @@ class LegaView : Fragment() {
 
         val listaInvitaUtente = Dialog(requireActivity())
         binding.invitaButton.setOnClickListener{
-            listaInvitaUtente.setContentView(R.layout.dialog_invita_giocatore)
-            listaInvitaUtente.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            val rvInvita = listaInvitaUtente.findViewById<RecyclerView>(R.id.recycler_view_invita)
-            val listaGiocatori = ArrayList<Utente>()
-            for(i in 1..50)
-            {
-                listaGiocatori.add(Utente(username = "Username", password = "password", id = 1, email = "email"))
+            singleLegaVM.getutentiinivito()
+
+        }
+        singleLegaVM.utentiinvito.observe(viewLifecycleOwner){
+            if(it==true){
+                listaInvitaUtente.setContentView(R.layout.dialog_invita_giocatore)
+                listaInvitaUtente.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                listaInvitaUtente.findViewById<ImageView>(R.id.search_icon)
+                val rvInvita = listaInvitaUtente.findViewById<RecyclerView>(R.id.recycler_view_invita)
+                val adapter = InvitaGiocatoriAdapter(singleLegaVM.invitati.value!!)
+                rvInvita.layoutManager = LinearLayoutManager(context)
+                rvInvita.adapter = adapter
+                singleLegaVM.resetutentiinvito()
+                listaInvitaUtente.show()
+                binding.progressBar.visibility=View.GONE
+            }else if(it==false){
+                binding.progressBar.visibility=View.VISIBLE
             }
-            val adapter = InvitaGiocatoriAdapter(listaGiocatori)
-            rvInvita.layoutManager = LinearLayoutManager(context)
-            rvInvita.adapter = adapter
-            listaInvitaUtente.show()
         }
 
 

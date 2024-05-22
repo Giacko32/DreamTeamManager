@@ -173,6 +173,46 @@ class SingleLegaVM:ViewModel() {
 
     }
 
+    private val _utentiinivito = MutableLiveData<Boolean?>()
+    val utentiinvito: LiveData<Boolean?>
+        get() = _utentiinivito
+
+    init {
+        _utentiinivito.value = null
+    }
+    fun resetutentiinvito(){
+        _utentiinivito.value=null
+    }
+    private val _invitanti=MutableLiveData<ArrayList<Utente>>()
+    val invitati:LiveData<ArrayList<Utente>> = _invitanti
+    init {
+        _invitanti.value=ArrayList()
+    }
+    fun getutentiinivito(){
+        _utentiinivito.value=false
+        _invitanti.value?.clear()
+        Client.retrofit.getnonpartecipanti(lega.value!!.id).enqueue(
+            object : Callback<JsonArray> {
+                override fun onResponse(
+                    call: Call<JsonArray>, response:
+                    Response<JsonArray>
+                ) {
+                    if (response.isSuccessful) {
+                        _invitanti.value = parseJsonToArrayUtenti(response.body().toString())
+                        _utentiinivito.value=true
+                    }
+                }
+                override fun onFailure(
+                    call: Call<JsonArray>?, t:
+                    Throwable?
+                ) {
+
+                }
+            }
+        )
+    }
+
+
 
 }
 
