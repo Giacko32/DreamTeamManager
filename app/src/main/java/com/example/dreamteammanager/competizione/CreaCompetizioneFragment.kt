@@ -43,6 +43,7 @@ class CreaCompetizioneFragment : Fragment() {
 
         compViewModel.setCompetizione(Competizione(0, "", "Serie A", 0))
         compViewModel.setSport("Serie A")
+        binding.sportgroup.check(R.id.serieAbox)
 
         val adapter = PartecipantiAdapter(singleLegaVM.partecipanti.value!!, true, imagesVM, null)
         binding.listaUserSelectable.layoutManager = LinearLayoutManager(context)
