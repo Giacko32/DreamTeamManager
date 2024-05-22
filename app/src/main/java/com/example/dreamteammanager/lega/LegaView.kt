@@ -92,7 +92,7 @@ class LegaView : Fragment() {
                 binding.progressBar.visibility = View.VISIBLE
             }
             else if(it==false){
-                val adapter = PartecipantiAdapter(singleLegaVM.partecipanti.value!!, false, imagesVM)
+                val adapter = PartecipantiAdapter(singleLegaVM.partecipanti.value!!, false, imagesVM, singleLegaVM.lega.value!!.id_amministratore)
                 binding.recview.layoutManager = LinearLayoutManager(context)
                 binding.recview.adapter = adapter
                 binding.progressBar.visibility = View.GONE

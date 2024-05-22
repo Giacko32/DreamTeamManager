@@ -68,7 +68,7 @@ class RichiesteFragment : Fragment() {
         }
         singleLegaVM.caricadati.observe(viewLifecycleOwner){
             if(it==true){
-                val adapter = PartecipantiAdapter(singleLegaVM.richiedenti.value!!, false, imagesVM)
+                val adapter = PartecipantiAdapter(singleLegaVM.richiedenti.value!!, false, imagesVM, null)
                 adapter.setonclick(object : PartecipantiAdapter.SetOnClickListener {
                     override fun onClick(position: Int, utente: Utente) {
                         binding.progressBar.visibility = View.GONE
