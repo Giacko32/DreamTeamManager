@@ -1,6 +1,7 @@
 package com.example.dreamteammanager.lega
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -22,9 +23,11 @@ import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Competizione
 import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.competizione.CompetizioneActivity
 import com.example.dreamteammanager.competizione.CompetizioniAdapter
 import com.example.dreamteammanager.competizione.CreaCompetizioneFragment
 import com.example.dreamteammanager.databinding.FragmentLegaviewBinding
+import com.example.dreamteammanager.main.LegheAdapter
 import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.SingleLegaVM
@@ -71,6 +74,12 @@ class LegaView : Fragment() {
                 lista.add(Competizione(0, "competizione a caso", "motogp", 0))
             }
             val adapter = CompetizioniAdapter(lista)
+            adapter.setonclick(object : CompetizioniAdapter.SetOnClickListener {
+                override fun onClick(position: Int, competizione: Competizione) {
+                    val compintent = Intent(requireActivity(), CompetizioneActivity::class.java)
+                    startActivity(compintent)
+                }
+            })
             rv.layoutManager = LinearLayoutManager(context)
             rv.adapter = adapter
             listaCompetizioni.show()

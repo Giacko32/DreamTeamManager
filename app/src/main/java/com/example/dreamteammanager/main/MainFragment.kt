@@ -54,7 +54,6 @@ class MainFragment : Fragment() {
                 ""
             )
         )
-        Log.d("UTENTEBESTIA", utente.id.toString())
         legheVM.resetcheckrichiesta()
         legheVM.scaricaleghe(utente.id)
         val creaLegaDialog = Dialog(requireActivity())
