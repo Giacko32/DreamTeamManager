@@ -84,8 +84,14 @@ interface UserAPI {
 
     @GET("pwm/getInviti/{id}")
     fun getInvitiUtente(@Path("id") id: Int): Call<JsonArray>
+    @POST("pwm/invitautente")
+    fun invitautente(@Body utenteLega: JsonObject): Call<JsonObject>
+    @PUT("pwm/accettainvito")
+    fun accettainvito(@Body utenteLega: JsonObject): Call<JsonObject>
+    @PUT("pwm/rifiuttainvito")
+    fun rifiuttainvito(@Body utenteLega: JsonObject): Call<JsonObject>
 
     companion object {
-        const val BASE_URL = "http://192.168.118.139:9000"
+        const val BASE_URL = "http://192.168.133.165:9000"
     }
 }

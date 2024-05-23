@@ -347,6 +347,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         _listaInviti.value = arrayListOf()
     }
 
+
     public fun getInvitiUtente() {
         Client.retrofit.getInvitiUtente(_user.value!!.id).enqueue(object : Callback<JsonArray> {
             override fun onResponse(
@@ -372,6 +373,12 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     public fun resetInvitiOttenuti() {
         _InvitiOttenuti.value = null
+    }
+    fun accettainvito(idlega:Int,idutente:Int){
+
+    }
+    fun rifiutainvito(idlega:Int,idutente:Int){
+
     }
 
 }

@@ -22,21 +22,26 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SingleLegaVM:ViewModel() {
+class SingleLegaVM : ViewModel() {
 
-    private val _lega= MutableLiveData<Lega?>()
+    private val _lega = MutableLiveData<Lega?>()
     val lega: LiveData<Lega?> = _lega
+
     init {
-        _lega.value=null
+        _lega.value = null
     }
-    fun setlega(lega:Lega){
-        _lega.value=lega
+
+    fun setlega(lega: Lega) {
+        _lega.value = lega
     }
-    private val _partecipanti=MutableLiveData<ArrayList<Utente>>()
-    val partecipanti:LiveData<ArrayList<Utente>> = _partecipanti
+
+    private val _partecipanti = MutableLiveData<ArrayList<Utente>>()
+    val partecipanti: LiveData<ArrayList<Utente>> = _partecipanti
+
     init {
-        _partecipanti.value=ArrayList()
+        _partecipanti.value = ArrayList()
     }
+
     private val _scaricando = MutableLiveData<Boolean?>()
     val scaricando: LiveData<Boolean?>
         get() = _scaricando
@@ -44,11 +49,13 @@ class SingleLegaVM:ViewModel() {
     init {
         _scaricando.value = null
     }
-    fun resetscaricando(){
-        _scaricando.value=null
+
+    fun resetscaricando() {
+        _scaricando.value = null
     }
-    fun getPartecipanti(){
-        _scaricando.value=true
+
+    fun getPartecipanti() {
+        _scaricando.value = true
         _partecipanti.value?.clear()
         Client.retrofit.getPartecipanti(_lega.value!!.id).enqueue(
             object : Callback<JsonArray> {
@@ -71,10 +78,12 @@ class SingleLegaVM:ViewModel() {
             }
         )
     }
-    private val _richiedenti=MutableLiveData<ArrayList<Utente>>()
-    val richiedenti:LiveData<ArrayList<Utente>> = _richiedenti
+
+    private val _richiedenti = MutableLiveData<ArrayList<Utente>>()
+    val richiedenti: LiveData<ArrayList<Utente>> = _richiedenti
+
     init {
-        _richiedenti.value=ArrayList()
+        _richiedenti.value = ArrayList()
     }
 
 
@@ -88,7 +97,7 @@ class SingleLegaVM:ViewModel() {
                     Response<JsonArray>
                 ) {
                     if (response.isSuccessful) {
-                        Log.d("richiedenti",response.body().toString())
+                        Log.d("richiedenti", response.body().toString())
                         _richiedenti.value = parseJsonToArrayUtenti(response.body().toString())
                         _scaricando.value = false
                     }
@@ -104,6 +113,7 @@ class SingleLegaVM:ViewModel() {
         )
 
     }
+
     private val _accettando = MutableLiveData<Boolean?>()
     val accettando: LiveData<Boolean?>
         get() = _accettando
@@ -111,13 +121,23 @@ class SingleLegaVM:ViewModel() {
     init {
         _accettando.value = null
     }
-    fun resetaccettando(){
-        _accettando.value=null
+
+    fun resetaccettando() {
+        _accettando.value = null
     }
-    fun accettautente(idutente:Int){
-        _accettando.value=true
+
+    fun accettautente(idutente: Int) {
+        _accettando.value = true
         val gson =
-            JsonParser.parseString(parseModelToJson(UtenteLegaPart(idutente, _lega.value!!.id,_lega.value!!.numeropartecipanti)))
+            JsonParser.parseString(
+                parseModelToJson(
+                    UtenteLegaPart(
+                        idutente,
+                        _lega.value!!.id,
+                        _lega.value!!.numeropartecipanti
+                    )
+                )
+            )
         Client.retrofit.accettautente(gson.asJsonObject).enqueue(object : Callback<JsonObject> {
             override fun onResponse(
                 call: Call<JsonObject>, response:
@@ -136,13 +156,15 @@ class SingleLegaVM:ViewModel() {
             }
         })
     }
-    fun eliminarichiedente(idutente: Int){
-        richiedenti.value?.forEach{ utente->
-            if(utente.id==idutente){
+
+    fun eliminarichiedente(idutente: Int) {
+        richiedenti.value?.forEach { utente ->
+            if (utente.id == idutente) {
                 _richiedenti.value?.removeAt(richiedenti.value!!.indexOf(utente))
             }
         }
     }
+
     private val _caricadati = MutableLiveData<Boolean?>()
     val caricadati: LiveData<Boolean?>
         get() = _caricadati
@@ -150,33 +172,36 @@ class SingleLegaVM:ViewModel() {
     init {
         _caricadati.value = null
     }
-    fun resetcaricadati(){
-        _caricadati.value=null
+
+    fun resetcaricadati() {
+        _caricadati.value = null
     }
-    fun updatecaricadati(){
-        _caricadati.value=true
+
+    fun updatecaricadati() {
+        _caricadati.value = true
     }
-    fun rifiutautente(idutente: Int){
+
+    fun rifiutautente(idutente: Int) {
         val gson =
             JsonParser.parseString(parseModelToJson(UtenteLega(idutente, _lega.value!!.id)))
         Client.retrofit.rifiutautente(gson.asJsonObject).enqueue(
             object : Callback<JsonObject> {
-            override fun onResponse(
-                call: Call<JsonObject>, response:
-                Response<JsonObject>
-            ) {
-                if (response.isSuccessful) {
+                override fun onResponse(
+                    call: Call<JsonObject>, response:
+                    Response<JsonObject>
+                ) {
+                    if (response.isSuccessful) {
+
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonObject>?, t:
+                    Throwable?
+                ) {
 
                 }
-            }
-
-            override fun onFailure(
-                call: Call<JsonObject>?, t:
-                Throwable?
-            ) {
-
-            }
-        })
+            })
 
     }
 
@@ -187,16 +212,20 @@ class SingleLegaVM:ViewModel() {
     init {
         _utentiinivito.value = null
     }
-    fun resetutentiinvito(){
-        _utentiinivito.value=null
+
+    fun resetutentiinvito() {
+        _utentiinivito.value = null
     }
-    private val _invitanti=MutableLiveData<ArrayList<Utente>>()
-    val invitati:LiveData<ArrayList<Utente>> = _invitanti
+
+    private val _invitanti = MutableLiveData<ArrayList<Utente>>()
+    val invitati: LiveData<ArrayList<Utente>> = _invitanti
+
     init {
-        _invitanti.value=ArrayList()
+        _invitanti.value = ArrayList()
     }
-    fun getutentiinivito(){
-        _utentiinivito.value=false
+
+    fun getutentiinivito() {
+        _utentiinivito.value = false
         _invitanti.value?.clear()
         Client.retrofit.getnonpartecipanti(lega.value!!.id).enqueue(
             object : Callback<JsonArray> {
@@ -206,9 +235,10 @@ class SingleLegaVM:ViewModel() {
                 ) {
                     if (response.isSuccessful) {
                         _invitanti.value = parseJsonToArrayUtenti(response.body().toString())
-                        _utentiinivito.value=true
+                        _utentiinivito.value = true
                     }
                 }
+
                 override fun onFailure(
                     call: Call<JsonArray>?, t:
                     Throwable?
@@ -218,37 +248,100 @@ class SingleLegaVM:ViewModel() {
             }
         )
     }
-    private val _invitatifiltrato=MutableLiveData<ArrayList<Utente>>()
-    val invitatifiltrato:LiveData<ArrayList<Utente>>
-        get()=_invitatifiltrato
+
+    private val _invitatifiltrato = MutableLiveData<ArrayList<Utente>>()
+    val invitatifiltrato: LiveData<ArrayList<Utente>>
+        get() = _invitatifiltrato
+
     init {
-        _invitatifiltrato.value= arrayListOf()
+        _invitatifiltrato.value = arrayListOf()
     }
-    fun setinvitatiFiltrato(filtro:String){
+
+    private val _filtrati = MutableLiveData<Boolean>()
+    val filtrati: LiveData<Boolean>
+        get() = _filtrati
+
+    init {
+        _filtrati.value = false
+    }
+    fun updatefiltrati() {
+        _filtrati.value = true
+    }
+    fun resetfiltrati() {
+        _filtrati.value = false
+    }
+
+
+    fun setinvitatiFiltrato(filtro: String) {
         _invitatifiltrato.value!!.clear()
-        invitati.value!!.forEach{
-            Log.d("invitati",filtro)
-            if(it.username.contains(filtro)){
+        invitati.value!!.forEach {
+            Log.d("invitati", filtro)
+            if (it.username.contains(filtro)) {
                 _invitatifiltrato.value?.add(it)
 
             }
 
         }
-        Log.d("invitati",_invitatifiltrato.value.toString())
-
+    }
+    fun eliminainvitato(idutente: Int) {
+        var index:Int=0
+        invitati.value?.forEach { utente ->
+            if (utente.id == idutente) {
+                index=invitati.value!!.indexOf(utente)
+            }
+        }
+        invitati.value?.removeAt(index)
     }
 
+    private val _invitando = MutableLiveData<Boolean?>()
+    val invitando: LiveData<Boolean?>
+        get() = _invitando
+
+    init {
+        _invitando.value = null
+    }
+    fun resetinvitando() {
+        _invitando.value = null
+    }
+
+    fun invitautente(idutente: Int) {
+        _invitando.value = true
+        val body = Gson().fromJson(
+            parseModelToJson(UtenteLega(idutente, _lega.value!!.id)),
+            JsonObject::class.java
+        )
+        Client.retrofit.invitautente(body).enqueue(
+            object : Callback<JsonObject> {
+                override fun onResponse(
+                    call: Call<JsonObject>, response:
+                    Response<JsonObject>
+                ) {
+                    if (response.isSuccessful) {
+                        _invitando.value = false
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonObject>?, t:
+                    Throwable?
+                ) {
+                    _invitando.value = false
+                }
+            }
+        )
 
 
+    }
 
 
 }
 
-    fun parseJsonToArrayUtenti(jsonString: String): ArrayList<Utente> {
-        val gson = Gson()
-        return gson.fromJson(
-            jsonString,
-            object : com.google.gson.reflect.TypeToken<ArrayList<Utente>>() {}.type
-        )
-    }
-class UtenteLegaPart(val idutente:Int,val idlega:Int,val npart:Int)
+fun parseJsonToArrayUtenti(jsonString: String): ArrayList<Utente> {
+    val gson = Gson()
+    return gson.fromJson(
+        jsonString,
+        object : com.google.gson.reflect.TypeToken<ArrayList<Utente>>() {}.type
+    )
+}
+
+class UtenteLegaPart(val idutente: Int, val idlega: Int, val npart: Int)

@@ -91,7 +91,6 @@ class LegaView : Fragment() {
                 replace<InvitaFragment>(R.id.legafragmentcontainer)
                 addToBackStack("Invita")
             }
-
         }
 
         singleLegaVM.scaricando.observe(viewLifecycleOwner){

@@ -10,6 +10,8 @@ import android.os.Parcelable
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.annotation.MenuRes
@@ -100,9 +102,28 @@ class MainActivity : AppCompatActivity() {
                     val rcview = invitiDialog.findViewById<RecyclerView>(R.id.recviewInviti)
                     userviewModel.InvitiOttenuti.observe(this) {
                         if (it == true) {
-
                             val adapter =
                                 LegheAdapter(userviewModel.listaInviti.value!!, imagesVM, true)
+                            adapter.setonclick(object :LegheAdapter.SetOnClickListener{
+                                override fun onClick(position: Int, lega: Lega) {
+                                    val InvitaDialog= Dialog(this@MainActivity)
+                                    InvitaDialog.setContentView(R.layout.fragment_custom_dialog)
+                                    InvitaDialog.findViewById<TextView>(R.id.dialogTitle).setText(
+                                        "Vuoi invitare nella lega ${lega.name}?"
+                                    )
+                                    InvitaDialog.findViewById<Button>(R.id.yesButton).setOnClickListener {
+                                        userviewModel.accettainvito(lega.id,userviewModel.user.value!!.id)
+                                        InvitaDialog.dismiss()
+                                        invitiDialog.dismiss()
+                                    }
+                                    InvitaDialog.findViewById<Button>(R.id.noButton).setOnClickListener {
+                                        userviewModel.rifiutainvito(lega.id,userviewModel.user.value!!.id)
+                                        InvitaDialog.dismiss()
+                                        invitiDialog.dismiss()
+                                    }
+                                    InvitaDialog.show()
+                                }
+                            })
                             rcview.adapter = adapter
                             userviewModel.resetInvitiOttenuti()
                             invitiDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

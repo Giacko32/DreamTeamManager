@@ -1,5 +1,6 @@
 package com.example.dreamteammanager.lega
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,7 @@ class PartecipantiAdapter(val data: ArrayList<Utente>, val selectable: Boolean, 
         return MyViewHolder(layout)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val context = holder.row.context
         holder.nomeutente.text = data[position].username
@@ -54,6 +56,7 @@ class PartecipantiAdapter(val data: ArrayList<Utente>, val selectable: Boolean, 
         }
         holder.itemView.setOnClickListener {
             onClickListener?.onClick(position, data[position])
+            notifyDataSetChanged()
         }
     }
 
