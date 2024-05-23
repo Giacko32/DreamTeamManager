@@ -49,6 +49,7 @@
                     android:layout_margin="20dp"
                     app:cardBackgroundColor="@color/arancione"
                     app:cardCornerRadius="250dp"
+                    app:layout_constraintBottom_toTopOf="@id/ClassificaButton"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/NomeComp">
@@ -69,6 +70,201 @@
                     </androidx.cardview.widget.CardView>
 
                 </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/CalcolaGiornataButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:backgroundTint="@color/blue"
+                    android:padding="10dp"
+                    android:text="Calcola Giornata"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:icon="@drawable/ph__calendar_duotone"
+                    app:iconGravity="end"
+                    app:iconSize="20dp"
+                    app:layout_constraintEnd_toStartOf="@+id/ClassificaButton"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ClassificaButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:backgroundTint="@color/arancione"
+                    android:padding="10dp"
+                    android:text="Classifica"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:icon="@drawable/ic__twotone_star"
+                    app:iconGravity="end"
+                    app:iconSize="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+                <TextView
+                    android:id="@+id/textpartecipanti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="Partecipanti:"
+                    android:textColor="@color/arancione"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/barrier1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ClassificaButton" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="textpartecipanti" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recViewComp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/shapelightblue"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    app:layout_constraintBottom_toTopOf="@id/barrier2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/barrier1" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="top"
+                    app:constraint_referenced_ids="RoseButton" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/RoseButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:backgroundTint="@color/arancione"
+                    android:padding="10dp"
+                    android:text="Rose"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:icon="@drawable/mdi__cards"
+                    app:iconGravity="end"
+                    app:iconSize="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.58" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/CaricaGiocatoriButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:backgroundTint="@color/blue"
+                    android:padding="10dp"
+                    android:text="Carica Giocatori"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:icon="@drawable/ph__user_circle_plus_duotone"
+                    app:iconGravity="end"
+                    app:iconSize="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/RoseButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.58" />
+
+                <TextView
+                    android:id="@+id/textformazione"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="30dp"
+                    android:text="Formazioni:"
+                    android:textColor="@color/arancione"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/barrier3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/CaricaGiocatoriButton" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="textformazione" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recViewFormazione"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/shape"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    app:layout_constraintBottom_toTopOf="@id/barrier4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/barrier3" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="top"
+                    app:constraint_referenced_ids="StatisticheButton" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/StatisticheButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:backgroundTint="@color/arancione"
+                    android:padding="10dp"
+                    android:text="Statistiche giocatori"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:icon="@drawable/iconoir__graph_up"
+                    app:iconGravity="end"
+                    app:iconSize="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/InsertFormazioneButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:backgroundTint="@color/arancione"
+                    android:padding="10dp"
+                    android:text="Inserisci"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:icon="@drawable/baseline_add_24"
+                    app:iconGravity="end"
+                    app:iconSize="20dp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textformazione"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
