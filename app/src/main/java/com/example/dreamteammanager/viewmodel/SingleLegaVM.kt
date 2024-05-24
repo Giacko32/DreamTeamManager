@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dreamteammanager.classi.Competizione
 import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.lega.InvitaGiocatoriAdapter
@@ -333,6 +334,49 @@ class SingleLegaVM : ViewModel() {
 
     }
 
+    private val _listapartcompiti = MutableLiveData<ArrayList<Utente>>()
+    val listapartcompiti: LiveData<ArrayList<Utente>> = _listapartcompiti
+    init {
+        _listapartcompiti.value = ArrayList()
+    }
+    private val _creando = MutableLiveData<Boolean?>()
+    val creando: LiveData<Boolean?>
+        get() = _creando
+
+    init {
+        _creando.value = null
+    }
+    fun resetcreando() {
+        _creando.value = null
+    }
+    fun creacompetizione(competizione: Competizione){
+        _creando.value=true
+        val body = Gson().fromJson(
+            parseModelToJson(CompezioneLegaPart(competizione, _lega.value!!.id,listapartcompiti.value!!)),
+            JsonObject::class.java
+        )
+        Client.retrofit.creacomp(body).enqueue(
+            object : Callback<JsonObject> {
+                override fun onResponse(
+                    call: Call<JsonObject>, response:
+                    Response<JsonObject>
+                ) {
+                    if (response.isSuccessful) {
+                        _creando.value = false
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonObject>?, t:
+                    Throwable?
+                ) {
+                    _creando.value = false
+                }
+            }
+        )
+
+    }
+
 
 }
 
@@ -345,3 +389,4 @@ fun parseJsonToArrayUtenti(jsonString: String): ArrayList<Utente> {
 }
 
 class UtenteLegaPart(val idutente: Int, val idlega: Int, val npart: Int)
+class CompezioneLegaPart(val competizione: Competizione,val idlega: Int, val part:ArrayList<Utente>)

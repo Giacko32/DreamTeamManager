@@ -1,5 +1,6 @@
 package com.example.dreamteammanager.retrofit
 
+import com.example.dreamteammanager.viewmodel.CompezioneLegaPart
 import com.example.dreamteammanager.viewmodel.Emailcode
 import com.example.dreamteammanager.viewmodel.ModifyCredenzialiProfile
 import com.example.dreamteammanager.viewmodel.UtenteLega
@@ -86,9 +87,11 @@ interface UserAPI {
     fun getInvitiUtente(@Path("id") id: Int): Call<JsonArray>
     @POST("pwm/invitautente")
     fun invitautente(@Body utenteLega: JsonObject): Call<JsonObject>
+    @POST("pwm/creacomp")
+    fun creacomp(@Body compezioneLegaPart: JsonObject): Call<JsonObject>
 
 
     companion object {
-        const val BASE_URL = "http://192.168.118.139:9000"
+        const val BASE_URL = "http://192.168.133.165:9000"
     }
 }

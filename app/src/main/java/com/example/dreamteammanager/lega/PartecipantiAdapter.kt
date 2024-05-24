@@ -9,18 +9,28 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
-import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
-import com.example.dreamteammanager.main.LegheAdapter
 import com.example.dreamteammanager.viewmodel.ImagesVM
 
-class PartecipantiAdapter(val data: ArrayList<Utente>, val selectable: Boolean, val imagesVM: ImagesVM, val id_amm: Int?) :
+class PartecipantiAdapter(
+    val data: ArrayList<Utente>,
+    val selectable: Boolean,
+    val imagesVM: ImagesVM,
+    val id_amm: Int?
+) :
     RecyclerView.Adapter<PartecipantiAdapter.MyViewHolder>() {
     var onClickListener: SetOnClickListener? = null
+    var onItemCheckListener: OnItemCheckListener? = null
+
+    interface OnItemCheckListener {
+        fun onItemCheck(utente: Utente)
+        fun onItemUncheck(utente: Utente)
+    }
 
     interface SetOnClickListener {
         fun onClick(position: Int, utente: Utente)
     }
+
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val nomeutente = row.findViewById<TextView>(R.id.username)
         val immagine = row.findViewById<ImageView>(R.id.profileimage)
@@ -42,9 +52,8 @@ class PartecipantiAdapter(val data: ArrayList<Utente>, val selectable: Boolean, 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val context = holder.row.context
         holder.nomeutente.text = data[position].username
-        if(id_amm != null){
-            if(data[position].id == id_amm)
-            {
+        if (id_amm != null) {
+            if (data[position].id == id_amm) {
                 holder.star.visibility = View.VISIBLE
             }
         }
@@ -58,11 +67,21 @@ class PartecipantiAdapter(val data: ArrayList<Utente>, val selectable: Boolean, 
             onClickListener?.onClick(position, data[position])
             notifyDataSetChanged()
         }
+        holder.selector.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                onItemCheckListener?.onItemCheck(data[position])
+            } else {
+                onItemCheckListener?.onItemUncheck(data[position])
+            }
+        }
     }
-
     override fun getItemCount(): Int = data.size
     fun setonclick(onClickListener: SetOnClickListener) {
         this.onClickListener = onClickListener
+    }
+
+    fun setonItemCheckListener(onItemCheckListener: OnItemCheckListener) {
+        this.onItemCheckListener = onItemCheckListener
     }
 
 }

@@ -8,7 +8,7 @@ import com.example.dreamteammanager.classi.Competizione
 
 class CompetizioniVM: ViewModel(){
 
-    private val _competizione = MutableLiveData<Competizione?>()
+    private var _competizione = MutableLiveData<Competizione?>()
     val competizione: LiveData<Competizione?>
         get() = _competizione
     init {
@@ -30,5 +30,9 @@ class CompetizioniVM: ViewModel(){
     public fun setSport( s: String)
     {
         _sport.value = s
+        _competizione.value?.sport=s
+    }
+    public fun setnome( s: String){
+        _competizione.value?.nome=s
     }
 }
