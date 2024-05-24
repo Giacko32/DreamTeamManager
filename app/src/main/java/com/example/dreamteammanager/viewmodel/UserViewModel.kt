@@ -374,11 +374,66 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     public fun resetInvitiOttenuti() {
         _InvitiOttenuti.value = null
     }
-    fun accettainvito(idlega:Int,idutente:Int){
+    private val _accettando=MutableLiveData<Boolean?>()
+    val accettando: LiveData<Boolean?>
+        get() = _accettando
+    init {
+        _accettando.value=null
+    }
+    fun resetaccettando(){
+        _accettando.value=null
+    }
+    fun accettainvito(idlega:Int,idutente:Int,npart:Int){
+        _accettando.value=true
+        val body = Gson().fromJson(
+            parseModelToJson(UtenteLegaPart(idutente,idlega,npart)),
+            JsonObject::class.java
+        )
+        Client.retrofit.accettautente(body).enqueue(
+            object : Callback<JsonObject> {
+                override fun onResponse(
+                    call: Call<JsonObject>, response:
+                    Response<JsonObject>
+                ) {
+                    if (response.isSuccessful) {
+                        _accettando.value = false
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonObject>?, t:
+                    Throwable?
+                ) {
+                    _accettando.value = false
+                }
+            }
+        )
 
     }
     fun rifiutainvito(idlega:Int,idutente:Int){
+        val body = Gson().fromJson(
+            parseModelToJson(UtenteLega(idutente,idlega)),
+            JsonObject::class.java
+        )
+        Client.retrofit.rifiutautente(body).enqueue(
+            object : Callback<JsonObject> {
+                override fun onResponse(
+                    call: Call<JsonObject>, response:
+                    Response<JsonObject>
+                ) {
+                    if (response.isSuccessful) {
 
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonObject>?, t:
+                    Throwable?
+                ) {
+
+                }
+            }
+        )
     }
 
 }

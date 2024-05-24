@@ -36,6 +36,7 @@ import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.databinding.ActivityMainBinding
 import com.example.dreamteammanager.databinding.DialogInvitiBinding
+import com.example.dreamteammanager.lega.LegaActivity
 import com.example.dreamteammanager.lega.PartecipantiAdapter
 import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
@@ -112,9 +113,20 @@ class MainActivity : AppCompatActivity() {
                                         "Vuoi invitare nella lega ${lega.name}?"
                                     )
                                     InvitaDialog.findViewById<Button>(R.id.yesButton).setOnClickListener {
-                                        userviewModel.accettainvito(lega.id,userviewModel.user.value!!.id)
+                                        userviewModel.accettainvito(lega.id,userviewModel.user.value!!.id,lega.numeropartecipanti)
                                         InvitaDialog.dismiss()
                                         invitiDialog.dismiss()
+                                        userviewModel.accettando.observe(this@MainActivity){
+                                            if(it==false){
+                                                binding.progressBar.visibility=View.GONE
+                                                userviewModel.resetaccettando()
+                                                val legaintent = Intent(this@MainActivity, LegaActivity::class.java)
+                                                legaintent.putExtra("lega", lega)
+                                                startActivity(legaintent)
+                                            }else if(it==true){
+                                                binding.progressBar.visibility=View.VISIBLE
+                                            }
+                                        }
                                     }
                                     InvitaDialog.findViewById<Button>(R.id.noButton).setOnClickListener {
                                         userviewModel.rifiutainvito(lega.id,userviewModel.user.value!!.id)
@@ -144,6 +156,7 @@ class MainActivity : AppCompatActivity() {
         popup.setForceShowIcon(true)
         popup.show()
     }
+
 
     override fun onStop() {
         super.onStop()
