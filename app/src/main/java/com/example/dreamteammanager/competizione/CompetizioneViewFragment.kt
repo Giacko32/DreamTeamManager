@@ -88,31 +88,36 @@ class CompetizioneViewFragment : Fragment() {
                     )
                     calcoladialog.dismiss()
                 }
-                compVM.calcolando.observe(viewLifecycleOwner) {
-                    if (it == true) {
-                        binding.progressBar.visibility = View.VISIBLE
-                    } else if (it == false) {
-                        binding.progressBar.visibility = View.GONE
-                        val alertDialog = AlertDialog.Builder(
-                            requireContext(),
-                            androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
-                        ).create()
-                        alertDialog.setTitle("SUCCESSO")
-                        alertDialog.setMessage("Hai correttamento calcolato la giornata")
-                        alertDialog.setButton(
-                            AlertDialog.BUTTON_POSITIVE, "OK",
-                        ) { dialog, which ->
-                            dialog.dismiss()
-                        }
-                        compVM.resetcalcolando()
-                        calcoladialog.dismiss()
-                    }
-                }
                 calcoladialog.show()
                 compVM.resetprendendo()
+
+            }
+        }
+        compVM.calcolando.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else if (it == false) {
+                binding.progressBar.visibility = View.GONE
+                calcoladialog.dismiss()
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("SUCCESSO")
+                alertDialog.setMessage("Hai correttamento calcolato la giornata")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_POSITIVE, "OK",
+                ) { dialog, which ->
+                    dialog.dismiss()
+                }
+                alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    .setTextColor(Color.parseColor("#ff5722"))
+                compVM.resetcalcolando()
             }
         }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
