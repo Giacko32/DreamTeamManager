@@ -93,6 +93,8 @@ interface UserAPI {
     fun getcomp(@Path("idlega")idlega: Int):Call<JsonArray>
     @GET("pwm/getpart/{idcomp}")
     fun getpart(@Path("idcomp")idcomp: Int):Call<JsonArray>
+    @GET("pwm/getgiornatedacalcolare/{idcomp}")
+    fun getgiornatedacalcolare(@Path("idcomp")idcomp: Int):Call<JsonArray>
 
 
     companion object {
