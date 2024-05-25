@@ -4,6 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.dreamteammanager.classi.Competizione
+import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.retrofit.Client
+import com.google.gson.JsonArray
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class CompetizioniVM: ViewModel(){
@@ -13,6 +19,15 @@ class CompetizioniVM: ViewModel(){
         get() = _competizione
     init {
         _competizione.value = null
+    }
+    private val _idamm= MutableLiveData<Int?>()
+    val idamm: LiveData<Int?>
+        get() = _idamm
+    init {
+        _idamm.value = null
+    }
+    fun setidamm(id: Int){
+        _idamm.value = id
     }
 
     private val _sport = MutableLiveData<String?>()
@@ -34,5 +49,47 @@ class CompetizioniVM: ViewModel(){
     }
     public fun setnome( s: String){
         _competizione.value?.nome=s
+    }
+    private val _partecipanti = MutableLiveData<ArrayList<Utente>>()
+    val partecipanti: LiveData<ArrayList<Utente>> = _partecipanti
+
+    init {
+        _partecipanti.value = ArrayList()
+    }
+
+    private val _scaricando = MutableLiveData<Boolean?>()
+    val scaricando: LiveData<Boolean?>
+        get() = _scaricando
+
+    init {
+        _scaricando.value = null
+    }
+
+    fun resetscaricando() {
+        _scaricando.value = null
+    }
+    fun getpartecipanti(){
+        _scaricando.value=true
+        _partecipanti.value?.clear()
+        Client.retrofit.getpart(competizione.value!!.id).enqueue(
+            object : Callback<JsonArray> {
+                override fun onResponse(
+                    call: Call<JsonArray>, response:
+                    Response<JsonArray>
+                ) {
+                    if (response.isSuccessful) {
+                        _partecipanti.value = parseJsonToArrayUtenti(response.body().toString())
+                        _scaricando.value = false
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonArray>?, t:
+                    Throwable?
+                ) {
+
+                }
+            }
+        )
     }
 }

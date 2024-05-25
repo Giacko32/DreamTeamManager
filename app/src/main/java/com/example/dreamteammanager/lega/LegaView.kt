@@ -81,6 +81,7 @@ class LegaView : Fragment() {
                     override fun onClick(position: Int, competizione: Competizione) {
                         val compintent = Intent(requireActivity(), CompetizioneActivity::class.java)
                         compintent.putExtra("competizione", competizione)
+                        compintent.putExtra("idamm", singleLegaVM.lega.value!!.id_amministratore)
                         startActivity(compintent)
                     }
                 })
