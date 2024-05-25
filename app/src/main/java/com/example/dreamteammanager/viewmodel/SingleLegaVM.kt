@@ -376,6 +376,45 @@ class SingleLegaVM : ViewModel() {
         )
 
     }
+    private val _listacompetizioni = MutableLiveData<ArrayList<Competizione>>()
+    val listacompetizioni: LiveData<ArrayList<Competizione>> = _listacompetizioni
+    init {
+        _listacompetizioni.value = ArrayList()
+    }
+    private val _scarcomp = MutableLiveData<Boolean?>()
+    val scarcomp: LiveData<Boolean?>
+        get() = _scarcomp
+
+    init {
+        _scarcomp.value = null
+    }
+    fun resetcomp() {
+        _scarcomp.value = null
+    }
+    fun getcompetizioni(){
+        _scarcomp.value=true
+        Client.retrofit.getcomp(lega.value!!.id).enqueue(
+            object : Callback<JsonArray> {
+                override fun onResponse(
+                    call: Call<JsonArray>, response:
+                    Response<JsonArray>
+                ) {
+                    if (response.isSuccessful) {
+                        _listacompetizioni.value = parseJsonToArrayComp(response.body().toString())
+                        _scarcomp.value = false
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonArray>?, t:
+                    Throwable?
+                ) {
+                    _scarcomp.value = false
+
+                }
+            }
+        )
+    }
 
 
 }
@@ -385,6 +424,13 @@ fun parseJsonToArrayUtenti(jsonString: String): ArrayList<Utente> {
     return gson.fromJson(
         jsonString,
         object : com.google.gson.reflect.TypeToken<ArrayList<Utente>>() {}.type
+    )
+}
+fun parseJsonToArrayComp(jsonString: String): ArrayList<Competizione> {
+    val gson = Gson()
+    return gson.fromJson(
+        jsonString,
+        object : com.google.gson.reflect.TypeToken<ArrayList<Competizione>>() {}.type
     )
 }
 

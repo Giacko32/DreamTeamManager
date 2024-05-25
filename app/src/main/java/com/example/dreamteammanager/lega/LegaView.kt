@@ -65,24 +65,30 @@ class LegaView : Fragment() {
         val listaCompetizioni = Dialog(requireActivity())
 
         binding.CompetizioniButton.setOnClickListener{
-            listaCompetizioni.setContentView(R.layout.dialog_lista_competizioni)
-            listaCompetizioni.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            val rv = listaCompetizioni.findViewById<RecyclerView>(R.id.recviewcomp)
-            val lista = ArrayList<Competizione>(0)
-            for(i in 1..10)
-            {
-                lista.add(Competizione(0, "competizione a caso", "motogp", 0))
+            singleLegaVM.getcompetizioni()
+        }
+
+        singleLegaVM.scarcomp.observe(viewLifecycleOwner){
+            if(it==true){
+                binding.progressBar.visibility = View.VISIBLE
+            }else if(it==false){
+                binding.progressBar.visibility = View.GONE
+                listaCompetizioni.setContentView(R.layout.dialog_lista_competizioni)
+                listaCompetizioni.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                val rv = listaCompetizioni.findViewById<RecyclerView>(R.id.recviewcomp)
+                val adapter = CompetizioniAdapter(singleLegaVM.listacompetizioni.value!!)
+                adapter.setonclick(object : CompetizioniAdapter.SetOnClickListener {
+                    override fun onClick(position: Int, competizione: Competizione) {
+                        val compintent = Intent(requireActivity(), CompetizioneActivity::class.java)
+                        compintent.putExtra("competizione", competizione)
+                        startActivity(compintent)
+                    }
+                })
+                rv.layoutManager = LinearLayoutManager(context)
+                rv.adapter = adapter
+                singleLegaVM.resetcomp()
+                listaCompetizioni.show()
             }
-            val adapter = CompetizioniAdapter(lista)
-            adapter.setonclick(object : CompetizioniAdapter.SetOnClickListener {
-                override fun onClick(position: Int, competizione: Competizione) {
-                    val compintent = Intent(requireActivity(), CompetizioneActivity::class.java)
-                    startActivity(compintent)
-                }
-            })
-            rv.layoutManager = LinearLayoutManager(context)
-            rv.adapter = adapter
-            listaCompetizioni.show()
         }
 
         binding.invitaButton.setOnClickListener{

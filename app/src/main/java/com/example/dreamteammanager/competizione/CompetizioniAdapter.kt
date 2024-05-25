@@ -36,6 +36,12 @@ class CompetizioniAdapter(val data: ArrayList<Competizione>) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val context = holder.row.context
+        holder.nomecompetizione.text = data[position].nome
+        when (data[position].sport) {
+            "Serie A"->holder.immagine.setImageResource(R.drawable.seriealogo)
+            "MotoGP"->holder.immagine.setImageResource(R.drawable.motogplogo)
+            "Formula Uno"->holder.immagine.setImageResource(R.drawable.formula_1)
+        }
         holder.itemView.setOnClickListener {
             onClickListener?.onClick(position, data[position])
         }
