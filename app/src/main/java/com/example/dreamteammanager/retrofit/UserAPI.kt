@@ -96,8 +96,16 @@ interface UserAPI {
     @GET("pwm/getgiornatedacalcolare/{idcomp}")
     fun getgiornatedacalcolare(@Path("idcomp")idcomp: Int):Call<JsonArray>
 
+    @GET("pwm/getultimegiornate/{id_utente}")
+    fun getultimegiornate(@Path("id_utente")id_utente: Int):Call<JsonArray>
+
+    @GET("pwm/getultimegiornateverificate/{id_utente}")
+    fun getgiornateverificate(@Path("id_utente")id_utente: Int):Call<JsonArray>
+
+    @PUT("pwm/aggiornaVerifiedGiornata")
+    fun aggiornaVerifiedGiornata(@Body UtenteCompGiornata: JsonObject): Call<JsonObject>
 
     companion object {
-        const val BASE_URL = "http://192.168.133.165:9000"
+        const val BASE_URL = "http://192.168.118.139:9000"
     }
 }
