@@ -95,6 +95,8 @@ interface UserAPI {
     fun getpart(@Path("idcomp")idcomp: Int):Call<JsonArray>
     @GET("pwm/getgiornatedacalcolare/{idcomp}")
     fun getgiornatedacalcolare(@Path("idcomp")idcomp: Int):Call<JsonArray>
+    @POST("pwm/calcolagiornata")
+    fun calcolagiornata(@Body compezionegiornata: JsonObject):Call<JsonObject>
 
 
     companion object {
