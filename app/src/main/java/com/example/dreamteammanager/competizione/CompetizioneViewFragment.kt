@@ -12,9 +12,13 @@ import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.databinding.FragmentCompetizioneViewBinding
 import com.example.dreamteammanager.lega.PartecipantiAdapter
@@ -115,6 +119,76 @@ class CompetizioneViewFragment : Fragment() {
                     .setTextColor(Color.parseColor("#ff5722"))
                 compVM.resetcalcolando()
             }
+        }
+        val classificaDialog = Dialog(requireContext())
+        binding.ClassificaButton.setOnClickListener {
+            classificaDialog.setContentView(R.layout.dialog_classifica)
+            classificaDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val recyclerView = classificaDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
+
+            // inizializzare l'adapter
+            val adapter = ClassificaAdapter()
+
+
+            recyclerView.adapter = adapter
+
+            classificaDialog.show()
+        }
+
+        val statisticheDialog = Dialog(requireContext())
+        binding.StatisticheButton.setOnClickListener {
+            statisticheDialog.setContentView(R.layout.dialog_statistiche)
+            statisticheDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val recyclerView = classificaDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
+
+            // inizializzare l'adapter
+            val adapter = StatisticheAdapter()
+
+
+            recyclerView.adapter = adapter
+
+            statisticheDialog.show()
+        }
+
+        binding.InsertFormazioneButton.setOnClickListener {
+            if(compVM.competizione.value?.sport == "Serie A"){
+                val formazionefragment = parentFragmentManager.findFragmentByTag("FORMAZIONE")
+                if (formazionefragment == null) {
+                    parentFragmentManager.commit {
+                        setReorderingAllowed(true)
+                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        replace<InserisciFormazioneFragment>(R.id.fragmentContainerView, "FORMAZIONE")
+                        addToBackStack("Formazione Fragment")
+                    }
+                }
+
+            }else if(compVM.competizione.value?.sport == "MotoGP" || compVM.competizione.value?.sport == "Formula Uno"){
+                val grigliafragment = parentFragmentManager.findFragmentByTag("GRIGLIA")
+                if (grigliafragment == null) {
+                    parentFragmentManager.commit {
+                        setReorderingAllowed(true)
+                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        replace<InserisciGrigliaFragment>(R.id.fragmentContainerView, "FORMAZIONE")
+                        addToBackStack("Griglia Fragment")
+                    }
+                }
+            }else{
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("ERRORE")
+                alertDialog.setMessage("Qualcosa è andata storto")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_POSITIVE, "OK",
+                ) { dialog, which ->
+                    dialog.dismiss()
+                }
+                alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    .setTextColor(Color.parseColor("#ff5722"))
+            }
+
         }
     }
 
