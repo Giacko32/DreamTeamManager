@@ -46,10 +46,10 @@ class InserisciFormazioneFragment : Fragment() {
             val recyclerView = formazioneDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
 
             // inizializzare l'adapter
-            val adapter = InserisciFormazioneAdapter()
+            //val adapter = InserisciFormazioneAdapter()
 
 
-            recyclerView.adapter = adapter
+            //recyclerView.adapter = adapter
 
             formazioneDialog.show()
         }
@@ -60,10 +60,10 @@ class InserisciFormazioneFragment : Fragment() {
             val recyclerView = formazioneDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
 
             // inizializzare l'adapter
-            val adapter = InserisciFormazioneAdapter()
+            //val adapter = InserisciFormazioneAdapter()
 
 
-            recyclerView.adapter = adapter
+            //recyclerView.adapter = adapter
 
             formazioneDialog.show()
         }
@@ -73,10 +73,10 @@ class InserisciFormazioneFragment : Fragment() {
             val recyclerView = formazioneDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
 
             // inizializzare l'adapter
-            val adapter = InserisciFormazioneAdapter()
+            //val adapter = InserisciFormazioneAdapter()
 
 
-            recyclerView.adapter = adapter
+            //recyclerView.adapter = adapter
 
             formazioneDialog.show()
         }
@@ -86,10 +86,10 @@ class InserisciFormazioneFragment : Fragment() {
             val recyclerView = formazioneDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
 
             // inizializzare l'adapter
-            val adapter = InserisciFormazioneAdapter()
+            //val adapter = InserisciFormazioneAdapter()
 
 
-            recyclerView.adapter = adapter
+            //recyclerView.adapter = adapter
 
             formazioneDialog.show()
         }
@@ -100,10 +100,10 @@ class InserisciFormazioneFragment : Fragment() {
             val recyclerView = formazioneDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
 
             // inizializzare l'adapter
-            val adapter = InserisciFormazioneAdapter()
+            //val adapter = InserisciFormazioneAdapter()
 
 
-            recyclerView.adapter = adapter
+            //recyclerView.adapter = adapter
 
             formazioneDialog.show()
         }
@@ -114,10 +114,10 @@ class InserisciFormazioneFragment : Fragment() {
             val recyclerView = formazioneDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
 
             // inizializzare l'adapter
-            val adapter = InserisciFormazioneAdapter()
+            //val adapter = InserisciFormazioneAdapter()
 
 
-            recyclerView.adapter = adapter
+            //recyclerView.adapter = adapter
 
             formazioneDialog.show()
         }
@@ -128,10 +128,10 @@ class InserisciFormazioneFragment : Fragment() {
             val recyclerView = formazioneDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
 
             // inizializzare l'adapter
-            val adapter = InserisciFormazioneAdapter()
+            //val adapter = InserisciFormazioneAdapter()
 
 
-            recyclerView.adapter = adapter
+            //recyclerView.adapter = adapter
 
             formazioneDialog.show()
         }
@@ -142,10 +142,10 @@ class InserisciFormazioneFragment : Fragment() {
             val recyclerView = formazioneDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
 
             // inizializzare l'adapter
-            val adapter = InserisciFormazioneAdapter()
+           //val adapter = InserisciFormazioneAdapter()
 
 
-            recyclerView.adapter = adapter
+            //recyclerView.adapter = adapter
 
             formazioneDialog.show()
         }
@@ -156,10 +156,10 @@ class InserisciFormazioneFragment : Fragment() {
             val recyclerView = formazioneDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
 
             // inizializzare l'adapter
-            val adapter = InserisciFormazioneAdapter()
+            //val adapter = InserisciFormazioneAdapter()
 
 
-            recyclerView.adapter = adapter
+            //recyclerView.adapter = adapter
 
             formazioneDialog.show()
         }
@@ -170,10 +170,10 @@ class InserisciFormazioneFragment : Fragment() {
             val recyclerView = formazioneDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
 
             // inizializzare l'adapter
-            val adapter = InserisciFormazioneAdapter()
+            //val adapter = InserisciFormazioneAdapter()
 
 
-            recyclerView.adapter = adapter
+            //recyclerView.adapter = adapter
 
             formazioneDialog.show()
         }
@@ -183,10 +183,8 @@ class InserisciFormazioneFragment : Fragment() {
             val recyclerView = formazioneDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
 
             // inizializzare l'adapter
-            val adapter = InserisciFormazioneAdapter()
-
-
-            recyclerView.adapter = adapter
+            //val adapter = InserisciFormazioneAdapter()
+            //recyclerView.adapter = adapter
 
             formazioneDialog.show()
         }

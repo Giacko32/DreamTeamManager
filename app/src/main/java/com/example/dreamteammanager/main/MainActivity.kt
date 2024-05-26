@@ -36,6 +36,7 @@ import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.databinding.ActivityMainBinding
 import com.example.dreamteammanager.lega.LegaActivity
+import com.example.dreamteammanager.notification.NotificaAccetazioneLega
 import com.example.dreamteammanager.notification.NotificaCaricamentoGiornata
 import com.example.dreamteammanager.notification.NotificaInattivita
 import com.example.dreamteammanager.viewmodel.ImagesVM
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
     private fun avviaNotifiche() {
         WorkManager.getInstance(this).cancelAllWorkByTag("inactivity_notification")
         WorkManager.getInstance(this).cancelAllWorkByTag("giornata_notification")
+        WorkManager.getInstance(this).cancelAllWorkByTag("accettazione_notification")
         val notificationInattivita =
             PeriodicWorkRequestBuilder<NotificaInattivita>(24, TimeUnit.HOURS).setInitialDelay(
                 15,
@@ -60,14 +62,24 @@ class MainActivity : AppCompatActivity() {
                 .addTag("inactivity_notification")
                 .build()
         val notificationGiornata =
-            PeriodicWorkRequestBuilder<NotificaCaricamentoGiornata>(15, TimeUnit.MINUTES).setInitialDelay(
+            PeriodicWorkRequestBuilder<NotificaCaricamentoGiornata>(
+                15,
+                TimeUnit.MINUTES
+            ).setInitialDelay(
                 15,
                 TimeUnit.SECONDS
             )
                 .addTag("giornata_notification")
                 .build()
+
+        val notificationAccettazione = PeriodicWorkRequestBuilder<NotificaAccetazioneLega>(
+            15,
+            TimeUnit.MINUTES
+        ).setInitialDelay(15, TimeUnit.SECONDS).addTag("accettazione_notification").build()
+
         WorkManager.getInstance(this).enqueue(notificationInattivita)
         WorkManager.getInstance(this).enqueue(notificationGiornata)
+        WorkManager.getInstance(this).enqueue(notificationAccettazione)
     }
 
     private val requestPermissionLauncher =

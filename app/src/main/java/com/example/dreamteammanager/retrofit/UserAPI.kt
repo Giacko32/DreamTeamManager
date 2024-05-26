@@ -107,7 +107,10 @@ interface UserAPI {
     @PUT("pwm/aggiornaVerifiedGiornata")
     fun aggiornaVerifiedGiornata(@Body UtenteCompGiornata: JsonObject): Call<JsonObject>
 
+    @GET("pwm/getAccettazioniNotify/{id_utente}")
+    fun getAccettazioniNotify(@Path("id_utente")id_utente: Int):Call<JsonArray>
+
     companion object {
-        const val BASE_URL = "http://192.168.133.165:9000"
+        const val BASE_URL = "http://192.168.1.13:9000"
     }
 }

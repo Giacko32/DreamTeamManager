@@ -61,10 +61,10 @@ class InserisciGrigliaFragment : Fragment() {
             val recyclerView = grigliaDialog.findViewById<RecyclerView>(R.id.recviewsceglipiloti)
 
             // inizializzare l'adapter
-            val adapter = InserisciGrigliaAdapter()
+            //val adapter = InserisciGrigliaAdapter()
 
 
-            recyclerView.adapter = adapter
+            //recyclerView.adapter = adapter
 
             grigliaDialog.show()
         }
@@ -75,10 +75,10 @@ class InserisciGrigliaFragment : Fragment() {
             val recyclerView = grigliaDialog.findViewById<RecyclerView>(R.id.recviewsceglipiloti)
 
             // inizializzare l'adapter
-            val adapter = InserisciGrigliaAdapter()
+            //val adapter = InserisciGrigliaAdapter()
 
 
-            recyclerView.adapter = adapter
+            //recyclerView.adapter = adapter
 
             grigliaDialog.show()
         }

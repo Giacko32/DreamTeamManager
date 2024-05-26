@@ -127,10 +127,10 @@ class CompetizioneViewFragment : Fragment() {
             val recyclerView = classificaDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
 
             // inizializzare l'adapter
-            val adapter = ClassificaAdapter()
+            //val adapter = ClassificaAdapter()
 
 
-            recyclerView.adapter = adapter
+            //recyclerView.adapter = adapter
 
             classificaDialog.show()
         }
@@ -142,10 +142,10 @@ class CompetizioneViewFragment : Fragment() {
             val recyclerView = classificaDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
 
             // inizializzare l'adapter
-            val adapter = StatisticheAdapter()
+            //val adapter = StatisticheAdapter()
 
 
-            recyclerView.adapter = adapter
+            //recyclerView.adapter = adapter
 
             statisticheDialog.show()
         }
