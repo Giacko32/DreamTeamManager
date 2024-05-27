@@ -205,6 +205,16 @@ class CompetizioneViewFragment : Fragment() {
             }
 
         }
+
+        binding.CaricaGiocatoriButton.setOnClickListener {
+            parentFragmentManager.commit {
+                setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                replace<CaricaGiocatoriFragment>(R.id.competizioni_cont_view, "CARICAGIOCATORI")
+                addToBackStack("LoadGiocatori")
+            }
+        }
+
     }
 
 
