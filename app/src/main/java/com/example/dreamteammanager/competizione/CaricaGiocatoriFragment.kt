@@ -101,6 +101,8 @@ class CaricaGiocatoriFragment : Fragment() {
                                 choiceDialog.show()
                             }
                         })
+                        recv.layoutManager = LinearLayoutManager(context)
+                        recv.adapter=adapter2
                         selectDialog.show()
                     }
                 })
