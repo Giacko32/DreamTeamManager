@@ -110,6 +110,12 @@ interface UserAPI {
     @GET("pwm/getAccettazioniNotify/{id_utente}")
     fun getAccettazioniNotify(@Path("id_utente")id_utente: Int):Call<JsonArray>
 
+    @GET("pwm/getClassifica/{id_cmp}")
+    fun getClassifica(@Path("id_cmp")id_cmp: Int):Call<JsonArray>
+
+    @GET("pwm/getStatistica/")
+    fun getStatistica():Call<JsonArray>
+
     companion object {
         const val BASE_URL = "http://192.168.1.13:9000"
     }

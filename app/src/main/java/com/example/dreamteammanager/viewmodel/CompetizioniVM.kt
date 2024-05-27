@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.dreamteammanager.classi.Competizione
+import com.example.dreamteammanager.classi.GiocatoreStatistiche
 import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.classi.UtentePunteggio
 import com.example.dreamteammanager.retrofit.Client
 import com.google.gson.Gson
 import com.google.gson.JsonArray
@@ -183,6 +185,99 @@ class CompetizioniVM : ViewModel() {
             }
         )
     }
+
+    private val _scaricandoclassifica = MutableLiveData<Boolean?>()
+    val scaricandoclassifica: LiveData<Boolean?>
+        get() = _scaricandoclassifica
+
+    init {
+        _scaricandoclassifica.value = null
+    }
+
+    fun resetscaricandoclassifica() {
+        _scaricandoclassifica.value = null
+    }
+
+    private val _classifica = MutableLiveData<ArrayList<UtentePunteggio>>()
+    val classifica: LiveData<ArrayList<UtentePunteggio>> = _classifica
+
+    init {
+        _classifica.value = arrayListOf()
+    }
+
+    fun getClassifica() {
+        _scaricandoclassifica.value = true
+        _classifica.value?.clear()
+        Client.retrofit.getClassifica(competizione.value!!.id).enqueue(
+            object : Callback<JsonArray> {
+                override fun onResponse(
+                    call: Call<JsonArray>, response:
+                    Response<JsonArray>
+                ) {
+                    if (response.isSuccessful) {
+                        _classifica.value = parseJsonToArrayClassifica(response.body().toString())
+                        _scaricandoclassifica.value = false
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonArray>?, t:
+                    Throwable?
+                ) {
+                    _scaricandoclassifica.value = false
+                }
+            }
+        )
+    }
+
+    private val _scaricandostatistiche = MutableLiveData<Boolean?>()
+    val scaricandostatistiche: LiveData<Boolean?>
+        get() = _scaricandostatistiche
+
+    init {
+        _scaricandostatistiche.value = null
+    }
+
+    fun resetscaricandostatistiche() {
+        _scaricandostatistiche.value = null
+    }
+
+    private val _statistiche = MutableLiveData<ArrayList<GiocatoreStatistiche>>()
+    val statistiche: LiveData<ArrayList<GiocatoreStatistiche>> = _statistiche
+
+    init {
+        _statistiche.value = arrayListOf()
+    }
+
+
+    fun getStatistica() {
+        _scaricandostatistiche.value = true
+        _statistiche.value?.clear()
+        Client.retrofit.getStatistica().enqueue(
+            object : Callback<JsonArray> {
+                override fun onResponse(
+                    call: Call<JsonArray>, response:
+                    Response<JsonArray>
+                ) {
+                    if (response.isSuccessful) {
+                        _statistiche.value = parseJsonToArrayStatistica(response.body().toString())
+                        _scaricandostatistiche.value = false
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonArray>?, t:
+                    Throwable?
+                ) {
+                    _scaricandostatistiche.value = false
+                }
+            }
+        )
+    }
+
+
+
+
 }
 
     fun parseJsonToArrayInt(jsonString: String): ArrayList<Giornata> {
@@ -192,6 +287,20 @@ class CompetizioniVM : ViewModel() {
             object : com.google.gson.reflect.TypeToken<ArrayList<Giornata>>() {}.type
         )
     }
+fun parseJsonToArrayClassifica(jsonString: String): ArrayList<UtentePunteggio> {
+    val gson = Gson()
+    return gson.fromJson(
+        jsonString,
+        object : com.google.gson.reflect.TypeToken<ArrayList<UtentePunteggio>>() {}.type
+    )
+}
+fun parseJsonToArrayStatistica(jsonString: String): ArrayList<GiocatoreStatistiche> {
+    val gson = Gson()
+    return gson.fromJson(
+        jsonString,
+        object : com.google.gson.reflect.TypeToken<ArrayList<GiocatoreStatistiche>>() {}.type
+    )
+}
 
     class CompGiorn(val competizione: Competizione, val giornata: Int)
     class Giornata(val giornata: Int)

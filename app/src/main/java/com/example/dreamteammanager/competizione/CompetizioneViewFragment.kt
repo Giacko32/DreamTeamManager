@@ -122,56 +122,71 @@ class CompetizioneViewFragment : Fragment() {
         }
         val classificaDialog = Dialog(requireContext())
         binding.ClassificaButton.setOnClickListener {
-            classificaDialog.setContentView(R.layout.dialog_classifica)
-            classificaDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            val recyclerView = classificaDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
+            compVM.getClassifica()
 
-            // inizializzare l'adapter
-            //val adapter = ClassificaAdapter()
+        }
+        compVM.scaricandoclassifica.observe(requireActivity()){
+            if (it == true) {
+                binding.progressBar.visibility = View.VISIBLE
+            }else if (it == false){
+                binding.progressBar.visibility = View.GONE
+                classificaDialog.setContentView(R.layout.dialog_classifica)
+                classificaDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                val recyclerView = classificaDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
+
+                recyclerView.layoutManager = LinearLayoutManager(context)
+                val  adapter = ClassificaAdapter(compVM.classifica.value!!, imagesVM)
+                recyclerView.adapter = adapter
+                classificaDialog.show()
+                compVM.resetscaricandoclassifica()
+
+            }
 
 
-            //recyclerView.adapter = adapter
-
-            classificaDialog.show()
         }
 
         val statisticheDialog = Dialog(requireContext())
         binding.StatisticheButton.setOnClickListener {
-            statisticheDialog.setContentView(R.layout.dialog_statistiche)
-            statisticheDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            val recyclerView = classificaDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
+           compVM.getStatistica()
+        }
 
-            // inizializzare l'adapter
-            //val adapter = StatisticheAdapter()
+        compVM.scaricandostatistiche.observe(requireActivity()){
+            if (it == true) {
+                binding.progressBar.visibility = View.VISIBLE
+            }else if (it == false){
+                binding.progressBar.visibility = View.GONE
+                statisticheDialog.setContentView(R.layout.dialog_statistiche)
+                statisticheDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                val recyclerView = classificaDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
+
+                recyclerView.layoutManager = LinearLayoutManager(context)
+                val  adapter = StatisticheAdapter(compVM.statistiche.value!!, imagesVM)
+                recyclerView.adapter = adapter
+                statisticheDialog.show()
+                compVM.resetscaricandostatistiche()
+
+            }
 
 
-            //recyclerView.adapter = adapter
-
-            statisticheDialog.show()
         }
 
         binding.InsertFormazioneButton.setOnClickListener {
             if(compVM.competizione.value?.sport == "Serie A"){
-                val formazionefragment = parentFragmentManager.findFragmentByTag("FORMAZIONE")
-                if (formazionefragment == null) {
                     parentFragmentManager.commit {
                         setReorderingAllowed(true)
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         replace<InserisciFormazioneFragment>(R.id.fragmentContainerView, "FORMAZIONE")
                         addToBackStack("Formazione Fragment")
                     }
-                }
+
 
             }else if(compVM.competizione.value?.sport == "MotoGP" || compVM.competizione.value?.sport == "Formula Uno"){
-                val grigliafragment = parentFragmentManager.findFragmentByTag("GRIGLIA")
-                if (grigliafragment == null) {
                     parentFragmentManager.commit {
                         setReorderingAllowed(true)
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        replace<InserisciGrigliaFragment>(R.id.fragmentContainerView, "FORMAZIONE")
+                        replace<InserisciGrigliaFragment>(R.id.fragmentContainerView, "GRIGLIA")
                         addToBackStack("Griglia Fragment")
                     }
-                }
             }else{
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
