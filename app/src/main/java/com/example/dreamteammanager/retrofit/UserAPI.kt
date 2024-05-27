@@ -115,7 +115,7 @@ interface UserAPI {
 
     @GET("pwm/getStatistica/{sport}")
     fun getStatistica(@Path("sport")sport: String):Call<JsonArray>
-    @GET("pwm/getStatistica2/{sport}/{idcmp}")
+    @GET("pwm/getGiocatoriDisp/{sport}/{idcmp}")
     fun getGiocatoriDisp(@Path("sport")sport: String, @Path("idcmp")idcmp: Int):Call<JsonArray>
     @POST("pwm/insertgioc")
     fun insertgioc(@Body UtenteCompGioc: JsonObject): Call<JsonObject>

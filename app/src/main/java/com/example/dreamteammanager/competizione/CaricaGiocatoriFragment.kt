@@ -78,8 +78,13 @@ class CaricaGiocatoriFragment : Fragment() {
                                 val choiceDialog = Dialog(requireActivity())
                                 choiceDialog.setContentView(R.layout.fragment_custom_dialog)
                                 choiceDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                                choiceDialog.findViewById<TextView>(R.id.dialogTitle).text =
-                                    "Sicuro di voler aggiungere questo giocatore?"
+                                if (competizioniVM.competizione.value!!.sport == "Serie A") {
+                                    choiceDialog.findViewById<TextView>(R.id.dialogTitle).text =
+                                        "Sicuro di voler aggiungere questo giocatore?"
+                                } else {
+                                    choiceDialog.findViewById<TextView>(R.id.dialogTitle).text =
+                                        "Sicuro di voler aggiungere questo pilota?"
+                                }
                                 choiceDialog.findViewById<Button>(R.id.yesButton)
                                     .setOnClickListener {
                                         competizioniVM.inseriscigiocatore(
@@ -102,7 +107,7 @@ class CaricaGiocatoriFragment : Fragment() {
                             }
                         })
                         recv.layoutManager = LinearLayoutManager(context)
-                        recv.adapter=adapter2
+                        recv.adapter = adapter2
                         selectDialog.show()
                     }
                 })
@@ -113,17 +118,23 @@ class CaricaGiocatoriFragment : Fragment() {
             }
         }
 
-        competizioniVM.aggiungendogioc.observe(viewLifecycleOwner){
-            if(it==true){
+        competizioniVM.aggiungendogioc.observe(viewLifecycleOwner) {
+            if (it == true) {
                 binding.progressBar.visibility = View.VISIBLE
-            }else if(it==false){
+            } else if (it == false) {
+                var mex = ""
+                if (competizioniVM.competizione.value!!.sport == "Serie A") {
+                    mex = "Hai correttamento caricato il giocatore nella rosa"
+                } else {
+                    mex = "Hai correttamento caricato il pilota nella rosa"
+                }
                 binding.progressBar.visibility = View.GONE
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
                 ).create()
                 alertDialog.setTitle("SUCCESSO")
-                alertDialog.setMessage("Hai correttamento caricato il giocatore nella rosa")
+                alertDialog.setMessage(mex)
                 alertDialog.setButton(
                     AlertDialog.BUTTON_POSITIVE, "OK",
                 ) { dialog, which ->
