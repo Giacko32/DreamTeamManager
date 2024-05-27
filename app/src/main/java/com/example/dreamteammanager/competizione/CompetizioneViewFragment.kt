@@ -127,16 +127,17 @@ class CompetizioneViewFragment : Fragment() {
             compVM.getClassifica()
 
         }
-        compVM.scaricandoclassifica.observe(requireActivity()){
+        compVM.scaricandoclassifica.observe(requireActivity()) {
             if (it == true) {
                 binding.progressBar.visibility = View.VISIBLE
-            }else if (it == false){
+            } else if (it == false) {
                 binding.progressBar.visibility = View.GONE
                 classificaDialog.setContentView(R.layout.dialog_classifica)
                 classificaDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                val recyclerView = classificaDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
+                val recyclerView =
+                    classificaDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
                 recyclerView.layoutManager = LinearLayoutManager(context)
-                val  adapter = ClassificaAdapter(compVM.classifica.value!!, imagesVM)
+                val adapter = ClassificaAdapter(compVM.classifica.value!!, imagesVM)
                 recyclerView.adapter = adapter
                 classificaDialog.show()
                 compVM.resetscaricandoclassifica()
@@ -148,19 +149,23 @@ class CompetizioneViewFragment : Fragment() {
 
         val statisticheDialog = Dialog(requireContext())
         binding.StatisticheButton.setOnClickListener {
-           compVM.getStatistica()
+            compVM.getStatistica()
         }
 
-        compVM.scaricandostatistiche.observe(requireActivity()){
+        compVM.scaricandostatistiche.observe(requireActivity()) {
             if (it == true) {
                 binding.progressBar.visibility = View.VISIBLE
-            }else if (it == false){
+            } else if (it == false) {
                 binding.progressBar.visibility = View.GONE
                 statisticheDialog.setContentView(R.layout.dialog_statistiche)
                 statisticheDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                val recyclerView = statisticheDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
+                val recyclerView =
+                    statisticheDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
                 recyclerView.layoutManager = LinearLayoutManager(context)
-                val  adapter = StatisticheAdapter(compVM.statistiche.value!!,compVM.competizione.value!!.sport)
+                val adapter = StatisticheAdapter(
+                    compVM.statistiche.value!!,
+                    compVM.competizione.value!!.sport
+                )
                 recyclerView.adapter = adapter
                 statisticheDialog.show()
                 compVM.resetscaricandostatistiche()
@@ -171,32 +176,42 @@ class CompetizioneViewFragment : Fragment() {
         }
 
         binding.InsertFormazioneButton.setOnClickListener {
-            if(compVM.competizione.value?.sport == "Serie A"){
-                    binding.progressBar.visibility = View.VISIBLE
-                    compVM.getRosaGiocatore(utente.id)
-                    compVM.rosaottenuta.observe(viewLifecycleOwner){
-                        if(it == true){
-                            binding.progressBar.visibility = View.GONE
-                            parentFragmentManager.commit {
-                                setReorderingAllowed(true)
-                                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                replace<InserisciFormazioneFragment>(R.id.competizioni_cont_view, "FORMAZIONE")
-                                addToBackStack("Formazione Fragment")
-                            }
+            if (compVM.competizione.value?.sport == "Serie A") {
+                binding.progressBar.visibility = View.VISIBLE
+                compVM.getRosaGiocatore(utente.id)
+                compVM.rosaottenuta.observe(viewLifecycleOwner) {
+                    if (it == true) {
+                        binding.progressBar.visibility = View.GONE
+                        parentFragmentManager.commit {
+                            setReorderingAllowed(true)
+                            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            replace<InserisciFormazioneFragment>(
+                                R.id.competizioni_cont_view,
+                                "FORMAZIONE"
+                            )
+                            addToBackStack("Formazione Fragment")
+                        }
 
+                    }
+                }
+            } else if (compVM.competizione.value?.sport == "MotoGP" || compVM.competizione.value?.sport == "Formula Uno") {
+                binding.progressBar.visibility = View.VISIBLE
+                compVM.getRosaGiocatore(utente.id)
+                compVM.rosaottenuta.observe(viewLifecycleOwner) {
+                    if (it == true) {
+                        binding.progressBar.visibility = View.GONE
+                        parentFragmentManager.commit {
+                            setReorderingAllowed(true)
+                            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            replace<InserisciGrigliaFragment>(
+                                R.id.competizioni_cont_view,
+                                "GRIGLIA"
+                            )
+                            addToBackStack("Griglia Fragment")
                         }
                     }
-
-
-
-            }else if(compVM.competizione.value?.sport == "MotoGP" || compVM.competizione.value?.sport == "Formula Uno"){
-                    parentFragmentManager.commit {
-                        setReorderingAllowed(true)
-                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        replace<InserisciGrigliaFragment>(R.id.competizioni_cont_view, "GRIGLIA")
-                        addToBackStack("Griglia Fragment")
-                    }
-            }else{
+                }
+            } else {
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -234,11 +249,12 @@ class CompetizioneViewFragment : Fragment() {
             adapter.setonclick(object : PartecipantiAdapter.SetOnClickListener {
                 override fun onClick(position: Int, utente: Utente) {
                     compVM.getRosaGiocatore(utente.id)
-                    compVM.rosaottenuta.observe(viewLifecycleOwner){
-                        if(it == true && compVM.competizione.value!!.sport.equals("Serie A")) {
-                            val adapterRosa = InserisciFormazioneAdapter(compVM.rosaGiocatori.value!!)
+                    compVM.rosaottenuta.observe(viewLifecycleOwner) {
+                        if (it == true && compVM.competizione.value!!.sport.equals("Serie A")) {
+                            val adapterRosa =
+                                InserisciFormazioneAdapter(compVM.rosaGiocatori.value!!)
                             rv.adapter = adapterRosa
-                        }else if(it == true){
+                        } else if (it == true) {
                             val adapterRosa = InserisciGrigliaAdapter(compVM.rosaPiloti.value!!)
                             rv.adapter = adapterRosa
                         }

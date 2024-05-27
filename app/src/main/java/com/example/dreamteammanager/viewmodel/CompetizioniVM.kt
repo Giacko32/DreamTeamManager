@@ -1,5 +1,6 @@
 package com.example.dreamteammanager.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -326,7 +327,7 @@ class CompetizioniVM : ViewModel() {
 
     }
 
-    fun rimuovigioc(giocatore: GiocatoreFormazione) {
+    private fun rimuovigioc(giocatore: GiocatoreFormazione) {
         _giocatoridisp.value?.remove(giocatore)
     }
 
@@ -374,6 +375,7 @@ class CompetizioniVM : ViewModel() {
             }
         )
     }
+
     private val _aggiungendoformazione = MutableLiveData<Boolean?>()
     val aggiungendoformazione: LiveData<Boolean?>
         get() = _aggiungendoformazione
@@ -385,25 +387,50 @@ class CompetizioniVM : ViewModel() {
     fun resetaggiungendoformazione() {
         _aggiungendoformazione.value = null
     }
-    private val _formazione = MutableLiveData<Array<GiocatoreFormazione>?>()
-    val formazione: LiveData<Array<GiocatoreFormazione>?>
+
+    private var _formazione = MutableLiveData<IntArray>()
+    val formazione: LiveData<IntArray>
         get() = _formazione
 
     init {
-        _formazione.value = null
+        _formazione.value = IntArray(11)
     }
 
-    fun inseresciFormazione(utente: Utente) {
+    private var _griglia = MutableLiveData<IntArray>()
+    val griglia: LiveData<IntArray>
+        get() = _griglia
+
+    init {
+        _griglia.value = IntArray(2)
+    }
+
+
+    fun inseresciFormazione(utente: Utente, giornata: Int) {
         _aggiungendoformazione.value = true
-        val body = Gson().fromJson(
-            parseModelToJson(
-                Formazione(
-                    utente.id,
-                    competizione.value!!,
-                    formazione.value!!,
-                )
-            ), JsonObject::class.java
-        )
+        val body: JsonObject
+        if (competizione.value!!.sport == "Serie A") {
+            body = Gson().fromJson(
+                parseModelToJson(
+                    Formazione(
+                        utente.id,
+                        giornata,
+                        competizione.value!!,
+                        formazione.value!!,
+                    )
+                ), JsonObject::class.java
+            )
+        } else {
+            body = Gson().fromJson(
+                parseModelToJson(
+                    Formazione(
+                        utente.id,
+                        giornata,
+                        competizione.value!!,
+                        griglia.value!!,
+                    )
+                ), JsonObject::class.java
+            )
+        }
         Client.retrofit.insertFormazione(body).enqueue(
             object : Callback<JsonObject> {
                 override fun onResponse(
@@ -429,6 +456,7 @@ class CompetizioniVM : ViewModel() {
     private val _rosaGiocatori = MutableLiveData<ArrayList<GiocatoreFormazione>?>()
     val rosaGiocatori: LiveData<ArrayList<GiocatoreFormazione>?>
         get() = _rosaGiocatori
+
     init {
         _rosaGiocatori.value = null
     }
@@ -436,6 +464,7 @@ class CompetizioniVM : ViewModel() {
     private val _rosaPiloti = MutableLiveData<ArrayList<Pilota>?>()
     val rosaPiloti: LiveData<ArrayList<Pilota>?>
         get() = _rosaPiloti
+
     init {
         _rosaPiloti.value = null
     }
@@ -443,11 +472,21 @@ class CompetizioniVM : ViewModel() {
     private val _rosaottenuta = MutableLiveData<Boolean?>()
     val rosaottenuta: LiveData<Boolean?>
         get() = _rosaottenuta
+
     init {
         _rosaottenuta.value = null
     }
+
+    private val _giornate = MutableLiveData<ArrayList<Giornata>>()
+    val giornate: LiveData<ArrayList<Giornata>> = _giornate
+
+    init {
+        _giornate.value = arrayListOf()
+    }
+
     fun getRosaGiocatore(id_Utente: Int) {
         _rosaottenuta.value = false
+        _giornate.value?.clear()
         Client.retrofit.getRosa(competizione.value!!.sport, competizione.value!!.id, id_Utente)
             .enqueue(object : Callback<JsonArray> {
                 override fun onResponse(
@@ -455,12 +494,34 @@ class CompetizioniVM : ViewModel() {
                     Response<JsonArray>
                 ) {
                     if (response.isSuccessful) {
-                        if(competizione.value!!.sport.equals("Serie A")){
-                            _rosaGiocatori.value = parseJsonToArrayGiocatori(response.body().toString())
-                        }else{
+                        if (competizione.value!!.sport == "Serie A") {
+                            _rosaGiocatori.value =
+                                parseJsonToArrayGiocatori(response.body().toString())
+                        } else {
                             _rosaPiloti.value = parseJsonToArrayPiloti(response.body().toString())
                         }
-                        _rosaottenuta.value = true
+                        Client.retrofit.getgiornate(competizione.value!!.id, id_Utente).enqueue(
+                            object : Callback<JsonArray> {
+                                override fun onResponse(
+                                    call: Call<JsonArray>, response:
+                                    Response<JsonArray>
+                                ) {
+                                    if (response.isSuccessful) {
+                                        _giornate.value =
+                                            parseJsonToArrayInt(response.body().toString())
+                                        Log.d("giornate", _giornate.value.toString())
+                                        _rosaottenuta.value = true
+                                    }
+                                }
+
+                                override fun onFailure(
+                                    call: Call<JsonArray>?, t:
+                                    Throwable?
+                                ) {
+                                    _rosaottenuta.value = false
+                                }
+                            }
+                        )
                     }
                 }
 
@@ -472,18 +533,62 @@ class CompetizioniVM : ViewModel() {
                 }
             })
     }
-    //non funziona
-    fun filtro(ruolo: String): List<GiocatoreFormazione>{
+
+    fun filtro(ruolo: String): List<GiocatoreFormazione> {
         val risultato = mutableListOf<GiocatoreFormazione>()
 
         for (giocatore in _rosaGiocatori.value!!) {
             if (giocatore.ruolo.equals(ruolo)) {
-                risultato.add(giocatore)
+                if (!(checkInserito(giocatore.id))) {
+                    risultato.add(giocatore)
+                }
             }
         }
 
-            return risultato
+        return risultato
+    }
+
+    private fun checkInserito(idg: Int): Boolean {
+        for (id in formazione.value!!) {
+            if (id == idg) {
+                return true
+            }
         }
+        return false
+    }
+
+    fun checkForm(): Boolean {
+        for (id in formazione.value!!) {
+            if (id == 0) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun filtrapiloti(): List<Pilota> {
+        val risultato = mutableListOf<Pilota>()
+        for (pilota in rosaPiloti.value!!) {
+            if (!(checkInseritopil(pilota.idpilota))) {
+                risultato.add(pilota)
+            }
+        }
+        return risultato
+    }
+
+    private fun checkInseritopil(idp: Int): Boolean {
+        for (id in griglia.value!!) {
+            if (id == idp) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun clear() {
+        _formazione.value = IntArray(11)
+        _griglia.value = IntArray(2)
+    }
 
 }
 
@@ -528,7 +633,6 @@ fun parseJsonToArrayPiloti(jsonString: String): ArrayList<Pilota> {
 }
 
 
-
 class CompGiorn(val competizione: Competizione, val giornata: Int)
 class Giornata(val giornata: Int)
 
@@ -539,7 +643,8 @@ class InsertGiocatore(
 )
 
 class Formazione(
-    val idUtente : Int,
+    val idUtente: Int,
+    val giornata: Int,
     val comp: Competizione,
-    val giocatori: Array<GiocatoreFormazione>,
-    )
+    val giocatori: IntArray,
+)

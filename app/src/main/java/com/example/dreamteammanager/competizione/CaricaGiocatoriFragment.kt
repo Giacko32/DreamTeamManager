@@ -89,13 +89,9 @@ class CaricaGiocatoriFragment : Fragment() {
                                     .setOnClickListener {
                                         competizioniVM.inseriscigiocatore(
                                             gioc,
-                                            parseJsonToModel(
-                                                SharedPreferencesManager.getString(
-                                                    "utente",
-                                                    ""
-                                                )
+                                            utente
                                             )
-                                        )
+
                                         choiceDialog.dismiss()
                                         selectDialog.dismiss()
                                     }

@@ -15,14 +15,10 @@ import com.example.dreamteammanager.classi.PilotaGriglia
 import com.example.dreamteammanager.viewmodel.ImagesVM
 
 class InserisciGrigliaAdapter(
-    val data: ArrayList<Pilota>
+    val data: List<Pilota>
 ) :
     RecyclerView.Adapter<InserisciGrigliaAdapter.MyViewHolder>() {
     var onClickListener: SetOnClickListener? = null
-
-
-
-
     interface SetOnClickListener {
         fun onClick(position: Int, utente: Pilota)
     }
