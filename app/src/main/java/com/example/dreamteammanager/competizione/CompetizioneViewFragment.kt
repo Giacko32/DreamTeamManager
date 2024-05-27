@@ -85,7 +85,7 @@ class CompetizioneViewFragment : Fragment() {
                 )
                 calcoladialog.findViewById<Spinner>(R.id.spinner)
                     .adapter = spinnerArrayAdapter
-                calcoladialog.findViewById<Button>(R.id.calcolagiornata).setOnClickListener {
+                calcoladialog.findViewById<Button>(R.id.CalcolaGiornataButton).setOnClickListener {
                     compVM.calcolagiornata(
                         calcoladialog.findViewById<Spinner>(R.id.spinner).selectedItem.toString()
                             .toInt()
