@@ -472,6 +472,7 @@ class CompetizioniVM : ViewModel() {
                 }
             })
     }
+    //non funziona
     fun filtro(ruolo: String): List<GiocatoreFormazione>{
         val risultato = mutableListOf<GiocatoreFormazione>()
 
@@ -483,7 +484,6 @@ class CompetizioniVM : ViewModel() {
 
             return risultato
         }
-
 
 }
 

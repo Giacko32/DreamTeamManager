@@ -46,7 +46,7 @@ class InserisciFormazioneFragment : Fragment() {
             formazioneDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val recyclerView = formazioneDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
 
-            // inizializzare l'adapter
+            // Da sistemare
             val portieri = compViewModel.filtro("P")
 
             val adapter = InserisciFormazioneAdapter(portieri)
