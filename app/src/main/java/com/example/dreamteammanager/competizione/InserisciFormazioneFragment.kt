@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
+import com.example.dreamteammanager.classi.GiocatoreFormazione
 import com.example.dreamteammanager.databinding.FragmentInserisciFormazioneBinding
 import com.example.dreamteammanager.viewmodel.CompetizioniVM
 import com.example.dreamteammanager.viewmodel.ImagesVM
@@ -46,10 +47,22 @@ class InserisciFormazioneFragment : Fragment() {
             val recyclerView = formazioneDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
 
             // inizializzare l'adapter
-            //val adapter = InserisciFormazioneAdapter()
+            val portieri = compViewModel.rosaGiocatori.value!!.filter { it.ruolo == "P" }
+
+            val adapter = InserisciFormazioneAdapter(portieri)
+            adapter.setonclick(
+                object : InserisciFormazioneAdapter.SetOnClickListener{
+                    override fun onClick(position: Int, giocatore : GiocatoreFormazione) {
+                        compViewModel.formazione.value!![0] = giocatore
+                        binding.portiere.text = compViewModel.formazione.value!![0].nome
+                        formazioneDialog.dismiss()
+                    }
+                }
+            )
+
+            recyclerView.adapter = adapter
 
 
-            //recyclerView.adapter = adapter
 
             formazioneDialog.show()
         }

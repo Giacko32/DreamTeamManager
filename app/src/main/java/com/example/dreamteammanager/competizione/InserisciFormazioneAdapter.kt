@@ -13,7 +13,7 @@ import com.example.dreamteammanager.classi.GiocatoreStatistiche
 import com.example.dreamteammanager.viewmodel.ImagesVM
 
 class InserisciFormazioneAdapter(
-    val data: ArrayList<GiocatoreFormazione>,
+    val data: List<GiocatoreFormazione>,
 ) :
     RecyclerView.Adapter<InserisciFormazioneAdapter.MyViewHolder>() {
     var onClickListener: SetOnClickListener? = null
