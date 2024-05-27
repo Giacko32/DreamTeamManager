@@ -405,7 +405,7 @@ class CompetizioniVM : ViewModel() {
                     Response<JsonArray>
                 ) {
                     if (response.isSuccessful) {
-                        if(sport.value!!.equals("Serie A")){
+                        if(competizione.value!!.sport.equals("Serie A")){
                             _rosaGiocatori.value = parseJsonToArrayGiocatori(response.body().toString())
                         }else{
                             _rosaPiloti.value = parseJsonToArrayPiloti(response.body().toString())

@@ -226,12 +226,12 @@ class CompetizioneViewFragment : Fragment() {
                 override fun onClick(position: Int, utente: Utente) {
                     compVM.getRosaGiocatore(utente.id)
                     compVM.rosaottenuta.observe(viewLifecycleOwner){
-                        if(it == true && compVM.sport.value!!.equals("Serie A")) {
+                        if(it == true && compVM.competizione.value!!.sport.equals("Serie A")) {
                             val adapterRosa = InserisciFormazioneAdapter(compVM.rosaGiocatori.value!!)
-                            //rv.adapter = adapterRosa
+                            rv.adapter = adapterRosa
                         }else if(it == true){
                             val adapterRosa = InserisciGrigliaAdapter(compVM.rosaPiloti.value!!)
-                            //rv.adapter = adapterRosa
+                            rv.adapter = adapterRosa
                         }
                     }
                 }
