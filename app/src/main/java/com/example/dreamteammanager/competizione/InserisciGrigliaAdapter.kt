@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.GiocatoreFormazione
 import com.example.dreamteammanager.classi.GiocatoreStatistiche
+import com.example.dreamteammanager.classi.Pilota
 import com.example.dreamteammanager.classi.PilotaGriglia
 import com.example.dreamteammanager.viewmodel.ImagesVM
 
 class InserisciGrigliaAdapter(
-    val data: ArrayList<PilotaGriglia>,
-    val imagesVM: ImagesVM,
+    val data: ArrayList<Pilota>
 ) :
     RecyclerView.Adapter<InserisciGrigliaAdapter.MyViewHolder>() {
     var onClickListener: SetOnClickListener? = null
@@ -24,14 +24,11 @@ class InserisciGrigliaAdapter(
 
 
     interface SetOnClickListener {
-        fun onClick(position: Int, utente: PilotaGriglia)
+        fun onClick(position: Int, utente: Pilota)
     }
 
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val nome = row.findViewById<TextView>(R.id.nome)
-        val immagine = row.findViewById<ImageView>(R.id.profileimage)
-        val team = row.findViewById<TextView>(R.id.teamTextView)
-
     }
 
 
@@ -49,8 +46,7 @@ class InserisciGrigliaAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val context = holder.row.context
         holder.nome.text = data[position].nome
-        holder.team.text = "${data[position].team}"
-        imagesVM.getProfilePic(context, data[position].id, holder.immagine, true)
+
         holder.itemView.setOnClickListener {
             onClickListener?.onClick(position, data[position])
             notifyDataSetChanged()

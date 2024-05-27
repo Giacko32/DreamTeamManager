@@ -7,6 +7,7 @@ import com.example.dreamteammanager.classi.Competizione
 import com.example.dreamteammanager.classi.Giocatore
 import com.example.dreamteammanager.classi.GiocatoreFormazione
 import com.example.dreamteammanager.classi.GiocatoreStatistiche
+import com.example.dreamteammanager.classi.Pilota
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.classi.UtentePunteggio
 import com.example.dreamteammanager.retrofit.Client
@@ -328,6 +329,7 @@ class CompetizioniVM : ViewModel() {
     fun rimuovigioc(giocatore: GiocatoreFormazione) {
         _giocatoridisp.value?.remove(giocatore)
     }
+
     private val _aggiungendogioc = MutableLiveData<Boolean?>()
     val aggiungendogioc: LiveData<Boolean?>
         get() = _aggiungendogioc
@@ -374,6 +376,54 @@ class CompetizioniVM : ViewModel() {
     }
 
 
+    private val _rosaGiocatori = MutableLiveData<ArrayList<GiocatoreFormazione>?>()
+    val rosaGiocatori: LiveData<ArrayList<GiocatoreFormazione>?>
+        get() = _rosaGiocatori
+    init {
+        _rosaGiocatori.value = null
+    }
+
+    private val _rosaPiloti = MutableLiveData<ArrayList<Pilota>?>()
+    val rosaPiloti: LiveData<ArrayList<Pilota>?>
+        get() = _rosaPiloti
+    init {
+        _rosaPiloti.value = null
+    }
+
+    private val _rosaottenuta = MutableLiveData<Boolean?>()
+    val rosaottenuta: LiveData<Boolean?>
+        get() = _rosaottenuta
+    init {
+        _rosaottenuta.value = null
+    }
+    fun getRosaGiocatore(id_Utente: Int) {
+        _rosaottenuta.value = false
+        Client.retrofit.getRosa(sport.value!!, competizione.value!!.id, id_Utente)
+            .enqueue(object : Callback<JsonArray> {
+                override fun onResponse(
+                    call: Call<JsonArray>, response:
+                    Response<JsonArray>
+                ) {
+                    if (response.isSuccessful) {
+                        if(sport.value!!.equals("Serie A")){
+                            _rosaGiocatori.value = parseJsonToArrayGiocatori(response.body().toString())
+                        }else{
+                            _rosaPiloti.value = parseJsonToArrayPiloti(response.body().toString())
+                        }
+                        _rosaottenuta.value = true
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonArray>?, t:
+                    Throwable?
+                ) {
+
+                }
+            })
+    }
+
+
 }
 
 fun parseJsonToArrayInt(jsonString: String): ArrayList<Giornata> {
@@ -405,6 +455,14 @@ fun parseJsonToArrayGiocatori(jsonString: String): ArrayList<GiocatoreFormazione
     return gson.fromJson(
         jsonString,
         object : com.google.gson.reflect.TypeToken<ArrayList<GiocatoreFormazione>>() {}.type
+    )
+}
+
+fun parseJsonToArrayPiloti(jsonString: String): ArrayList<Pilota> {
+    val gson = Gson()
+    return gson.fromJson(
+        jsonString,
+        object : com.google.gson.reflect.TypeToken<ArrayList<Pilota>>() {}.type
     )
 }
 

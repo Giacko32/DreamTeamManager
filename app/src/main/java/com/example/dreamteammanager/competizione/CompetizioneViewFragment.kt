@@ -20,6 +20,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
+import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.databinding.FragmentCompetizioneViewBinding
 import com.example.dreamteammanager.lega.PartecipantiAdapter
 import com.example.dreamteammanager.viewmodel.CompetizioniVM
@@ -220,7 +221,22 @@ class CompetizioneViewFragment : Fragment() {
             RoseDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val rv = RoseDialog.findViewById<RecyclerView>(R.id.recviewrose)
             rv.layoutManager = LinearLayoutManager(context)
-            rv.adapter = PartecipantiAdapter(compVM.partecipanti.value!!, false, imagesVM, null)
+            val adapter = PartecipantiAdapter(compVM.partecipanti.value!!, false, imagesVM, null)
+            adapter.setonclick(object : PartecipantiAdapter.SetOnClickListener {
+                override fun onClick(position: Int, utente: Utente) {
+                    compVM.getRosaGiocatore(utente.id)
+                    compVM.rosaottenuta.observe(viewLifecycleOwner){
+                        if(it == true && compVM.sport.value!!.equals("Serie A")) {
+                            val adapterRosa = InserisciFormazioneAdapter(compVM.rosaGiocatori.value!!)
+                            //rv.adapter = adapterRosa
+                        }else if(it == true){
+                            val adapterRosa = InserisciGrigliaAdapter(compVM.rosaPiloti.value!!)
+                            //rv.adapter = adapterRosa
+                        }
+                    }
+                }
+            })
+            rv.adapter = adapter
             RoseDialog.show()
 
         }
