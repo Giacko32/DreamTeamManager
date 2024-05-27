@@ -123,6 +123,9 @@ interface UserAPI {
     @GET("pwm/getRosa/{id_utente}/{id_comp}/{sport}")
     fun getRosa(@Path("sport")sport: String, @Path("id_comp") idcomp: Int, @Path("id_utente") id_utente: Int):Call<JsonArray>
 
+    @POST("pwm/insertFormazione")
+    fun insertFormazione(@Body Formazione: JsonObject): Call<JsonObject>
+
     companion object {
         const val BASE_URL = "http://192.168.1.13:9000"
     }

@@ -172,12 +172,21 @@ class CompetizioneViewFragment : Fragment() {
 
         binding.InsertFormazioneButton.setOnClickListener {
             if(compVM.competizione.value?.sport == "Serie A"){
-                    parentFragmentManager.commit {
-                        setReorderingAllowed(true)
-                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        replace<InserisciFormazioneFragment>(R.id.competizioni_cont_view, "FORMAZIONE")
-                        addToBackStack("Formazione Fragment")
+                    binding.progressBar.visibility = View.VISIBLE
+                    compVM.getRosaGiocatore(utente.id)
+                    compVM.rosaottenuta.observe(viewLifecycleOwner){
+                        if(it == true){
+                            binding.progressBar.visibility = View.GONE
+                            parentFragmentManager.commit {
+                                setReorderingAllowed(true)
+                                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                replace<InserisciFormazioneFragment>(R.id.competizioni_cont_view, "FORMAZIONE")
+                                addToBackStack("Formazione Fragment")
+                            }
+
+                        }
                     }
+
 
 
             }else if(compVM.competizione.value?.sport == "MotoGP" || compVM.competizione.value?.sport == "Formula Uno"){

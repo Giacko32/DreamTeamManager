@@ -374,6 +374,56 @@ class CompetizioniVM : ViewModel() {
             }
         )
     }
+    private val _aggiungendoformazione = MutableLiveData<Boolean?>()
+    val aggiungendoformazione: LiveData<Boolean?>
+        get() = _aggiungendoformazione
+
+    init {
+        _aggiungendoformazione.value = null
+    }
+
+    fun resetaggiungendoformazione() {
+        _aggiungendoformazione.value = null
+    }
+    private val _formazione = MutableLiveData<Array<GiocatoreFormazione>?>()
+    val formazione: LiveData<Array<GiocatoreFormazione>?>
+        get() = _formazione
+
+    init {
+        _formazione.value = null
+    }
+
+    fun inseresciFormazione(utente: Utente) {
+        _aggiungendoformazione.value = true
+        val body = Gson().fromJson(
+            parseModelToJson(
+                Formazione(
+                    utente.id,
+                    competizione.value!!,
+                    formazione.value!!,
+                )
+            ), JsonObject::class.java
+        )
+        Client.retrofit.insertFormazione(body).enqueue(
+            object : Callback<JsonObject> {
+                override fun onResponse(
+                    call: Call<JsonObject>, response:
+                    Response<JsonObject>
+                ) {
+                    if (response.isSuccessful) {
+                        _aggiungendoformazione.value = false
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonObject>?, t:
+                    Throwable?
+                ) {
+                    _aggiungendoformazione.value = false
+                }
+            }
+        )
+    }
 
 
     private val _rosaGiocatori = MutableLiveData<ArrayList<GiocatoreFormazione>?>()
@@ -474,3 +524,9 @@ class InsertGiocatore(
     val giocatore: GiocatoreFormazione,
     val utente: Utente
 )
+
+class Formazione(
+    val idUtente : Int,
+    val comp: Competizione,
+    val giocatori: Array<GiocatoreFormazione>,
+    )
