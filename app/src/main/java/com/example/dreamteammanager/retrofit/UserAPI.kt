@@ -113,8 +113,8 @@ interface UserAPI {
     @GET("pwm/getClassifica/{id_cmp}")
     fun getClassifica(@Path("id_cmp")id_cmp: Int):Call<JsonArray>
 
-    @GET("pwm/getStatistica/")
-    fun getStatistica():Call<JsonArray>
+    @GET("pwm/getStatistica/{sport}")
+    fun getStatistica(@Path("sport")sport: String):Call<JsonArray>
 
     companion object {
         const val BASE_URL = "http://192.168.1.13:9000"

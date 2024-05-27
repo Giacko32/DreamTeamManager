@@ -253,7 +253,7 @@ class CompetizioniVM : ViewModel() {
     fun getStatistica() {
         _scaricandostatistiche.value = true
         _statistiche.value?.clear()
-        Client.retrofit.getStatistica().enqueue(
+        Client.retrofit.getStatistica(competizione.value!!.sport).enqueue(
             object : Callback<JsonArray> {
                 override fun onResponse(
                     call: Call<JsonArray>, response:
