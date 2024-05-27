@@ -398,7 +398,7 @@ class CompetizioniVM : ViewModel() {
     }
     fun getRosaGiocatore(id_Utente: Int) {
         _rosaottenuta.value = false
-        Client.retrofit.getRosa(sport.value!!, competizione.value!!.id, id_Utente)
+        Client.retrofit.getRosa(competizione.value!!.sport, competizione.value!!.id, id_Utente)
             .enqueue(object : Callback<JsonArray> {
                 override fun onResponse(
                     call: Call<JsonArray>, response:
