@@ -72,7 +72,7 @@ class ProfileFragment : Fragment() {
             profimgViewModel.getProfilePic(
                 requireContext(),
                 userViewModel.user.value!!.id,
-                binding.userimage
+                binding.userimage, false
             )
         }
 

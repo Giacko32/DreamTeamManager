@@ -133,7 +133,6 @@ class CompetizioneViewFragment : Fragment() {
                 classificaDialog.setContentView(R.layout.dialog_classifica)
                 classificaDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 val recyclerView = classificaDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
-
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 val  adapter = ClassificaAdapter(compVM.classifica.value!!, imagesVM)
                 recyclerView.adapter = adapter

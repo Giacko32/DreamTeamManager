@@ -50,7 +50,7 @@ class InserisciGrigliaAdapter(
         val context = holder.row.context
         holder.nome.text = data[position].nome
         holder.team.text = "${data[position].team}"
-        imagesVM.getProfilePic(context, data[position].id, holder.immagine)
+        imagesVM.getProfilePic(context, data[position].id, holder.immagine, true)
         holder.itemView.setOnClickListener {
             onClickListener?.onClick(position, data[position])
             notifyDataSetChanged()

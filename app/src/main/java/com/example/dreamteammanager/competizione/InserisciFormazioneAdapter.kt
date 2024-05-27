@@ -49,7 +49,7 @@ class InserisciFormazioneAdapter(
         val context = holder.row.context
         holder.nome.text = data[position].nome
         holder.ruolo.text = "${data[position].ruolo}"
-        imagesVM.getProfilePic(context, data[position].id, holder.immagine)
+        imagesVM.getProfilePic(context, data[position].id, holder.immagine, true)
         holder.itemView.setOnClickListener {
             onClickListener?.onClick(position, data[position])
             notifyDataSetChanged()
