@@ -14,7 +14,6 @@ import com.example.dreamteammanager.viewmodel.ImagesVM
 
 class InserisciFormazioneAdapter(
     val data: ArrayList<GiocatoreFormazione>,
-    val imagesVM: ImagesVM,
 ) :
     RecyclerView.Adapter<InserisciFormazioneAdapter.MyViewHolder>() {
     var onClickListener: SetOnClickListener? = null
@@ -49,7 +48,6 @@ class InserisciFormazioneAdapter(
         val context = holder.row.context
         holder.nome.text = data[position].nome
         holder.ruolo.text = "${data[position].ruolo}"
-        imagesVM.getProfilePic(context, data[position].id, holder.immagine, true)
         holder.itemView.setOnClickListener {
             onClickListener?.onClick(position, data[position])
             notifyDataSetChanged()

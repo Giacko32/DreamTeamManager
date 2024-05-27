@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.dreamteammanager.classi.Competizione
+import com.example.dreamteammanager.classi.Giocatore
+import com.example.dreamteammanager.classi.GiocatoreFormazione
 import com.example.dreamteammanager.classi.GiocatoreStatistiche
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.classi.UtentePunteggio
@@ -275,18 +277,113 @@ class CompetizioniVM : ViewModel() {
         )
     }
 
+    private val _giocatoridisp = MutableLiveData<ArrayList<GiocatoreFormazione>>()
+    val giocatoridisp: LiveData<ArrayList<GiocatoreFormazione>> = _giocatoridisp
 
+    init {
+        _giocatoridisp.value = arrayListOf()
+    }
+
+    private val _scaricandogioc = MutableLiveData<Boolean?>()
+    val scaricandogioc: LiveData<Boolean?>
+        get() = _scaricandogioc
+
+    init {
+        _scaricandogioc.value = null
+    }
+
+    fun resetscaricandogioc() {
+        _scaricandogioc.value = null
+    }
+
+    fun getgiocatoridisp() {
+        _scaricandogioc.value = true
+        _giocatoridisp.value?.clear()
+        Client.retrofit.getGiocatoriDisp(competizione.value!!.sport, competizione.value!!.id)
+            .enqueue(
+                object : Callback<JsonArray> {
+                    override fun onResponse(
+                        call: Call<JsonArray>, response:
+                        Response<JsonArray>
+                    ) {
+                        if (response.isSuccessful) {
+                            _giocatoridisp.value =
+                                parseJsonToArrayGiocatori(response.body().toString())
+                            _scaricandogioc.value = false
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<JsonArray>?, t:
+                        Throwable?
+                    ) {
+                        _scaricandogioc.value = false
+                    }
+                }
+            )
+
+
+    }
+
+    fun rimuovigioc(giocatore: GiocatoreFormazione) {
+        _giocatoridisp.value?.remove(giocatore)
+    }
+    private val _aggiungendogioc = MutableLiveData<Boolean?>()
+    val aggiungendogioc: LiveData<Boolean?>
+        get() = _aggiungendogioc
+
+    init {
+        _aggiungendogioc.value = null
+    }
+
+    fun resetaggiungendogioc() {
+        _aggiungendogioc.value = null
+    }
+
+    fun inseriscigiocatore(giocatore: GiocatoreFormazione, utente: Utente) {
+        _aggiungendogioc.value = true
+        rimuovigioc(giocatore)
+        val body = Gson().fromJson(
+            parseModelToJson(
+                InsertGiocatore(
+                    competizione.value!!,
+                    giocatore,
+                    utente
+                )
+            ), JsonObject::class.java
+        )
+        Client.retrofit.insertgioc(body).enqueue(
+            object : Callback<JsonObject> {
+                override fun onResponse(
+                    call: Call<JsonObject>, response:
+                    Response<JsonObject>
+                ) {
+                    if (response.isSuccessful) {
+                        _aggiungendogioc.value = false
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonObject>?, t:
+                    Throwable?
+                ) {
+                    _aggiungendogioc.value = false
+                }
+            }
+        )
+    }
 
 
 }
 
-    fun parseJsonToArrayInt(jsonString: String): ArrayList<Giornata> {
-        val gson = Gson()
-        return gson.fromJson(
-            jsonString,
-            object : com.google.gson.reflect.TypeToken<ArrayList<Giornata>>() {}.type
-        )
-    }
+fun parseJsonToArrayInt(jsonString: String): ArrayList<Giornata> {
+    val gson = Gson()
+    return gson.fromJson(
+        jsonString,
+        object : com.google.gson.reflect.TypeToken<ArrayList<Giornata>>() {}.type
+    )
+}
+
 fun parseJsonToArrayClassifica(jsonString: String): ArrayList<UtentePunteggio> {
     val gson = Gson()
     return gson.fromJson(
@@ -294,6 +391,7 @@ fun parseJsonToArrayClassifica(jsonString: String): ArrayList<UtentePunteggio> {
         object : com.google.gson.reflect.TypeToken<ArrayList<UtentePunteggio>>() {}.type
     )
 }
+
 fun parseJsonToArrayStatistica(jsonString: String): ArrayList<GiocatoreStatistiche> {
     val gson = Gson()
     return gson.fromJson(
@@ -302,5 +400,19 @@ fun parseJsonToArrayStatistica(jsonString: String): ArrayList<GiocatoreStatistic
     )
 }
 
-    class CompGiorn(val competizione: Competizione, val giornata: Int)
-    class Giornata(val giornata: Int)
+fun parseJsonToArrayGiocatori(jsonString: String): ArrayList<GiocatoreFormazione> {
+    val gson = Gson()
+    return gson.fromJson(
+        jsonString,
+        object : com.google.gson.reflect.TypeToken<ArrayList<GiocatoreFormazione>>() {}.type
+    )
+}
+
+class CompGiorn(val competizione: Competizione, val giornata: Int)
+class Giornata(val giornata: Int)
+
+class InsertGiocatore(
+    val comp: Competizione,
+    val giocatore: GiocatoreFormazione,
+    val utente: Utente
+)
