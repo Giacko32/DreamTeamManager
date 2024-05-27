@@ -472,6 +472,17 @@ class CompetizioniVM : ViewModel() {
                 }
             })
     }
+    fun filtro(ruolo: String): List<GiocatoreFormazione>{
+        val risultato = mutableListOf<GiocatoreFormazione>()
+
+        for (giocatore in _rosaGiocatori.value!!) {
+            if (giocatore.ruolo.equals(ruolo)) {
+                risultato.add(giocatore)
+            }
+        }
+
+            return risultato
+        }
 
 
 }
@@ -515,6 +526,8 @@ fun parseJsonToArrayPiloti(jsonString: String): ArrayList<Pilota> {
         object : com.google.gson.reflect.TypeToken<ArrayList<Pilota>>() {}.type
     )
 }
+
+
 
 class CompGiorn(val competizione: Competizione, val giornata: Int)
 class Giornata(val giornata: Int)

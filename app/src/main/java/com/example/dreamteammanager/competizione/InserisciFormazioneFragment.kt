@@ -47,7 +47,7 @@ class InserisciFormazioneFragment : Fragment() {
             val recyclerView = formazioneDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
 
             // inizializzare l'adapter
-            val portieri = compViewModel.rosaGiocatori.value!!.filter { it.ruolo == "P" }
+            val portieri = compViewModel.filtro("P")
 
             val adapter = InserisciFormazioneAdapter(portieri)
             adapter.setonclick(
