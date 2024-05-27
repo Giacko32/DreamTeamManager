@@ -55,10 +55,7 @@ class MainActivity : AppCompatActivity() {
         WorkManager.getInstance(this).cancelAllWorkByTag("giornata_notification")
         WorkManager.getInstance(this).cancelAllWorkByTag("accettazione_notification")
         val notificationInattivita =
-            PeriodicWorkRequestBuilder<NotificaInattivita>(24, TimeUnit.HOURS).setInitialDelay(
-                15,
-                TimeUnit.SECONDS
-            )
+            PeriodicWorkRequestBuilder<NotificaInattivita>(24, TimeUnit.HOURS)
                 .addTag("inactivity_notification")
                 .build()
         val notificationGiornata =
