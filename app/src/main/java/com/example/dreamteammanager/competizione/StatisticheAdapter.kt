@@ -13,7 +13,7 @@ import com.example.dreamteammanager.viewmodel.ImagesVM
 
 class StatisticheAdapter(
     val data: ArrayList<GiocatoreStatistiche>,
-    val imagesVM: ImagesVM,
+    val sport:String
 ) :
     RecyclerView.Adapter<StatisticheAdapter.MyViewHolder>() {
     var onClickListener: SetOnClickListener? = null
@@ -27,14 +27,9 @@ class StatisticheAdapter(
 
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val nome = row.findViewById<TextView>(R.id.name)
-        val immagine = row.findViewById<ImageView>(R.id.profileimage)
         val voti = row.findViewById<TextView>(R.id.voti)
         val ruolo = row.findViewById<TextView>(R.id.ruolo)
 
-    }
-    init {
-        // Ordina i dati in modo decrescente per punteggio
-        sortData()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -49,15 +44,16 @@ class StatisticheAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val context = holder.row.context
         holder.nome.text = data[position].nome
-        holder.voti.text = "Media Voti: ${data[position].mediaVoti}"
-        holder.ruolo.text = "${data[position].ruolo}"
-        imagesVM.getProfilePic(context, data[position].id, holder.immagine)
-        holder.itemView.setOnClickListener {
-            onClickListener?.onClick(position, data[position])
-            notifyDataSetChanged()
+        if(sport == "Serie A")
+        {
+            holder.voti.text = "Media Voti: ${data[position].mediaVoti}"
         }
+        else{
+            holder.voti.text = "Media Punti: ${data[position].mediaVoti}"
+        }
+        holder.ruolo.text = "${data[position].ruolo}"
+
 
     }
     override fun getItemCount(): Int = data.size

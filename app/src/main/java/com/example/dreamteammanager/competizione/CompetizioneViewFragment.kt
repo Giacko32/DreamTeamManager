@@ -157,10 +157,9 @@ class CompetizioneViewFragment : Fragment() {
                 binding.progressBar.visibility = View.GONE
                 statisticheDialog.setContentView(R.layout.dialog_statistiche)
                 statisticheDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                val recyclerView = classificaDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
-
+                val recyclerView = statisticheDialog.findViewById<RecyclerView>(R.id.recviewstatistiche)
                 recyclerView.layoutManager = LinearLayoutManager(context)
-                val  adapter = StatisticheAdapter(compVM.statistiche.value!!, imagesVM)
+                val  adapter = StatisticheAdapter(compVM.statistiche.value!!,compVM.competizione.value!!.sport)
                 recyclerView.adapter = adapter
                 statisticheDialog.show()
                 compVM.resetscaricandostatistiche()
