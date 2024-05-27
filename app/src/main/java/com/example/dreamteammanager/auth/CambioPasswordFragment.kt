@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
@@ -54,6 +55,7 @@ class CambioPasswordFragment : Fragment() {
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                     .setTextColor(Color.parseColor("#ff5722"))
                 parentFragmentManager.commit {
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     setReorderingAllowed(true)
                     replace<LoginFragment>(R.id.fragment_container)
                 }

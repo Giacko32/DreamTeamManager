@@ -65,6 +65,7 @@ class CompetizioneViewFragment : Fragment() {
                 compVM.resetscaricando()
             }
         }
+
         val calcoladialog = Dialog(requireContext())
         binding.CalcolaGiornataButton.setOnClickListener {
             compVM.getgiornatedacalcolare()
@@ -173,7 +174,7 @@ class CompetizioneViewFragment : Fragment() {
                     parentFragmentManager.commit {
                         setReorderingAllowed(true)
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        replace<InserisciFormazioneFragment>(R.id.fragmentContainerView, "FORMAZIONE")
+                        replace<InserisciFormazioneFragment>(R.id.competizioni_cont_view, "FORMAZIONE")
                         addToBackStack("Formazione Fragment")
                     }
 
@@ -182,7 +183,7 @@ class CompetizioneViewFragment : Fragment() {
                     parentFragmentManager.commit {
                         setReorderingAllowed(true)
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        replace<InserisciGrigliaFragment>(R.id.fragmentContainerView, "GRIGLIA")
+                        replace<InserisciGrigliaFragment>(R.id.competizioni_cont_view, "GRIGLIA")
                         addToBackStack("Griglia Fragment")
                     }
             }else{
@@ -211,6 +212,17 @@ class CompetizioneViewFragment : Fragment() {
                 replace<CaricaGiocatoriFragment>(R.id.competizioni_cont_view, "CARICAGIOCATORI")
                 addToBackStack("LoadGiocatori")
             }
+        }
+
+        binding.RoseButton.setOnClickListener {
+            val RoseDialog = Dialog(requireActivity())
+            RoseDialog.setContentView(R.layout.dialog_rose)
+            RoseDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val rv = RoseDialog.findViewById<RecyclerView>(R.id.recviewrose)
+            rv.layoutManager = LinearLayoutManager(context)
+            rv.adapter = PartecipantiAdapter(compVM.partecipanti.value!!, false, imagesVM, null)
+            RoseDialog.show()
+
         }
 
     }

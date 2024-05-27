@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -95,6 +96,7 @@ class LegaView : Fragment() {
         binding.invitaButton.setOnClickListener{
             parentFragmentManager.commit {
                 setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace<InvitaFragment>(R.id.legafragmentcontainer)
                 addToBackStack("Invita")
             }
@@ -117,6 +119,7 @@ class LegaView : Fragment() {
         binding.CreaCompetizioneButton.setOnClickListener {
             parentFragmentManager.commit {
                 setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace<CreaCompetizioneFragment>(R.id.legafragmentcontainer)
                 addToBackStack("CreaComp")
             }
@@ -124,6 +127,7 @@ class LegaView : Fragment() {
         binding.VisualizzaRichiesteButton.setOnClickListener {
             parentFragmentManager.commit {
                 setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace<RichiesteFragment>(R.id.legafragmentcontainer)
                 addToBackStack("Richieste")
             }

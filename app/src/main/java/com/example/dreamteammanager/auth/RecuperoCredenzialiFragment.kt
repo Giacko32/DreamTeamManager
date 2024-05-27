@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
@@ -79,6 +80,7 @@ class RecuperoCredenzialiFragment : Fragment() {
                 if(recoveryViewModel.controllacodice(binding.codeEditText.text.toString().toInt())){
                     parentFragmentManager.commit {
                         setReorderingAllowed(true)
+                        setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         replace<CambioPasswordFragment>(com.example.dreamteammanager.R.id.fragment_container)
                         addToBackStack("go-on")
                     }

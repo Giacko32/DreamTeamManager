@@ -70,6 +70,11 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@drawable/shapelightblue"
                 app:layout_constraintTop_toBottomOf="@id/giornataSpinner"
                 app:layout_constraintBottom_toTopOf="@id/CreaButton"
                 app:layout_constraintStart_toStartOf="parent"
@@ -78,15 +83,16 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:orientation="vertical">
 
-                    <!-- Adding 11 CardViews for player roles -->
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView1"
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         app:cardCornerRadius="10dp">
 
                         <TextView
@@ -98,7 +104,6 @@
                             android:layout_margin="10dp" />
                     </androidx.cardview.widget.CardView>
 
-                    <!-- Repeat the CardView 10 more times with different IDs for other roles -->
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView2"

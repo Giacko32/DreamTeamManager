@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
@@ -83,6 +84,7 @@ class LoginFragment : Fragment() {
         binding.registratilabel.setOnClickListener {
             parentFragmentManager.commit {
                 setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace<RegisterFragment>(R.id.fragment_container)
                 addToBackStack("registrati")
             }
@@ -98,6 +100,7 @@ class LoginFragment : Fragment() {
         binding.recuperaPassword.setOnClickListener {
             parentFragmentManager.commit {
                 setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace<RecuperoCredenzialiFragment>(R.id.fragment_container)
                 addToBackStack("login_to_recupero")
             }

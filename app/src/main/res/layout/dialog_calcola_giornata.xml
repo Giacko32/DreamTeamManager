@@ -40,6 +40,9 @@
                 android:text="Calcola Giornata"
                 android:textColor="@color/white"
                 android:textSize="20sp"
+                app:icon="@drawable/ph__calculator_duotone"
+                app:iconGravity="end"
+                app:iconSize="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

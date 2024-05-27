@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -91,6 +92,7 @@ class RegisterFragment : Fragment() {
         bind.LoginText.setOnClickListener {
             parentFragmentManager.commit {
                 setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace<LoginFragment>(R.id.fragment_container)
                 addToBackStack("back")
             }
