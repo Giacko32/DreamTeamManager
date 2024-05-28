@@ -4,13 +4,10 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.GiornataPunteggio
-import com.example.dreamteammanager.classi.UtentePunteggio
-import com.example.dreamteammanager.viewmodel.ImagesVM
 
 class Giornateadapter(
     val data: ArrayList<GiornataPunteggio>
@@ -19,15 +16,12 @@ class Giornateadapter(
     var onClickListener: SetOnClickListener? = null
 
     interface SetOnClickListener {
-        fun onClick(position: Int, utente: UtentePunteggio)
+        fun onClick(position: Int, giornataPunteggio: GiornataPunteggio)
     }
 
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
-        val nomeutente = row.findViewById<TextView>(R.id.username)
-        val immagine = row.findViewById<ImageView>(R.id.profileimage)
-        val punteggio = row.findViewById<TextView>(R.id.score)
-        val posizione = row.findViewById<TextView>(R.id.ranking)
-
+        val giornata = row.findViewById<TextView>(R.id.giornataText)
+        val punteggio = row.findViewById<TextView>(R.id.Punteggio_Text)
     }
 
 
@@ -35,7 +29,7 @@ class Giornateadapter(
         val layout: View
 
         layout = LayoutInflater.from(parent.context).inflate(
-            R.layout.partecipante_classifica_item,
+            R.layout.item_view_giornata,
             parent, false
         )
         return MyViewHolder(layout)
@@ -44,9 +38,9 @@ class Giornateadapter(
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val context = holder.row.context
-        holder.nomeutente.text = data[position]
-        holder.punteggio.text = "Score: ${data[position].punteggio}"
-        holder.posizione.text = "${position + 1}°"
+        holder.giornata.text = "Giornata ${data[position].giornata}"
+        holder.punteggio.text = data[position].punteggio.toString()
+
         holder.itemView.setOnClickListener {
             onClickListener?.onClick(position, data[position])
             notifyDataSetChanged()
