@@ -1,6 +1,7 @@
 package com.example.dreamteammanager.competizione
 
 import android.app.Dialog
+import android.content.res.Resources.Theme
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -69,6 +70,7 @@ class InserisciFormazioneFragment : Fragment() {
                     override fun onClick(position: Int, giocatore: GiocatoreFormazione) {
                         compViewModel.formazione.value!![0] = giocatore.id
                         binding.portiere.text = giocatore.nome
+                        binding.portiere.setTextColor(requireContext().getColor(R.color.arancione))
                         formazioneDialog.dismiss()
                     }
                 }
@@ -91,6 +93,7 @@ class InserisciFormazioneFragment : Fragment() {
                     override fun onClick(position: Int, giocatore: GiocatoreFormazione) {
                         compViewModel.formazione.value!![1] = giocatore.id
                         binding.difensore.text = giocatore.nome
+                        binding.difensore.setTextColor(requireContext().getColor(R.color.arancione))
                         formazioneDialog.dismiss()
                     }
                 }
@@ -113,6 +116,7 @@ class InserisciFormazioneFragment : Fragment() {
                     override fun onClick(position: Int, giocatore: GiocatoreFormazione) {
                         compViewModel.formazione.value!![2] = giocatore.id
                         binding.difensore2.text = giocatore.nome
+                        binding.difensore2.setTextColor(requireContext().getColor(R.color.arancione))
                         formazioneDialog.dismiss()
                     }
                 }
@@ -135,6 +139,7 @@ class InserisciFormazioneFragment : Fragment() {
                     override fun onClick(position: Int, giocatore: GiocatoreFormazione) {
                         compViewModel.formazione.value!![3] = giocatore.id
                         binding.difensore3.text = giocatore.nome
+                        binding.difensore3.setTextColor(requireContext().getColor(R.color.arancione))
                         formazioneDialog.dismiss()
                     }
                 }
@@ -157,6 +162,7 @@ class InserisciFormazioneFragment : Fragment() {
                     override fun onClick(position: Int, giocatore: GiocatoreFormazione) {
                         compViewModel.formazione.value!![4] = giocatore.id
                         binding.difensore4.text = giocatore.nome
+                        binding.difensore4.setTextColor(requireContext().getColor(R.color.arancione))
                         formazioneDialog.dismiss()
                     }
                 }
@@ -180,6 +186,7 @@ class InserisciFormazioneFragment : Fragment() {
                     override fun onClick(position: Int, giocatore: GiocatoreFormazione) {
                         compViewModel.formazione.value!![5] = giocatore.id
                         binding.centro.text = giocatore.nome
+                        binding.centro.setTextColor(requireContext().getColor(R.color.arancione))
                         formazioneDialog.dismiss()
                     }
                 }
@@ -203,6 +210,7 @@ class InserisciFormazioneFragment : Fragment() {
                     override fun onClick(position: Int, giocatore: GiocatoreFormazione) {
                         compViewModel.formazione.value!![6] = giocatore.id
                         binding.centro2.text = giocatore.nome
+                        binding.centro2.setTextColor(requireContext().getColor(R.color.arancione))
                         formazioneDialog.dismiss()
                     }
                 }
@@ -226,6 +234,7 @@ class InserisciFormazioneFragment : Fragment() {
                     override fun onClick(position: Int, giocatore: GiocatoreFormazione) {
                         compViewModel.formazione.value!![7] = giocatore.id
                         binding.centro3.text = giocatore.nome
+                        binding.centro3.setTextColor(requireContext().getColor(R.color.arancione))
                         formazioneDialog.dismiss()
                     }
                 }
@@ -246,6 +255,7 @@ class InserisciFormazioneFragment : Fragment() {
                     override fun onClick(position: Int, giocatore: GiocatoreFormazione) {
                         compViewModel.formazione.value!![8] = giocatore.id
                         binding.att.text = giocatore.nome
+                        binding.att.setTextColor(requireContext().getColor(R.color.arancione))
                         formazioneDialog.dismiss()
                     }
                 }
@@ -269,6 +279,7 @@ class InserisciFormazioneFragment : Fragment() {
                     override fun onClick(position: Int, giocatore: GiocatoreFormazione) {
                         compViewModel.formazione.value!![9] = giocatore.id
                         binding.att2.text = giocatore.nome
+                        binding.att2.setTextColor(requireContext().getColor(R.color.arancione))
                         formazioneDialog.dismiss()
                     }
                 }
@@ -290,6 +301,7 @@ class InserisciFormazioneFragment : Fragment() {
                     override fun onClick(position: Int, giocatore: GiocatoreFormazione) {
                         compViewModel.formazione.value!![10] = giocatore.id
                         binding.att3.text = giocatore.nome
+                        binding.att3.setTextColor(requireContext().getColor(R.color.arancione))
                         formazioneDialog.dismiss()
                     }
                 }

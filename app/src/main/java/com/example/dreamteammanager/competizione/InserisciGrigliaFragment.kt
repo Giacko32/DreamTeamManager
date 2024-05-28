@@ -79,6 +79,7 @@ class InserisciGrigliaFragment : Fragment() {
                     override fun onClick(position: Int, pilota: Pilota) {
                         compViewModel.griglia.value!![0] = pilota.idpilota
                         binding.pilota1.text = pilota.nome
+                        binding.pilota1.setTextColor(requireContext().getColor(R.color.arancione))
                         grigliaDialog.dismiss()
                     }
                 }
@@ -100,6 +101,7 @@ class InserisciGrigliaFragment : Fragment() {
                     override fun onClick(position: Int, pilota: Pilota) {
                         compViewModel.griglia.value!![1] = pilota.idpilota
                         binding.pilota2.text = pilota.nome
+                        binding.pilota2.setTextColor(requireContext().getColor(R.color.arancione))
                         grigliaDialog.dismiss()
                     }
                 }
