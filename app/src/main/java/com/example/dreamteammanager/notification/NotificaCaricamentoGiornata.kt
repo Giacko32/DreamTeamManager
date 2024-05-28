@@ -41,7 +41,7 @@ class NotificaCaricamentoGiornata(val context: Context, workerParameters: Worker
             )
                 .setSmallIcon(R.drawable.icona)
                 .setContentTitle("Una giornata è stata caricata")
-                .setContentText("L'amministratore di ... ha caricato la giornata")
+                .setContentText("Entra nell'app per vedere com'è andata")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         createNotificationChannel()

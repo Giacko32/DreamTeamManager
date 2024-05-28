@@ -4,11 +4,13 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -23,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.GiornataPunteggio
 import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.databinding.DialogRoseBinding
 import com.example.dreamteammanager.databinding.FragmentCompetizioneViewBinding
 import com.example.dreamteammanager.lega.PartecipantiAdapter
 import com.example.dreamteammanager.viewmodel.CompetizioniVM
@@ -65,33 +68,34 @@ class CompetizioneViewFragment : Fragment() {
                     )
                 rv.layoutManager = LinearLayoutManager(context)
                 rv.adapter = adapter
-                val rv2=binding.recViewFormazione
-                val adapter2=Giornateadapter(compVM.miegiornate.value!!)
-                rv2.layoutManager=LinearLayoutManager(context)
+                val rv2 = binding.recViewFormazione
+                val adapter2 = Giornateadapter(compVM.miegiornate.value!!)
+                rv2.layoutManager = LinearLayoutManager(context)
                 adapter2.setonclick(object : Giornateadapter.SetOnClickListener {
                     override fun onClick(position: Int, giornata: GiornataPunteggio) {
-                        compVM.getGiocatoriGiornata(giornata.giornata,utente.id)
+                        compVM.getGiocatoriGiornata(giornata.giornata, utente.id)
                         compVM.setTotale(giornata.punteggio)
                     }
                 })
-                rv2.adapter=adapter2
+                rv2.adapter = adapter2
                 binding.progressBar.visibility = View.GONE
                 compVM.resetscaricando()
             }
         }
-        val giorndialog=Dialog(requireContext())
-        compVM.giornatecalc.observe(viewLifecycleOwner){
-            if(it==true){
-                binding.progressBar.visibility=View.VISIBLE
-            }else if(it==false){
-                binding.progressBar.visibility=View.GONE
+        val giorndialog = Dialog(requireContext())
+        compVM.giornatecalc.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else if (it == false) {
+                binding.progressBar.visibility = View.GONE
                 giorndialog.setContentView(R.layout.dialog_punteggiogiornata)
                 giorndialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                giorndialog.findViewById<TextView>(R.id.totaleText).text="Totale: ${compVM.totale.value.toString()}"
-                val rv=giorndialog.findViewById<RecyclerView>(R.id.recviewpunteggio)
-                rv.layoutManager=LinearLayoutManager(context)
-                val adapter=GiocAdapter(compVM.giocatoripunt.value!!)
-                rv.adapter=adapter
+                giorndialog.findViewById<TextView>(R.id.totaleText).text =
+                    "Totale: ${compVM.totale.value.toString()}"
+                val rv = giorndialog.findViewById<RecyclerView>(R.id.recviewpunteggio)
+                rv.layoutManager = LinearLayoutManager(context)
+                val adapter = GiocAdapter(compVM.giocatoripunt.value!!)
+                rv.adapter = adapter
                 giorndialog.show()
                 compVM.resetgiornatacalc()
             }
@@ -171,7 +175,8 @@ class CompetizioneViewFragment : Fragment() {
                 recyclerView.adapter = adapter
                 classificaDialog.show()
                 compVM.resetscaricandoclassifica()
-
+            } else if (it == null){
+                binding.progressBar.visibility = View.GONE
             }
 
 
@@ -199,10 +204,9 @@ class CompetizioneViewFragment : Fragment() {
                 recyclerView.adapter = adapter
                 statisticheDialog.show()
                 compVM.resetscaricandostatistiche()
-
+            } else if (it == null) {
+                binding.progressBar.visibility = View.GONE
             }
-
-
         }
 
         binding.InsertFormazioneButton.setOnClickListener {
@@ -274,18 +278,22 @@ class CompetizioneViewFragment : Fragment() {
             RoseDialog.setContentView(R.layout.dialog_rose)
             RoseDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val rv = RoseDialog.findViewById<RecyclerView>(R.id.recviewrose)
+            val progBar = RoseDialog.findViewById<ProgressBar>(R.id.progress_bar)
             rv.layoutManager = LinearLayoutManager(context)
             val adapter = PartecipantiAdapter(compVM.partecipanti.value!!, false, imagesVM, null)
             adapter.setonclick(object : PartecipantiAdapter.SetOnClickListener {
                 override fun onClick(position: Int, utente: Utente) {
+                    progBar.visibility = View.VISIBLE
                     compVM.getRosaGiocatore(utente.id)
                     compVM.rosaottenuta.observe(viewLifecycleOwner) {
                         if (it == true && compVM.competizione.value!!.sport.equals("Serie A")) {
                             val adapterRosa =
                                 InserisciFormazioneAdapter(compVM.rosaGiocatori.value!!)
+                            progBar.visibility = View.GONE
                             rv.adapter = adapterRosa
                         } else if (it == true) {
                             val adapterRosa = InserisciGrigliaAdapter(compVM.rosaPiloti.value!!)
+                            progBar.visibility = View.GONE
                             rv.adapter = adapterRosa
                         }
                     }

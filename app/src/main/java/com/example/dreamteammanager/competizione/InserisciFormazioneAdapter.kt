@@ -27,7 +27,6 @@ class InserisciFormazioneAdapter(
 
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val nome = row.findViewById<TextView>(R.id.nome)
-        val immagine = row.findViewById<ImageView>(R.id.profileimage)
         val ruolo = row.findViewById<TextView>(R.id.roleTextView)
 
     }
