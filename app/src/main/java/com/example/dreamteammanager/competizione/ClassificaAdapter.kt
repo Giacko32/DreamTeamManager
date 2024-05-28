@@ -33,7 +33,6 @@ class ClassificaAdapter(
 
     }
     init {
-        // Ordina i dati in modo decrescente per punteggio
         sortData()
     }
 

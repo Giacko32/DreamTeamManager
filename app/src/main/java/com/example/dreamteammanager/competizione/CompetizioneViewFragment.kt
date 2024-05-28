@@ -223,7 +223,6 @@ class CompetizioneViewFragment : Fragment() {
                                 R.id.competizioni_cont_view,
                                 "FORMAZIONE"
                             )
-                            addToBackStack("Formazione Fragment")
                         }
 
                     }
@@ -269,7 +268,6 @@ class CompetizioneViewFragment : Fragment() {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace<CaricaGiocatoriFragment>(R.id.competizioni_cont_view, "CARICAGIOCATORI")
-                addToBackStack("LoadGiocatori")
             }
         }
 
