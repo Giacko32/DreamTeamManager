@@ -38,9 +38,8 @@ class Giornateadapter(
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val context = holder.row.context
-        holder.giornata.text = "Giornata ${data[position].giornata+1}"
+        holder.giornata.text = "Giornata ${data[position].giornata}"
         holder.punteggio.text = data[position].punteggio.toString()
-
         holder.itemView.setOnClickListener {
             onClickListener?.onClick(position, data[position])
             notifyDataSetChanged()

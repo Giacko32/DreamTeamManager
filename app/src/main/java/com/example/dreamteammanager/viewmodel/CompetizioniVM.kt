@@ -641,7 +641,7 @@ class CompetizioniVM : ViewModel() {
     fun getGiocatoriGiornata(giornata: Int, idutente: Int){
         _giornatecalc.value = true
         _giocatoripunt.value?.clear()
-        Client.retrofit.getgiornatecalgioc(competizione.value!!.id,idutente,giornata+1).enqueue(
+        Client.retrofit.getgiornatecalgioc(competizione.value!!.id,idutente,giornata).enqueue(
             object : Callback<JsonArray> {
                 override fun onResponse(
                     call: Call<JsonArray>, response:
