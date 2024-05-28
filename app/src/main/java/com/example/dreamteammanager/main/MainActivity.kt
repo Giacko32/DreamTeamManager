@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity() {
                                     val InvitaDialog = Dialog(this@MainActivity)
                                     InvitaDialog.setContentView(R.layout.fragment_custom_dialog)
                                     InvitaDialog.findViewById<TextView>(R.id.dialogTitle).setText(
-                                        "Vuoi invitare nella lega ${lega.name}?"
+                                        "Vuoi accettare l'invito della lega ${lega.name}?"
                                     )
                                     InvitaDialog.findViewById<Button>(R.id.yesButton)
                                         .setOnClickListener {
