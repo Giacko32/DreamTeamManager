@@ -5,6 +5,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,9 +22,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Competizione
 import com.example.dreamteammanager.classi.GiocatoreFormazione
+import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.databinding.FragmentCaricaGiocatoriBinding
+import com.example.dreamteammanager.lega.LegaActivity
 import com.example.dreamteammanager.lega.PartecipantiAdapter
+import com.example.dreamteammanager.main.LegheAdapter
 import com.example.dreamteammanager.viewmodel.CompetizioniVM
 import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
@@ -67,8 +72,9 @@ class CaricaGiocatoriFragment : Fragment() {
                 adapter.setonclick(object : PartecipantiAdapter.SetOnClickListener {
                     override fun onClick(position: Int, utente: Utente) {
                         val selectDialog = Dialog(requireActivity())
-                        selectDialog.setContentView(R.layout.dialog_inserisci_formazione)
+                        selectDialog.setContentView(R.layout.dialog_inserisci_giocorpiloticomp)
                         selectDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        selectDialog.findViewById<TextView>(R.id.searched).addTextChangedListener(textWatcher)
                         val recv =
                             selectDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
                         val adapter2 =
@@ -90,10 +96,11 @@ class CaricaGiocatoriFragment : Fragment() {
                                         competizioniVM.inseriscigiocatore(
                                             gioc,
                                             utente
-                                            )
+                                        )
 
                                         choiceDialog.dismiss()
                                         selectDialog.dismiss()
+                                        competizioniVM.resetfiltro()
                                     }
                                 choiceDialog.findViewById<Button>(R.id.noButton)
                                     .setOnClickListener {
@@ -101,10 +108,52 @@ class CaricaGiocatoriFragment : Fragment() {
                                     }
                                 choiceDialog.show()
                             }
+
                         })
                         recv.layoutManager = LinearLayoutManager(context)
                         recv.adapter = adapter2
                         selectDialog.show()
+                        competizioniVM.filtrate.observe(viewLifecycleOwner) {
+                            if (it != null) {
+                                if (it == true) {
+                                    val adapter3 =
+                                        InserisciFormazioneAdapter(competizioniVM.giocatoridispfil.value!!)
+                                    adapter3.setonclick(object : InserisciFormazioneAdapter.SetOnClickListener {
+                                        override fun onClick(position: Int, gioc: GiocatoreFormazione) {
+                                            val choiceDialog = Dialog(requireActivity())
+                                            choiceDialog.setContentView(R.layout.fragment_custom_dialog)
+                                            choiceDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                                            if (competizioniVM.competizione.value!!.sport == "Serie A") {
+                                                choiceDialog.findViewById<TextView>(R.id.dialogTitle).text =
+                                                    "Sicuro di voler aggiungere questo giocatore?"
+                                            } else {
+                                                choiceDialog.findViewById<TextView>(R.id.dialogTitle).text =
+                                                    "Sicuro di voler aggiungere questo pilota?"
+                                            }
+                                            choiceDialog.findViewById<Button>(R.id.yesButton)
+                                                .setOnClickListener {
+                                                    competizioniVM.inseriscigiocatore(
+                                                        gioc,
+                                                        utente
+                                                    )
+                                                    choiceDialog.dismiss()
+                                                    selectDialog.dismiss()
+                                                    competizioniVM.resetfiltro()
+                                                }
+                                            choiceDialog.findViewById<Button>(R.id.noButton)
+                                                .setOnClickListener {
+                                                    choiceDialog.dismiss()
+                                                }
+                                            choiceDialog.show()
+                                        }
+
+                                    })
+                                    recv.layoutManager = LinearLayoutManager(context)
+                                    recv.adapter = adapter3
+
+                                }
+                            }
+                        }
                     }
                 })
                 rv.layoutManager = LinearLayoutManager(context)
@@ -144,6 +193,21 @@ class CaricaGiocatoriFragment : Fragment() {
         }
 
 
+    }
+
+    val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            // Code to execute before the text is changed
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            competizioniVM.filtrogioc(s.toString())
+            //Log.d("TAG", "onTextChanged: ${s.toString()}")
+        }
     }
 }
 

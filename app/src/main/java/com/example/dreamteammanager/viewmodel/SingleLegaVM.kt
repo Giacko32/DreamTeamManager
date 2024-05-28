@@ -159,10 +159,14 @@ class SingleLegaVM : ViewModel() {
     }
 
     fun eliminarichiedente(idutente: Int) {
+        var index = -1
         richiedenti.value?.forEach { utente ->
             if (utente.id == idutente) {
-                _richiedenti.value?.removeAt(richiedenti.value!!.indexOf(utente))
+                index = richiedenti.value!!.indexOf(utente)
             }
+        }
+        if (index != -1) {
+            _richiedenti.value?.removeAt(index)
         }
     }
 
@@ -265,9 +269,11 @@ class SingleLegaVM : ViewModel() {
     init {
         _filtrati.value = false
     }
+
     fun updatefiltrati() {
         _filtrati.value = true
     }
+
     fun resetfiltrati() {
         _filtrati.value = false
     }
@@ -284,11 +290,12 @@ class SingleLegaVM : ViewModel() {
 
         }
     }
+
     fun eliminainvitato(idutente: Int) {
-        var index:Int=0
+        var index: Int = 0
         invitati.value?.forEach { utente ->
             if (utente.id == idutente) {
-                index=invitati.value!!.indexOf(utente)
+                index = invitati.value!!.indexOf(utente)
             }
         }
         invitati.value?.removeAt(index)
@@ -301,6 +308,7 @@ class SingleLegaVM : ViewModel() {
     init {
         _invitando.value = null
     }
+
     fun resetinvitando() {
         _invitando.value = null
     }
@@ -336,9 +344,11 @@ class SingleLegaVM : ViewModel() {
 
     private val _listapartcompiti = MutableLiveData<ArrayList<Utente>>()
     val listapartcompiti: LiveData<ArrayList<Utente>> = _listapartcompiti
+
     init {
         _listapartcompiti.value = ArrayList()
     }
+
     private val _creando = MutableLiveData<Boolean?>()
     val creando: LiveData<Boolean?>
         get() = _creando
@@ -346,13 +356,21 @@ class SingleLegaVM : ViewModel() {
     init {
         _creando.value = null
     }
+
     fun resetcreando() {
         _creando.value = null
     }
-    fun creacompetizione(competizione: Competizione){
-        _creando.value=true
+
+    fun creacompetizione(competizione: Competizione) {
+        _creando.value = true
         val body = Gson().fromJson(
-            parseModelToJson(CompezioneLegaPart(competizione, _lega.value!!.id,listapartcompiti.value!!)),
+            parseModelToJson(
+                CompezioneLegaPart(
+                    competizione,
+                    _lega.value!!.id,
+                    listapartcompiti.value!!
+                )
+            ),
             JsonObject::class.java
         )
         Client.retrofit.creacomp(body).enqueue(
@@ -376,11 +394,14 @@ class SingleLegaVM : ViewModel() {
         )
 
     }
+
     private val _listacompetizioni = MutableLiveData<ArrayList<Competizione>>()
     val listacompetizioni: LiveData<ArrayList<Competizione>> = _listacompetizioni
+
     init {
         _listacompetizioni.value = ArrayList()
     }
+
     private val _scarcomp = MutableLiveData<Boolean?>()
     val scarcomp: LiveData<Boolean?>
         get() = _scarcomp
@@ -388,11 +409,13 @@ class SingleLegaVM : ViewModel() {
     init {
         _scarcomp.value = null
     }
+
     fun resetcomp() {
         _scarcomp.value = null
     }
-    fun getcompetizioni(){
-        _scarcomp.value=true
+
+    fun getcompetizioni() {
+        _scarcomp.value = true
         Client.retrofit.getcomp(lega.value!!.id).enqueue(
             object : Callback<JsonArray> {
                 override fun onResponse(
@@ -426,6 +449,7 @@ fun parseJsonToArrayUtenti(jsonString: String): ArrayList<Utente> {
         object : com.google.gson.reflect.TypeToken<ArrayList<Utente>>() {}.type
     )
 }
+
 fun parseJsonToArrayComp(jsonString: String): ArrayList<Competizione> {
     val gson = Gson()
     return gson.fromJson(
@@ -435,4 +459,8 @@ fun parseJsonToArrayComp(jsonString: String): ArrayList<Competizione> {
 }
 
 class UtenteLegaPart(val idutente: Int, val idlega: Int, val npart: Int)
-class CompezioneLegaPart(val competizione: Competizione,val idlega: Int, val part:ArrayList<Utente>)
+class CompezioneLegaPart(
+    val competizione: Competizione,
+    val idlega: Int,
+    val part: ArrayList<Utente>
+)

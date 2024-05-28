@@ -305,6 +305,31 @@ class CompetizioniVM : ViewModel() {
         )
     }
 
+    private val _giocatoridispfil = MutableLiveData<ArrayList<GiocatoreFormazione>>()
+    val giocatoridispfil: LiveData<ArrayList<GiocatoreFormazione>> = _giocatoridispfil
+
+    init {
+        _giocatoridispfil.value = arrayListOf()
+    }
+    private val _filtrate=MutableLiveData<Boolean?>()
+    val filtrate:LiveData<Boolean?>
+        get()=_filtrate
+    init {
+        _filtrate.value=null
+    }
+    fun resetfiltro(){
+        _filtrate.value=null
+    }
+    fun filtrogioc(filtro:String){
+        _giocatoridispfil.value?.clear()
+        giocatoridisp.value!!.forEach{
+            if(it.nome.lowercase().contains(filtro.lowercase())){
+                _giocatoridispfil.value!!.add(it)
+            }
+
+        }
+        _filtrate.value=true
+    }
     private val _giocatoridisp = MutableLiveData<ArrayList<GiocatoreFormazione>>()
     val giocatoridisp: LiveData<ArrayList<GiocatoreFormazione>> = _giocatoridisp
 

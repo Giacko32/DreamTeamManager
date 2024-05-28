@@ -266,7 +266,6 @@ class legheVM : ViewModel() {
         listaLeghe.value!!.forEach{
             if(it.name.contains(filtro)){
                 _leghefiltrate.value?.add(it)
-                Log.d("TAG",it.name)
             }
         }
         _filtrate.value=true
