@@ -28,7 +28,7 @@ class InvitaGiocatoriAdapter(val data: ArrayList<Utente>, val imagesVM: ImagesVM
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val context = holder.row.context
-        imagesVM.getProfilePic(context, data[position].id, holder.immagine, true)
+        imagesVM.getProfilePic(context, data[position].id, holder.immagine)
         holder.nomeutente.text = data[position].username
     }
 

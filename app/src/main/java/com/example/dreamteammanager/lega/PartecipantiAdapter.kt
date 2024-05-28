@@ -57,7 +57,7 @@ class PartecipantiAdapter(
                 holder.star.visibility = View.VISIBLE
             }
         }
-        imagesVM.getProfilePic(context, data[position].id, holder.immagine, true)
+        imagesVM.getProfilePic(context, data[position].id, holder.immagine)
         if (selectable) {
             holder.selector.visibility = View.VISIBLE
         } else {

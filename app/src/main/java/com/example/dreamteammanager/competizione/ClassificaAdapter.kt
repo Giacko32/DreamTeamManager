@@ -52,7 +52,7 @@ class ClassificaAdapter(
         holder.nomeutente.text = data[position].username
         holder.punteggio.text = "Score: ${data[position].punteggio}"
         holder.posizione.text = "${position + 1}°"
-        imagesVM.getProfilePic(context, data[position].id, holder.immagine, true)
+        imagesVM.getProfilePic(context, data[position].id, holder.immagine)
         holder.itemView.setOnClickListener {
             onClickListener?.onClick(position, data[position])
             notifyDataSetChanged()
