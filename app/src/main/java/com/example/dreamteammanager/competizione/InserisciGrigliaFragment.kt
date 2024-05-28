@@ -38,7 +38,7 @@ import com.example.dreamteammanager.viewmodel.parseJsonToModel
 
 class InserisciGrigliaFragment : Fragment() {
     lateinit var binding: FragmentInserisciGrigliaBinding
-    private val compViewModel: CompetizioniVM by viewModels()
+    private val compViewModel: CompetizioniVM by activityViewModels()
     private val singleLegaVM: SingleLegaVM by activityViewModels()
     private val imagesVM: ImagesVM by viewModels()
 
@@ -59,8 +59,10 @@ class InserisciGrigliaFragment : Fragment() {
         compViewModel.clear()
         val array = mutableListOf<String>()
         compViewModel.giornate.value?.forEach {
+            Log.d("giornata", it.giornata.toString())
             array.add(it.giornata.toString())
         }
+        Log.d("array", array.toString())
         val spinnerArrayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(), android.R.layout.simple_spinner_dropdown_item, array
         )
@@ -97,7 +99,7 @@ class InserisciGrigliaFragment : Fragment() {
                 object : InserisciGrigliaAdapter.SetOnClickListener {
                     override fun onClick(position: Int, pilota: Pilota) {
                         compViewModel.griglia.value!![1] = pilota.idpilota
-                        binding.pilota1.text = pilota.nome
+                        binding.pilota2.text = pilota.nome
                         grigliaDialog.dismiss()
                     }
                 }
@@ -107,7 +109,7 @@ class InserisciGrigliaFragment : Fragment() {
             grigliaDialog.show()
         }
         binding.CreaButton.setOnClickListener {
-            if (compViewModel.checkForm()) {
+            if (compViewModel.checkGriglia()) {
                 compViewModel.inseresciFormazione(
                     parseJsonToModel(
                         SharedPreferencesManager.getString(
@@ -144,7 +146,7 @@ class InserisciGrigliaFragment : Fragment() {
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
                 ).create()
                 alertDialog.setTitle("SUCCESSO")
-                alertDialog.setMessage("Hai inserito la formazione")
+                alertDialog.setMessage("Hai inserito la griglia")
                 alertDialog.setButton(
                     AlertDialog.BUTTON_POSITIVE, "OK",
                 ) { dialog, which ->

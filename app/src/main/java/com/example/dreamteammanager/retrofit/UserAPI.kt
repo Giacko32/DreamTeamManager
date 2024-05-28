@@ -127,6 +127,8 @@ interface UserAPI {
     fun insertFormazione(@Body Formazione: JsonObject): Call<JsonObject>
     @GET("pwm/getgiornatedacalcolare/{idcomp}/{idutente}")
     fun getgiornate(@Path("idcomp")idcomp: Int,@Path("idutente")idutente: Int):Call<JsonArray>
+    @GET("pwm/getgiornatecalmie/{idcomp}/{idutente}")
+    fun getgiornatecalcmie(@Path("idcomp")idcomp: Int,@Path("idutente")idutente: Int):Call<JsonArray>
 
     companion object {
         const val BASE_URL = "http://192.168.133.165:9000"

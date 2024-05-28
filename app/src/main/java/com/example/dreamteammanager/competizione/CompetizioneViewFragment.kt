@@ -41,7 +41,7 @@ class CompetizioneViewFragment : Fragment() {
             binding.CalcolaGiornataButton.visibility = View.GONE
             binding.CaricaGiocatoriButton.visibility = View.GONE
         }
-        compVM.getpartecipanti()
+        compVM.getpartecipantiedati(utente.id)
         binding.NomeComp.text = compVM.competizione.value?.nome
         when (compVM.competizione.value?.sport) {
             "Serie A" -> binding.immagine.setImageResource(R.drawable.seriealogo)
@@ -62,6 +62,10 @@ class CompetizioneViewFragment : Fragment() {
                     )
                 rv.layoutManager = LinearLayoutManager(context)
                 rv.adapter = adapter
+                val rv2=binding.recViewFormazione
+                val adapter2=Giornateadapter(compVM.miegiornate.value!!)
+                rv2.layoutManager=LinearLayoutManager(context)
+                rv2.adapter=adapter2
                 binding.progressBar.visibility = View.GONE
                 compVM.resetscaricando()
             }
