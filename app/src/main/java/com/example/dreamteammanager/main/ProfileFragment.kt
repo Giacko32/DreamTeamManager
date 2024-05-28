@@ -66,7 +66,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var newpassword:String=""
+        var newpassword: String = ""
 
         profimgViewModel.changed.observe(viewLifecycleOwner) {
             profimgViewModel.getProfilePic(
@@ -82,19 +82,18 @@ class ProfileFragment : Fragment() {
             passwordDialog.setContentView(R.layout.dialog_change_password)
             passwordDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
             passwordDialog.findViewById<Button>(R.id.ChangeButton).setOnClickListener {
-                binding.progressBar.visibility=View.VISIBLE
+                binding.progressBar.visibility = View.VISIBLE
                 val new_password =
                     passwordDialog.findViewById<TextInputEditText>(R.id.newpasswordfield).text.toString()
                 val old_password =
                     passwordDialog.findViewById<TextInputEditText>(R.id.oldpasswordfield).text.toString()
-                if (old_password == userViewModel.user.value!!.password && new_password.length in  1..25) {
-                    newpassword=new_password
+                if (old_password == userViewModel.user.value!!.password && new_password.length in 1..25) {
+                    newpassword = new_password
                     userViewModel.changeProfilePassword(
                         new_password,
                         userViewModel.user.value!!.email
                     )
                     passwordDialog.dismiss()
-
                 } else {
                     val alertDialog = AlertDialog.Builder(
                         requireContext(),
@@ -104,25 +103,28 @@ class ProfileFragment : Fragment() {
                     alertDialog.setMessage("La vecchia password inserita non corrisponde")
                     alertDialog.setButton(
                         AlertDialog.BUTTON_NEGATIVE, "RIPROVA"
-                    ) { dialog, which -> dialog.dismiss() }
+                    ) { dialog, which ->
+                        dialog.dismiss()
+                        binding.progressBar.visibility = View.GONE
+                    }
                     alertDialog.show()
                     alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                         .setTextColor(Color.parseColor("#ff5722"))
                 }
             }
             passwordDialog.show()
-
-
         }
 
         userViewModel.modificaPassword.observe(requireActivity()) {
             if (it == true) {
-                val utente=Utente(1,userViewModel.user.value!!.username,
+                val utente = Utente(
+                    1, userViewModel.user.value!!.username,
                     newpassword,
-                    userViewModel.user.value!!.email)
+                    userViewModel.user.value!!.email
+                )
                 userViewModel.setUtente(utente)
                 SharedPreferencesManager.saveString("utente", parseModelToJson(utente))
-                binding.progressBar.visibility=View.GONE
+                binding.progressBar.visibility = View.GONE
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -138,7 +140,7 @@ class ProfileFragment : Fragment() {
 
                 passwordDialog.dismiss()
             } else if (it == false) {
-                binding.progressBar.visibility=View.GONE
+                binding.progressBar.visibility = View.GONE
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -163,7 +165,7 @@ class ProfileFragment : Fragment() {
         binding.Email.setText(userViewModel.user.value!!.email)
 
         binding.ModifyButton.setOnClickListener {
-            binding.progressBar.visibility=View.VISIBLE
+            binding.progressBar.visibility = View.VISIBLE
             val username = binding.Username.text.toString()
             val email = binding.Email.text.toString()
             if (username == userViewModel.user.value!!.username) {
@@ -188,7 +190,7 @@ class ProfileFragment : Fragment() {
                     alertDialog.show()
                     alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                         .setTextColor(Color.parseColor("#ff5722"))
-                    binding.progressBar.visibility=View.GONE
+                    binding.progressBar.visibility = View.GONE
                 } else {
                     userViewModel.checkModifica("null", username)
                 }
@@ -220,7 +222,7 @@ class ProfileFragment : Fragment() {
                 alertDialog.show()
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                     .setTextColor(Color.parseColor("#ff5722"))
-                binding.progressBar.visibility=View.GONE
+                binding.progressBar.visibility = View.GONE
             }
         }
 
@@ -228,10 +230,10 @@ class ProfileFragment : Fragment() {
             if (it == "Credenziali aggiornate") {
                 val username = binding.Username.text.toString().trimEnd()
                 val email = binding.Email.text.toString().trimEnd()
-                val utente=Utente(1,username,userViewModel.user.value!!.password,email)
+                val utente = Utente(1, username, userViewModel.user.value!!.password, email)
                 userViewModel.setUtente(utente)
                 SharedPreferencesManager.saveString("utente", parseModelToJson(utente))
-                binding.progressBar.visibility=View.GONE
+                binding.progressBar.visibility = View.GONE
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
