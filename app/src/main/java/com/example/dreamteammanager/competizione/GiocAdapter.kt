@@ -7,16 +7,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
+import com.example.dreamteammanager.classi.GiocPunt
+import com.example.dreamteammanager.classi.GiocatoreStatistiche
 import com.example.dreamteammanager.classi.GiornataPunteggio
 
-class Giornateadapter(
-    val data: ArrayList<GiornataPunteggio>
+class GiocAdapter(
+    val data: ArrayList<GiocPunt>
 ) :
-    RecyclerView.Adapter<Giornateadapter.MyViewHolder>() {
+    RecyclerView.Adapter<GiocAdapter.MyViewHolder>() {
     var onClickListener: SetOnClickListener? = null
 
     interface SetOnClickListener {
-        fun onClick(position: Int, giornataPunteggio: GiornataPunteggio)
+        fun onClick(position: Int, giornataPunteggio: GiocPunt)
     }
 
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
@@ -38,7 +40,7 @@ class Giornateadapter(
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val context = holder.row.context
-        holder.giornata.text = "Giornata ${data[position].giornata+1}"
+        holder.giornata.text = "${data[position].nome}"
         holder.punteggio.text = data[position].punteggio.toString()
 
         holder.itemView.setOnClickListener {

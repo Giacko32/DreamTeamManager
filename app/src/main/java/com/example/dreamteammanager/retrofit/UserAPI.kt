@@ -129,8 +129,11 @@ interface UserAPI {
     fun getgiornate(@Path("idcomp")idcomp: Int,@Path("idutente")idutente: Int):Call<JsonArray>
     @GET("pwm/getgiornatecalmie/{idcomp}/{idutente}")
     fun getgiornatecalcmie(@Path("idcomp")idcomp: Int,@Path("idutente")idutente: Int):Call<JsonArray>
+    @GET("pwm/getgiornatecalgioc/{idcomp}/{idutente}/{giornata}")
+    fun getgiornatecalgioc(@Path("idcomp")idcomp: Int,@Path("idutente")idutente: Int,@Path("giornata")giornata: Int):Call<JsonArray>
+
 
     companion object {
-        const val BASE_URL = "http://192.168.118.139:9000"
+        const val BASE_URL = "http://192.168.133.165:9000"
     }
 }

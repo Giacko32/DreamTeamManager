@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.dreamteammanager.classi.Competizione
+import com.example.dreamteammanager.classi.GiocPunt
 import com.example.dreamteammanager.classi.Giocatore
 import com.example.dreamteammanager.classi.GiocatoreFormazione
 import com.example.dreamteammanager.classi.GiocatoreStatistiche
@@ -622,6 +623,58 @@ class CompetizioniVM : ViewModel() {
         _griglia.value = IntArray(2)
     }
 
+    private val _giocatoripunt= MutableLiveData<ArrayList<GiocPunt>>()
+    val giocatoripunt: LiveData<ArrayList<GiocPunt>> = _giocatoripunt
+    init {
+        _giocatoripunt.value = arrayListOf()
+    }
+
+    private val _giornatecalc= MutableLiveData<Boolean?>()
+    val giornatecalc: LiveData<Boolean?>
+        get() = _giornatecalc
+    init{
+        _giornatecalc.value = null
+    }
+    fun resetgiornatacalc(){
+        _giornatecalc.value = null
+    }
+    fun getGiocatoriGiornata(giornata: Int, idutente: Int){
+        _giornatecalc.value = true
+        _giocatoripunt.value?.clear()
+        Client.retrofit.getgiornatecalgioc(competizione.value!!.id,idutente,giornata+1).enqueue(
+            object : Callback<JsonArray> {
+                override fun onResponse(
+                    call: Call<JsonArray>, response:
+                    Response<JsonArray>
+                ) {
+                    if (response.isSuccessful) {
+                        _giocatoripunt.value =
+                            parseJsonToArrayGiocpunt(response.body().toString())
+                        Log.d("giornatecalc", response.body().toString())
+                        _giornatecalc.value = false
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<JsonArray>?, t:
+                    Throwable?
+                ) {
+                    _giornatecalc.value = false
+                }
+            }
+        )
+
+    }
+    private val _totale=MutableLiveData<Int>()
+    val totale:LiveData<Int> = _totale
+    init{
+        _totale.value = 0
+    }
+    fun setTotale(tot:Int){
+        _totale.value = tot
+    }
+
+
 }
 
 fun parseJsonToArrayInt(jsonString: String): ArrayList<Giornata> {
@@ -656,6 +709,13 @@ fun parseJsonToArrayStatistica(jsonString: String): ArrayList<GiocatoreStatistic
         object : com.google.gson.reflect.TypeToken<ArrayList<GiocatoreStatistiche>>() {}.type
     )
 }
+fun parseJsonToArrayGiocpunt(jsonString: String): ArrayList<GiocPunt> {
+    val gson = Gson()
+    return gson.fromJson(
+        jsonString,
+        object : com.google.gson.reflect.TypeToken<ArrayList<GiocPunt>>() {}.type
+    )
+}
 
 fun parseJsonToArrayGiocatori(jsonString: String): ArrayList<GiocatoreFormazione> {
     val gson = Gson()
@@ -664,6 +724,7 @@ fun parseJsonToArrayGiocatori(jsonString: String): ArrayList<GiocatoreFormazione
         object : com.google.gson.reflect.TypeToken<ArrayList<GiocatoreFormazione>>() {}.type
     )
 }
+
 
 fun parseJsonToArrayPiloti(jsonString: String): ArrayList<Pilota> {
     val gson = Gson()
