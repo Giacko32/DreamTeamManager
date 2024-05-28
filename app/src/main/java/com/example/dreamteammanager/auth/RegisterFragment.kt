@@ -44,6 +44,7 @@ class RegisterFragment : Fragment() {
             val username = bind.UsernameText.text.toString().trimEnd()
             val password = bind.PasswordText.text.toString().trimEnd()
             val email = bind.EmailText.text.toString().trimEnd()
+            bind.progressBar.visibility = View.VISIBLE
             userviewModel.checkdisponibilita(username,password,email)
         }
 
@@ -70,6 +71,7 @@ class RegisterFragment : Fragment() {
 
         userviewModel.stringadiritorno.observe(requireActivity()){
             if(it=="Registrazione effettuata"){
+                bind.progressBar.visibility = View.GONE
                 parentFragmentManager.commit {
                     setReorderingAllowed(true)
                     replace<LoginFragment>(R.id.fragment_container)

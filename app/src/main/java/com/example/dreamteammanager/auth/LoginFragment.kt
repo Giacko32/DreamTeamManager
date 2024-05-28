@@ -84,12 +84,10 @@ class LoginFragment : Fragment() {
         binding.registratilabel.setOnClickListener {
             parentFragmentManager.commit {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace<RegisterFragment>(R.id.fragment_container)
                 addToBackStack("registrati")
             }
         }
-
 
         binding.LoginButton.setOnClickListener {
             val username = binding.usernametext.text.toString().trimEnd()
