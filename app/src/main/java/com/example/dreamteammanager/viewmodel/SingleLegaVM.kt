@@ -1,19 +1,19 @@
 package com.example.dreamteammanager.viewmodel
 
-import android.content.Context
-import android.content.Intent
+
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.classi.Competizione
+import com.example.dreamteammanager.classi.CompetizioneLegaPart
 import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
-import com.example.dreamteammanager.lega.InvitaGiocatoriAdapter
-import com.example.dreamteammanager.lega.LegaActivity
-import com.example.dreamteammanager.lega.PartecipantiAdapter
-import com.example.dreamteammanager.main.LegheAdapter
+import com.example.dreamteammanager.classi.UtenteLega
+import com.example.dreamteammanager.classi.UtenteLegaPart
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToArrayComp
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToArrayUtenti
+import com.example.dreamteammanager.classi.Utils.Companion.parseModelToJson
 import com.example.dreamteammanager.retrofit.Client
 import com.google.gson.Gson
 import com.google.gson.JsonArray
@@ -365,7 +365,7 @@ class SingleLegaVM : ViewModel() {
         _creando.value = true
         val body = Gson().fromJson(
             parseModelToJson(
-                CompezioneLegaPart(
+                CompetizioneLegaPart(
                     competizione,
                     _lega.value!!.id,
                     listapartcompiti.value!!
@@ -442,25 +442,6 @@ class SingleLegaVM : ViewModel() {
 
 }
 
-fun parseJsonToArrayUtenti(jsonString: String): ArrayList<Utente> {
-    val gson = Gson()
-    return gson.fromJson(
-        jsonString,
-        object : com.google.gson.reflect.TypeToken<ArrayList<Utente>>() {}.type
-    )
-}
 
-fun parseJsonToArrayComp(jsonString: String): ArrayList<Competizione> {
-    val gson = Gson()
-    return gson.fromJson(
-        jsonString,
-        object : com.google.gson.reflect.TypeToken<ArrayList<Competizione>>() {}.type
-    )
-}
 
-class UtenteLegaPart(val idutente: Int, val idlega: Int, val npart: Int)
-class CompezioneLegaPart(
-    val competizione: Competizione,
-    val idlega: Int,
-    val part: ArrayList<Utente>
-)
+

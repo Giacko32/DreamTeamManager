@@ -25,14 +25,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.GiornataPunteggio
 import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToModel
 import com.example.dreamteammanager.databinding.DialogRoseBinding
 import com.example.dreamteammanager.databinding.FragmentCompetizioneViewBinding
 import com.example.dreamteammanager.lega.PartecipantiAdapter
 import com.example.dreamteammanager.viewmodel.CompetizioniVM
-import com.example.dreamteammanager.viewmodel.Giornata
 import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
-import com.example.dreamteammanager.viewmodel.parseJsonToModel
+
 
 
 class CompetizioneViewFragment : Fragment() {
@@ -46,6 +46,12 @@ class CompetizioneViewFragment : Fragment() {
         if (utente.id != compVM.idamm.value) {
             binding.CalcolaGiornataButton.visibility = View.GONE
             binding.CaricaGiocatoriButton.visibility = View.GONE
+        }
+        if(compVM.competizione.value!!.sport!="Serie A"){
+            binding.CaricaGiocatoriButton.text="Carica Piloti"
+            binding.CalcolaGiornataButton.text="Calcola gara"
+            binding.textformazione.text="Gare:"
+            binding.StatisticheButton.text="Statistiche piloti"
         }
         compVM.getpartecipantiedati(utente.id)
         binding.NomeComp.text = compVM.competizione.value?.nome
@@ -69,7 +75,7 @@ class CompetizioneViewFragment : Fragment() {
                 rv.layoutManager = LinearLayoutManager(context)
                 rv.adapter = adapter
                 val rv2 = binding.recViewFormazione
-                val adapter2 = Giornateadapter(compVM.miegiornate.value!!)
+                val adapter2 = Giornateadapter(compVM.miegiornate.value!!,compVM.competizione.value!!.sport)
                 rv2.layoutManager = LinearLayoutManager(context)
                 adapter2.setonclick(object : Giornateadapter.SetOnClickListener {
                     override fun onClick(position: Int, giornata: GiornataPunteggio) {
@@ -154,6 +160,33 @@ class CompetizioneViewFragment : Fragment() {
                 alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
                     .setTextColor(Color.parseColor("#ff5722"))
                 compVM.resetcalcolando()
+                compVM.getpartecipantiedati(utente.id)
+            }
+        }
+
+
+
+        compVM.checkdisp.observe(viewLifecycleOwner){
+            if(it==false){
+                binding.progressBar.visibility=View.GONE
+                calcoladialog.dismiss()
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("ATTENZIONE")
+                alertDialog.setMessage("Alcuni partecipanti non hanno inserito la formazione per la giornata selezionata")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_POSITIVE, "OK",
+                ) { dialog, which ->
+                    dialog.dismiss()
+                }
+                alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    .setTextColor(Color.parseColor("#ff5722"))
+                compVM.resetcheckdisp()
+            }else{
+
             }
         }
         val classificaDialog = Dialog(requireContext())

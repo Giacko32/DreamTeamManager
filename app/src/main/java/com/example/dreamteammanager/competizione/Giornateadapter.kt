@@ -10,7 +10,7 @@ import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.GiornataPunteggio
 
 class Giornateadapter(
-    val data: ArrayList<GiornataPunteggio>
+    val data: ArrayList<GiornataPunteggio>,val sport:String
 ) :
     RecyclerView.Adapter<Giornateadapter.MyViewHolder>() {
     var onClickListener: SetOnClickListener? = null
@@ -38,7 +38,11 @@ class Giornateadapter(
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val context = holder.row.context
-        holder.giornata.text = "Giornata ${data[position].giornata}"
+        if (sport=="Serie A"){
+        holder.giornata.text = "Giornata ${data[position].giornata}"}
+        else{
+            holder.giornata.text = "Gara ${data[position].giornata}"
+        }
         holder.punteggio.text = data[position].punteggio.toString()
         holder.itemView.setOnClickListener {
             onClickListener?.onClick(position, data[position])

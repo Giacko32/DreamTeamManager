@@ -1,9 +1,7 @@
 package com.example.dreamteammanager.retrofit
 
-import com.example.dreamteammanager.viewmodel.CompezioneLegaPart
-import com.example.dreamteammanager.viewmodel.Emailcode
-import com.example.dreamteammanager.viewmodel.ModifyCredenzialiProfile
-import com.example.dreamteammanager.viewmodel.UtenteLega
+
+import com.example.dreamteammanager.classi.Emailcode
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import retrofit2.Call
@@ -131,7 +129,8 @@ interface UserAPI {
     fun getgiornatecalcmie(@Path("idcomp")idcomp: Int,@Path("idutente")idutente: Int):Call<JsonArray>
     @GET("pwm/getgiornatecalgioc/{idcomp}/{idutente}/{giornata}")
     fun getgiornatecalgioc(@Path("idcomp")idcomp: Int,@Path("idutente")idutente: Int,@Path("giornata")giornata: Int):Call<JsonArray>
-
+    @GET("pwm/getdispcalgiorn/{idcomp}/{giornata}/{sport}")
+    fun checkdisp(@Path("idcomp")idcomp: Int,@Path("giornata")giornata: Int,@Path("sport")sport:String):Call<JsonObject>
 
     companion object {
         const val BASE_URL = "http://192.168.133.165:9000"

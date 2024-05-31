@@ -3,9 +3,12 @@ package com.example.dreamteammanager.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.classi.Password
+
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToModel
+import com.example.dreamteammanager.classi.Utils.Companion.parseModelToJson
 import com.example.dreamteammanager.retrofit.Client
-import com.google.gson.Gson
+
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import retrofit2.Call
@@ -25,7 +28,7 @@ class ChangePasswordVM:ViewModel() {
             if (password == confirm) {
                 _passwordmodified.value = "Modificando"
                 val utente= parseJsonToModel(SharedPreferencesManager.getString("user",""))
-                val pass=Password(password,utente.email)
+                val pass= Password(password,utente.email)
                 val gson=JsonParser.parseString(parseModelToJson(pass))
                 Client.retrofit.cambiapassword(gson.asJsonObject).enqueue(
                     object : Callback<JsonObject> {
@@ -58,4 +61,4 @@ class ChangePasswordVM:ViewModel() {
 
     }
 }
- class Password(val password: String,val email:String)
+

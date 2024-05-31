@@ -7,9 +7,10 @@ import androidx.core.app.NotificationCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.dreamteammanager.R
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToModel
 import com.example.dreamteammanager.retrofit.Client
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
-import com.example.dreamteammanager.viewmodel.parseJsonToModel
+
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import retrofit2.Call

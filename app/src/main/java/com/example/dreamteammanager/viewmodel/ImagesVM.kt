@@ -15,6 +15,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.dreamteammanager.R
+import com.example.dreamteammanager.classi.ProfileImage
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToModel
+import com.example.dreamteammanager.classi.Utils.Companion.parseModelToJson
 import com.example.dreamteammanager.retrofit.Client
 import com.example.dreamteammanager.retrofit.UserAPI
 import com.google.gson.JsonObject
@@ -128,4 +131,3 @@ class ImagesVM : ViewModel() {
 
 }
 
-class ProfileImage(val userid: Int, val image: String)

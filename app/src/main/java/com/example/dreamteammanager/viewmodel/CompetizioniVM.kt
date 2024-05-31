@@ -4,15 +4,28 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.dreamteammanager.classi.CompGiorn
 import com.example.dreamteammanager.classi.Competizione
+import com.example.dreamteammanager.classi.Formazione
 import com.example.dreamteammanager.classi.GiocPunt
 import com.example.dreamteammanager.classi.Giocatore
 import com.example.dreamteammanager.classi.GiocatoreFormazione
 import com.example.dreamteammanager.classi.GiocatoreStatistiche
+import com.example.dreamteammanager.classi.Giornata
 import com.example.dreamteammanager.classi.GiornataPunteggio
+import com.example.dreamteammanager.classi.InsertGiocatore
 import com.example.dreamteammanager.classi.Pilota
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.classi.UtentePunteggio
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToArrayClassifica
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToArrayGiocatori
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToArrayGiocpunt
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToArrayGiornate
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToArrayInt
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToArrayPiloti
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToArrayStatistica
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToArrayUtenti
+import com.example.dreamteammanager.classi.Utils.Companion.parseModelToJson
 import com.example.dreamteammanager.retrofit.Client
 import com.google.gson.Gson
 import com.google.gson.JsonArray
@@ -190,20 +203,54 @@ class CompetizioniVM : ViewModel() {
     fun resetcalcolando() {
         _calcolando.value = null
     }
+
+    private val _checkdisp = MutableLiveData<Boolean?>()
+    val checkdisp: LiveData<Boolean?>
+        get() = _checkdisp
+
+    init {
+        _checkdisp.value = null
+    }
+
+    fun resetcheckdisp() {
+        _checkdisp.value = null
+    }
+
     fun calcolagiornata(giornata: Int) {
         _calcolando.value = true
         val body = Gson().fromJson(
             parseModelToJson(CompGiorn(competizione.value!!, giornata)),
             JsonObject::class.java
         )
-        Client.retrofit.calcolagiornata(body).enqueue(
+        Client.retrofit.checkdisp(competizione.value!!.id,giornata,competizione.value!!.sport).enqueue(
             object : Callback<JsonObject> {
                 override fun onResponse(
                     call: Call<JsonObject>, response:
                     Response<JsonObject>
                 ) {
                     if (response.isSuccessful) {
-                        _calcolando.value = false
+
+                        if(response.body().toString()!="{}"){
+                            _checkdisp.value=false
+                        }else{
+                            Log.d("tag",response.body().toString())
+                            Client.retrofit.calcolagiornata(body).enqueue(object : Callback<JsonObject> {
+                                override fun onResponse(
+                                    call: Call<JsonObject>, response:
+                                    Response<JsonObject>
+                                ) {
+                                    if (response.isSuccessful) {
+                                        _calcolando.value=false
+                                    }
+                                }
+                                override fun onFailure(
+                                    call: Call<JsonObject>?, t:
+                                    Throwable?
+                                ) {
+                                    _checkdisp.value=false
+                                }
+                            })
+                        }
                     }
                 }
 
@@ -211,7 +258,7 @@ class CompetizioniVM : ViewModel() {
                     call: Call<JsonObject>?, t:
                     Throwable?
                 ) {
-                    _calcolando.value = false
+                   _checkdisp.value=false
                 }
             }
         )
@@ -702,76 +749,10 @@ class CompetizioniVM : ViewModel() {
 
 }
 
-fun parseJsonToArrayInt(jsonString: String): ArrayList<Giornata> {
-    val gson = Gson()
-    return gson.fromJson(
-        jsonString,
-        object : com.google.gson.reflect.TypeToken<ArrayList<Giornata>>() {}.type
-    )
-}
-
-fun parseJsonToArrayClassifica(jsonString: String): ArrayList<UtentePunteggio> {
-    val gson = Gson()
-    return gson.fromJson(
-        jsonString,
-        object : com.google.gson.reflect.TypeToken<ArrayList<UtentePunteggio>>() {}.type
-    )
-}
-
-fun parseJsonToArrayGiornate(jsonString: String): ArrayList<GiornataPunteggio> {
-    val gson = Gson()
-    return gson.fromJson(
-        jsonString,
-        object : com.google.gson.reflect.TypeToken<ArrayList<GiornataPunteggio>>() {}.type
-    )
-}
 
 
-fun parseJsonToArrayStatistica(jsonString: String): ArrayList<GiocatoreStatistiche> {
-    val gson = Gson()
-    return gson.fromJson(
-        jsonString,
-        object : com.google.gson.reflect.TypeToken<ArrayList<GiocatoreStatistiche>>() {}.type
-    )
-}
-fun parseJsonToArrayGiocpunt(jsonString: String): ArrayList<GiocPunt> {
-    val gson = Gson()
-    return gson.fromJson(
-        jsonString,
-        object : com.google.gson.reflect.TypeToken<ArrayList<GiocPunt>>() {}.type
-    )
-}
-
-fun parseJsonToArrayGiocatori(jsonString: String): ArrayList<GiocatoreFormazione> {
-    val gson = Gson()
-    return gson.fromJson(
-        jsonString,
-        object : com.google.gson.reflect.TypeToken<ArrayList<GiocatoreFormazione>>() {}.type
-    )
-}
 
 
-fun parseJsonToArrayPiloti(jsonString: String): ArrayList<Pilota> {
-    val gson = Gson()
-    return gson.fromJson(
-        jsonString,
-        object : com.google.gson.reflect.TypeToken<ArrayList<Pilota>>() {}.type
-    )
-}
 
 
-class CompGiorn(val competizione: Competizione, val giornata: Int)
-class Giornata(val giornata: Int)
 
-class InsertGiocatore(
-    val comp: Competizione,
-    val giocatore: GiocatoreFormazione,
-    val utente: Utente
-)
-
-class Formazione(
-    val idUtente: Int,
-    val giornata: Int,
-    val comp: Competizione,
-    val giocatori: IntArray,
-)

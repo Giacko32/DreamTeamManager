@@ -27,8 +27,7 @@ import com.example.dreamteammanager.retrofit.Client
 import com.example.dreamteammanager.retrofit.UserAPI
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.UserViewModel
-import com.example.dreamteammanager.viewmodel.parseJsonToModel
-import com.example.dreamteammanager.viewmodel.parseModelToJson
+
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import retrofit2.Call
@@ -41,6 +40,9 @@ import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.classi.Utils.Companion.isValidEmail
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToModel
+import com.example.dreamteammanager.classi.Utils.Companion.parseModelToJson
 import com.example.dreamteammanager.viewmodel.ImagesVM
 
 import com.google.android.material.textfield.TextInputEditText
@@ -166,38 +168,53 @@ class ProfileFragment : Fragment() {
 
         binding.ModifyButton.setOnClickListener {
             binding.progressBar.visibility = View.VISIBLE
-            val username = binding.Username.text.toString()
-            val email = binding.Email.text.toString()
-            if (username == userViewModel.user.value!!.username) {
-                if (email == userViewModel.user.value!!.email) {
-
-                } else {
-                    userViewModel.checkModifica(email, "null")
-                }
-            }
-
-            if (email == userViewModel.user.value!!.email) {
+            val username = binding.Username.text.toString().trim()
+            val email = binding.Email.text.toString().trim()
+            if(isValidEmail(email)) {
                 if (username == userViewModel.user.value!!.username) {
-                    val alertDialog = AlertDialog.Builder(
-                        requireContext(),
-                        androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
-                    ).create()
-                    alertDialog.setTitle("ATTENZIONE")
-                    alertDialog.setMessage("Le credenziali sono uguali a quelle attuali")
-                    alertDialog.setButton(
-                        AlertDialog.BUTTON_NEGATIVE, "OK"
-                    ) { dialog, which -> dialog.dismiss() }
-                    alertDialog.show()
-                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                        .setTextColor(Color.parseColor("#ff5722"))
-                    binding.progressBar.visibility = View.GONE
-                } else {
-                    userViewModel.checkModifica("null", username)
-                }
-            } else {
-                userViewModel.checkModifica(email, username)
-            }
+                    if (email == userViewModel.user.value!!.email) {
 
+                    } else {
+                        userViewModel.checkModifica(email, "null")
+                    }
+                }
+
+                if (email == userViewModel.user.value!!.email) {
+                    if (username == userViewModel.user.value!!.username) {
+                        val alertDialog = AlertDialog.Builder(
+                            requireContext(),
+                            androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                        ).create()
+                        alertDialog.setTitle("ATTENZIONE")
+                        alertDialog.setMessage("Le credenziali sono uguali a quelle attuali")
+                        alertDialog.setButton(
+                            AlertDialog.BUTTON_NEGATIVE, "OK"
+                        ) { dialog, which -> dialog.dismiss() }
+                        alertDialog.show()
+                        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                            .setTextColor(Color.parseColor("#ff5722"))
+                        binding.progressBar.visibility = View.GONE
+                    } else {
+                        userViewModel.checkModifica("null", username)
+                    }
+                } else {
+                    userViewModel.checkModifica(email, username)
+                }
+            }else{
+                val alertDialog = AlertDialog.Builder(
+                    requireContext(),
+                    androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                ).create()
+                alertDialog.setTitle("ATTENZIONE")
+                alertDialog.setMessage("Le email inserita non è valida")
+                alertDialog.setButton(
+                    AlertDialog.BUTTON_NEGATIVE, "OK"
+                ) { dialog, which -> dialog.dismiss() }
+                alertDialog.show()
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(Color.parseColor("#ff5722"))
+                binding.progressBar.visibility = View.GONE
+            }
 
         }
         userViewModel.disponibilitàModifica.observe(requireActivity()) {

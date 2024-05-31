@@ -24,6 +24,7 @@ import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Competizione
 import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToModel
 import com.example.dreamteammanager.competizione.CompetizioneActivity
 import com.example.dreamteammanager.competizione.CompetizioniAdapter
 import com.example.dreamteammanager.competizione.CreaCompetizioneFragment
@@ -32,8 +33,7 @@ import com.example.dreamteammanager.main.LegheAdapter
 import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.SingleLegaVM
-import com.example.dreamteammanager.viewmodel.parseJsonToLega
-import com.example.dreamteammanager.viewmodel.parseJsonToModel
+
 import com.google.gson.Gson
 import kotlin.math.sin
 

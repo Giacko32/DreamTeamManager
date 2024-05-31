@@ -31,7 +31,6 @@ import com.example.dreamteammanager.main.LegheAdapter
 import com.example.dreamteammanager.viewmodel.CompetizioniVM
 import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
-import com.example.dreamteammanager.viewmodel.parseJsonToModel
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.processNextEventInCurrentThread
 

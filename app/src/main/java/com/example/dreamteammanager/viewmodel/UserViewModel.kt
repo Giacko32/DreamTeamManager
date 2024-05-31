@@ -1,43 +1,35 @@
 package com.example.dreamteammanager.viewmodel
 
 import android.app.Application
-import android.app.ProgressDialog
-import android.content.Context
-import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.net.Uri
-import android.util.Base64
+
 import android.util.Log
 import android.util.Patterns
-import android.view.ViewGroup
-import android.widget.MultiAutoCompleteTextView
-import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
+
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import com.example.dreamteammanager.R
-import com.example.dreamteammanager.auth.AccessActivity
-import com.example.dreamteammanager.auth.LoginFragment
+
 import com.example.dreamteammanager.classi.Lega
+import com.example.dreamteammanager.classi.ModifyCredenzialiProfile
+import com.example.dreamteammanager.classi.ModifyPasswordProfile
 import com.example.dreamteammanager.classi.RegistraUtente
 import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToModel
+import com.example.dreamteammanager.classi.Utils.Companion.parseModelToJson
 import com.example.dreamteammanager.retrofit.Client
 import com.google.gson.Gson
 import com.google.gson.JsonArray
-import com.google.gson.JsonElement
+import com.example.dreamteammanager.classi.Emailcode
+import com.example.dreamteammanager.classi.UtenteLega
+import com.example.dreamteammanager.classi.UtenteLegaPart
+import com.example.dreamteammanager.classi.Utils.Companion.isValidEmail
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToLeghe
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.ByteArrayOutputStream
+
 
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
@@ -57,7 +49,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         val ricordami = SharedPreferencesManager.getString("flagRicordami", "")
         val utentepreso = SharedPreferencesManager.getString("utente", "")
         if (ricordami != "false" && utentepreso.isNotEmpty()) {
-            Log.d("GETTATO", utentepreso)
             val utente = parseJsonToModel(utentepreso)
             _flagRicordami.value = true
             _loggato.value = "loggato"
@@ -141,7 +132,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     fun logout() {
         SharedPreferencesManager.saveString("flagRicordami", "false")
-        //_user.value = null
     }
 
     private val _stringadiritorno = MutableLiveData<String?>()
@@ -327,9 +317,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
-    private fun isValidEmail(email: String): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
+
 
     private val _InvitiOttenuti = MutableLiveData<Boolean?>()
     val InvitiOttenuti: LiveData<Boolean?>
@@ -438,21 +426,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
 }
 
-class Emailcode(val email: String, val codice: Int)
-class ModifyCredenzialiProfile(val email: String, val username: String, val id: Int)
-
-class ModifyPasswordProfile(val password: String, val email: String)
-
-fun parseJsonToModel(jsonString: String): Utente {
-    val gson = Gson()
-    return gson.fromJson(
-        jsonString,
-        object : com.google.gson.reflect.TypeToken<Utente>() {}.type
-    )
-}
 
 
-fun parseModelToJson(utente: Any): String {
-    val gson = Gson()
-    return gson.toJson(utente)
-}
+
+
+
+

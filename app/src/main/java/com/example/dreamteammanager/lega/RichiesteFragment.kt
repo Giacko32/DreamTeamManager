@@ -23,7 +23,7 @@ import com.example.dreamteammanager.main.LegheAdapter
 import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.SingleLegaVM
-import com.example.dreamteammanager.viewmodel.parseJsonToLega
+
 import kotlin.math.sin
 
 

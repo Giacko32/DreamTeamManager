@@ -20,12 +20,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.GiocatoreFormazione
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToModel
 import com.example.dreamteammanager.databinding.FragmentInserisciFormazioneBinding
 import com.example.dreamteammanager.viewmodel.CompetizioniVM
 import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.SingleLegaVM
-import com.example.dreamteammanager.viewmodel.parseJsonToModel
+
 
 class InserisciFormazioneFragment : Fragment() {
     lateinit var binding: FragmentInserisciFormazioneBinding

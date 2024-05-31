@@ -22,13 +22,13 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Lega
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToModel
 import com.example.dreamteammanager.databinding.FragmentMainBinding
 import com.example.dreamteammanager.lega.LegaActivity
 import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.legheVM
-import com.example.dreamteammanager.viewmodel.parseJsonToModel
-import com.example.dreamteammanager.viewmodel.parseModelToJson
+
 
 
 class MainFragment : Fragment() {

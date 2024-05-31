@@ -5,10 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.dreamteammanager.classi.Lega
-import com.example.dreamteammanager.classi.RegistraUtente
 import com.example.dreamteammanager.classi.Utente
+import com.example.dreamteammanager.classi.UtenteLega
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToLega
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToLeghe
+import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToModel
+import com.example.dreamteammanager.classi.Utils.Companion.parseModelToJson
 import com.example.dreamteammanager.retrofit.Client
-import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -24,16 +27,6 @@ class legheVM : ViewModel() {
     init {
         _listaLeghe.value = ArrayList()
     }
-
-
-    fun addLega(lega: Lega) {
-        _listaLeghe.value?.add(lega)
-    }
-
-    fun clear() {
-        _listaLeghe.value?.clear()
-    }
-
     private val _mieleghe = MutableLiveData<Boolean>()
     val mieleghe: LiveData<Boolean>
         get() = _mieleghe
@@ -274,20 +267,5 @@ class legheVM : ViewModel() {
 
 }
 
-fun parseJsonToLeghe(jsonString: String): ArrayList<Lega> {
-    val gson = Gson()
-    return gson.fromJson(
-        jsonString,
-        object : com.google.gson.reflect.TypeToken<ArrayList<Lega>>() {}.type
-    )
-}
 
-fun parseJsonToLega(jsonString: String): Lega {
-    val gson = Gson()
-    return gson.fromJson(
-        jsonString,
-        object : com.google.gson.reflect.TypeToken<Lega>() {}.type
-    )
-}
 
-class UtenteLega(val idutente: Int, val idlega: Int)

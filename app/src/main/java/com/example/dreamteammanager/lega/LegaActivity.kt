@@ -14,7 +14,7 @@ import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.databinding.ActivityLegaBinding
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.SingleLegaVM
-import com.example.dreamteammanager.viewmodel.parseModelToJson
+
 
 class LegaActivity : AppCompatActivity() {
 
