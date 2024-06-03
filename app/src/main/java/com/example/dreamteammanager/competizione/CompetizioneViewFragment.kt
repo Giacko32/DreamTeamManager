@@ -122,6 +122,10 @@ class CompetizioneViewFragment : Fragment() {
                 }
                 calcoladialog.setContentView(R.layout.dialog_calcola_giornata)
                 calcoladialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                if(compVM.competizione.value!!.sport != "Serie A"){
+                    calcoladialog.findViewById<TextView>(R.id.textView).text = "Quale gara vuoi calcolare?"
+                    calcoladialog.findViewById<Button>(R.id.CalcolaGiornataButton).text = "Calcola gara"
+                }
                 val spinnerArrayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
                     requireContext(), android.R.layout.simple_spinner_dropdown_item, array
                 )
@@ -320,11 +324,13 @@ class CompetizioneViewFragment : Fragment() {
                     compVM.getRosaGiocatore(utente.id)
                     compVM.rosaottenuta.observe(viewLifecycleOwner) {
                         if (it == true && compVM.competizione.value!!.sport.equals("Serie A")) {
+                            RoseDialog.findViewById<TextView>(R.id.RoseTitle).text = "Rosa di ${utente.username}"
                             val adapterRosa =
                                 InserisciFormazioneAdapter(compVM.rosaGiocatori.value!!)
                             progBar.visibility = View.GONE
                             rv.adapter = adapterRosa
                         } else if (it == true) {
+                            RoseDialog.findViewById<TextView>(R.id.RoseTitle).text = "Rosa di ${utente.username}"
                             val adapterRosa = InserisciGrigliaAdapter(compVM.rosaPiloti.value!!)
                             progBar.visibility = View.GONE
                             rv.adapter = adapterRosa
