@@ -11,7 +11,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/bluelight"
+        android:backgroundTint="@color/white"
         app:cardCornerRadius="15dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +41,7 @@
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:text="nome competizione"
-                android:textColor="@color/white"
+                android:textColor="@color/antracite"
                 android:textSize="20sp"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"

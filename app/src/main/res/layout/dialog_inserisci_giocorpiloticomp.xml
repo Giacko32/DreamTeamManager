@@ -36,7 +36,7 @@
                 android:background="@drawable/shapewhite"
                 android:hint="Cerca"
                 android:textAlignment="center"
-                android:textColor="@color/bluelight"
+                android:textColor="@color/grigio"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginBottom="10dp"

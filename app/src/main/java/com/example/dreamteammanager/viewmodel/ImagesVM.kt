@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.ProfileImage
 import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToModel
@@ -53,6 +54,8 @@ class ImagesVM : ViewModel() {
         finalBitmap.compress(Bitmap.CompressFormat.PNG, 100, bos)
         return Base64.encodeToString(bos.toByteArray(), Base64.NO_WRAP)
     }
+
+
 
 
     public fun uploadProfileImage(context: Context, uri: Uri) {
@@ -116,7 +119,7 @@ class ImagesVM : ViewModel() {
                 RequestOptions()
                     .placeholder(R.drawable.baseline_account_circle_24) // Placeholder image
                     .error(R.drawable.baseline_account_circle_24) // Error image in case of loading failure
-            ).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+            ).diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(place)
 
     }
@@ -125,7 +128,6 @@ class ImagesVM : ViewModel() {
     public fun getLegaImage(context: Context, img: Int, place: ImageView) {
         Glide.with(context)
             .load("${UserAPI.BASE_URL}/pwm/img/lega${img}.jpeg")
-            .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
             .into(place)
     }
 

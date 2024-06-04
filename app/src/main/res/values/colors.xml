@@ -2,8 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="arancione">#FF5722</color>
-    <color name="blue">#123B8E</color>
-    <color name="arancionelight">#FF9473</color>
-    <color name="bluelight">#638FCC</color>
+    <color name="arancione">#D2691E</color>
+    <color name="antracite">#2F4F4F</color>
+    <color name="grigioperla">#D3D3D3</color>
+    <color name="grigio">#A9A9A9</color>
 </resources>

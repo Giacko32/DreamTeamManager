@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:text="Nome"
                 android:layout_margin="20dp"
-                android:textColor="@color/blue"
+                android:textColor="@color/antracite"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/roleTextView"

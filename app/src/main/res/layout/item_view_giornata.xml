@@ -25,7 +25,7 @@
                 android:layout_margin="20dp"
                 android:textStyle="bold"
                 android:text="giornata"
-                android:textColor="@color/blue"
+                android:textColor="@color/antracite"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

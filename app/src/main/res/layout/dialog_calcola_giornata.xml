@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="Quale giornata vuoi calcolare?"
                 android:textSize="20sp"
-                android:textColor="@color/blue"
+                android:textColor="@color/antracite"
                 android:layout_margin="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
