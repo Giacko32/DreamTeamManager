@@ -119,7 +119,7 @@ class ImagesVM : ViewModel() {
                 RequestOptions()
                     .placeholder(R.drawable.baseline_account_circle_24) // Placeholder image
                     .error(R.drawable.baseline_account_circle_24) // Error image in case of loading failure
-            ).diskCacheStrategy(DiskCacheStrategy.NONE)
+            ).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
             .into(place)
 
     }
