@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.GiocatoreFormazione
+import com.example.dreamteammanager.classi.Giornata
 import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToModel
 import com.example.dreamteammanager.databinding.FragmentInserisciFormazioneBinding
 import com.example.dreamteammanager.viewmodel.CompetizioniVM
@@ -356,6 +357,11 @@ class InserisciFormazioneFragment : Fragment() {
                 alertDialog.show()
                 alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
                     .setTextColor(Color.parseColor("#ff5722"))
+                compViewModel.removeGiornata(
+                    Giornata(
+                        binding.giornataSpinner.selectedItem.toString().toInt()
+                    )
+                )
                 parentFragmentManager.commit {
                     setReorderingAllowed(true)
                     replace<CompetizioneViewFragment>(R.id.competizioni_cont_view)

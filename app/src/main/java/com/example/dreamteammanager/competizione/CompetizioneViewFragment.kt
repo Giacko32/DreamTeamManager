@@ -88,6 +88,7 @@ class CompetizioneViewFragment : Fragment() {
                 compVM.resetscaricando()
             }
         }
+
         val giorndialog = Dialog(requireContext())
         compVM.giornatecalc.observe(viewLifecycleOwner) {
             if (it == true) {

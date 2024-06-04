@@ -104,7 +104,7 @@ class CompetizioniVM : ViewModel() {
         _miegiornate.value = ArrayList()
     }
 
-    fun getpartecipantiedati(idutente:Int) {
+    fun getpartecipantiedati(idutente: Int) {
         _scaricando.value = true
         _partecipanti.value?.clear()
         Client.retrofit.getpart(competizione.value!!.id).enqueue(
@@ -115,26 +115,28 @@ class CompetizioniVM : ViewModel() {
                 ) {
                     if (response.isSuccessful) {
                         _partecipanti.value = parseJsonToArrayUtenti(response.body().toString())
-                        Client.retrofit.getgiornatecalcmie(competizione.value!!.id,idutente).enqueue(
-                            object : Callback<JsonArray> {
-                                override fun onResponse(
-                                    call: Call<JsonArray>, response:
-                                    Response<JsonArray>
-                                ) {
-                                    if (response.isSuccessful) {
-                                        _miegiornate.value= parseJsonToArrayGiornate(response.body().toString())
+                        Client.retrofit.getgiornatecalcmie(competizione.value!!.id, idutente)
+                            .enqueue(
+                                object : Callback<JsonArray> {
+                                    override fun onResponse(
+                                        call: Call<JsonArray>, response:
+                                        Response<JsonArray>
+                                    ) {
+                                        if (response.isSuccessful) {
+                                            _miegiornate.value =
+                                                parseJsonToArrayGiornate(response.body().toString())
+                                            _scaricando.value = false
+                                        }
+                                    }
+
+                                    override fun onFailure(
+                                        call: Call<JsonArray>?, t:
+                                        Throwable?
+                                    ) {
                                         _scaricando.value = false
                                     }
                                 }
-
-                                override fun onFailure(
-                                    call: Call<JsonArray>?, t:
-                                    Throwable?
-                                ) {
-                                    _scaricando.value = false
-                                }
-                            }
-                        )
+                            )
                     }
                 }
 
@@ -222,46 +224,49 @@ class CompetizioniVM : ViewModel() {
             parseModelToJson(CompGiorn(competizione.value!!, giornata)),
             JsonObject::class.java
         )
-        Client.retrofit.checkdisp(competizione.value!!.id,giornata,competizione.value!!.sport).enqueue(
-            object : Callback<JsonObject> {
-                override fun onResponse(
-                    call: Call<JsonObject>, response:
-                    Response<JsonObject>
-                ) {
-                    if (response.isSuccessful) {
+        Client.retrofit.checkdisp(competizione.value!!.id, giornata, competizione.value!!.sport)
+            .enqueue(
+                object : Callback<JsonObject> {
+                    override fun onResponse(
+                        call: Call<JsonObject>, response:
+                        Response<JsonObject>
+                    ) {
+                        if (response.isSuccessful) {
 
-                        if(response.body().toString()!="{}"){
-                            _checkdisp.value=false
-                        }else{
-                            Log.d("tag",response.body().toString())
-                            Client.retrofit.calcolagiornata(body).enqueue(object : Callback<JsonObject> {
-                                override fun onResponse(
-                                    call: Call<JsonObject>, response:
-                                    Response<JsonObject>
-                                ) {
-                                    if (response.isSuccessful) {
-                                        _calcolando.value=false
-                                    }
-                                }
-                                override fun onFailure(
-                                    call: Call<JsonObject>?, t:
-                                    Throwable?
-                                ) {
-                                    _checkdisp.value=false
-                                }
-                            })
+                            if (response.body().toString() != "{}") {
+                                _checkdisp.value = false
+                            } else {
+                                Log.d("tag", response.body().toString())
+                                Client.retrofit.calcolagiornata(body)
+                                    .enqueue(object : Callback<JsonObject> {
+                                        override fun onResponse(
+                                            call: Call<JsonObject>, response:
+                                            Response<JsonObject>
+                                        ) {
+                                            if (response.isSuccessful) {
+                                                _calcolando.value = false
+                                            }
+                                        }
+
+                                        override fun onFailure(
+                                            call: Call<JsonObject>?, t:
+                                            Throwable?
+                                        ) {
+                                            _checkdisp.value = false
+                                        }
+                                    })
+                            }
                         }
                     }
-                }
 
-                override fun onFailure(
-                    call: Call<JsonObject>?, t:
-                    Throwable?
-                ) {
-                   _checkdisp.value=false
+                    override fun onFailure(
+                        call: Call<JsonObject>?, t:
+                        Throwable?
+                    ) {
+                        _checkdisp.value = false
+                    }
                 }
-            }
-        )
+            )
     }
 
     private val _scaricandoclassifica = MutableLiveData<Boolean?>()
@@ -297,6 +302,7 @@ class CompetizioniVM : ViewModel() {
                         _scaricandoclassifica.value = false
                     }
                 }
+
                 override fun onFailure(
                     call: Call<JsonArray>?, t:
                     Throwable?
@@ -358,25 +364,30 @@ class CompetizioniVM : ViewModel() {
     init {
         _giocatoridispfil.value = arrayListOf()
     }
-    private val _filtrate=MutableLiveData<Boolean?>()
-    val filtrate:LiveData<Boolean?>
-        get()=_filtrate
+
+    private val _filtrate = MutableLiveData<Boolean?>()
+    val filtrate: LiveData<Boolean?>
+        get() = _filtrate
+
     init {
-        _filtrate.value=null
+        _filtrate.value = null
     }
-    fun resetfiltro(){
-        _filtrate.value=null
+
+    fun resetfiltro() {
+        _filtrate.value = null
     }
-    fun filtrogioc(filtro:String){
+
+    fun filtrogioc(filtro: String) {
         _giocatoridispfil.value?.clear()
-        giocatoridisp.value!!.forEach{
-            if(it.nome.lowercase().contains(filtro.lowercase())){
+        giocatoridisp.value!!.forEach {
+            if (it.nome.lowercase().contains(filtro.lowercase())) {
                 _giocatoridispfil.value!!.add(it)
             }
 
         }
-        _filtrate.value=true
+        _filtrate.value = true
     }
+
     private val _giocatoridisp = MutableLiveData<ArrayList<GiocatoreFormazione>>()
     val giocatoridisp: LiveData<ArrayList<GiocatoreFormazione>> = _giocatoridisp
 
@@ -582,6 +593,11 @@ class CompetizioniVM : ViewModel() {
         _giornate.value = arrayListOf()
     }
 
+    fun removeGiornata(giornata: Giornata) {
+        _giornate.value!!.remove(giornata)
+        Log.d("GIORNATA", _giornate.value!!.last().giornata.toString())
+    }
+
     fun getRosaGiocatore(id_Utente: Int) {
         _rosaottenuta.value = false
         _giornate.value?.clear()
@@ -662,6 +678,7 @@ class CompetizioniVM : ViewModel() {
         }
         return true
     }
+
     fun checkGriglia(): Boolean {
         for (id in griglia.value!!) {
             if (id == 0) {
@@ -695,25 +712,29 @@ class CompetizioniVM : ViewModel() {
         _griglia.value = IntArray(2)
     }
 
-    private val _giocatoripunt= MutableLiveData<ArrayList<GiocPunt>>()
+    private val _giocatoripunt = MutableLiveData<ArrayList<GiocPunt>>()
     val giocatoripunt: LiveData<ArrayList<GiocPunt>> = _giocatoripunt
+
     init {
         _giocatoripunt.value = arrayListOf()
     }
 
-    private val _giornatecalc= MutableLiveData<Boolean?>()
+    private val _giornatecalc = MutableLiveData<Boolean?>()
     val giornatecalc: LiveData<Boolean?>
         get() = _giornatecalc
-    init{
+
+    init {
         _giornatecalc.value = null
     }
-    fun resetgiornatacalc(){
+
+    fun resetgiornatacalc() {
         _giornatecalc.value = null
     }
-    fun getGiocatoriGiornata(giornata: Int, idutente: Int){
+
+    fun getGiocatoriGiornata(giornata: Int, idutente: Int) {
         _giornatecalc.value = true
         _giocatoripunt.value?.clear()
-        Client.retrofit.getgiornatecalgioc(competizione.value!!.id,idutente,giornata).enqueue(
+        Client.retrofit.getgiornatecalgioc(competizione.value!!.id, idutente, giornata).enqueue(
             object : Callback<JsonArray> {
                 override fun onResponse(
                     call: Call<JsonArray>, response:
@@ -737,12 +758,15 @@ class CompetizioniVM : ViewModel() {
         )
 
     }
-    private val _totale=MutableLiveData<Int>()
-    val totale:LiveData<Int> = _totale
-    init{
+
+    private val _totale = MutableLiveData<Int>()
+    val totale: LiveData<Int> = _totale
+
+    init {
         _totale.value = 0
     }
-    fun setTotale(tot:Int){
+
+    fun setTotale(tot: Int) {
         _totale.value = tot
     }
 
