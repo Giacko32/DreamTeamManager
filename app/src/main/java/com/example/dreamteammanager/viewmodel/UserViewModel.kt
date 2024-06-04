@@ -152,7 +152,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     fun checkdisponibilita(username: String, password: String, email: String) {
         if (username.isNotEmpty() && password.isNotEmpty() && email.isNotEmpty()) {
-            if (password.length in 2..25) {
+            if (password.length in 8..25) {
                 if (isValidEmail(email)) {
                     Client.retrofit.checkDisponibilita(username, email).enqueue(
                         object : Callback<JsonArray> {

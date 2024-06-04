@@ -55,6 +55,7 @@ class RegisterFragment : Fragment() {
             if (it == true){
                 userviewModel.registrazione(username,password,email)
             }else if(it==false){
+                bind.progressBar.visibility=View.GONE
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
@@ -77,6 +78,7 @@ class RegisterFragment : Fragment() {
                     replace<LoginFragment>(R.id.fragment_container)
                 }
             }else if(it!=null){
+                bind.progressBar.visibility = View.GONE
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
                     androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert

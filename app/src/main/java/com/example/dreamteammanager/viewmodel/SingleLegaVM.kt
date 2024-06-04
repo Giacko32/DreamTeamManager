@@ -414,9 +414,9 @@ class SingleLegaVM : ViewModel() {
         _scarcomp.value = null
     }
 
-    fun getcompetizioni() {
+    fun getcompetizioni(idutente:Int) {
         _scarcomp.value = true
-        Client.retrofit.getcomp(lega.value!!.id).enqueue(
+        Client.retrofit.getcomp(lega.value!!.id,idutente).enqueue(
             object : Callback<JsonArray> {
                 override fun onResponse(
                     call: Call<JsonArray>, response:
@@ -438,6 +438,12 @@ class SingleLegaVM : ViewModel() {
             }
         )
     }
+
+
+
+
+
+
 
 
 }

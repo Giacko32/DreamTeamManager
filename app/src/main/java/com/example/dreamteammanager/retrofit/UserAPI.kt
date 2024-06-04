@@ -87,8 +87,8 @@ interface UserAPI {
     fun invitautente(@Body utenteLega: JsonObject): Call<JsonObject>
     @POST("pwm/creacomp")
     fun creacomp(@Body compezioneLegaPart: JsonObject): Call<JsonObject>
-    @GET("pwm/getcomp/{idlega}")
-    fun getcomp(@Path("idlega")idlega: Int):Call<JsonArray>
+    @GET("pwm/getcomp/{idlega}/{idutente}")
+    fun getcomp(@Path("idlega")idlega: Int, @Path("idutente")idutente: Int):Call<JsonArray>
     @GET("pwm/getpart/{idcomp}")
     fun getpart(@Path("idcomp")idcomp: Int):Call<JsonArray>
     @GET("pwm/getgiornatedacalcolare/{idcomp}")

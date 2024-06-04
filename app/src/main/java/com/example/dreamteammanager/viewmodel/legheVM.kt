@@ -257,7 +257,7 @@ class legheVM : ViewModel() {
     fun setLegheFiltrate(filtro:String){
         _leghefiltrate.value!!.clear()
         listaLeghe.value!!.forEach{
-            if(it.name.contains(filtro)){
+            if(it.name.lowercase().contains(filtro)){
                 _leghefiltrate.value?.add(it)
             }
         }

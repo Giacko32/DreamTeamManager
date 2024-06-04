@@ -59,14 +59,13 @@ class LegaView : Fragment() {
             binding.CreaCompetizioneButton.visibility = View.GONE
             binding.VisualizzaRichiesteButton.visibility = View.GONE
         }
-
         binding.nomelega.text = singleLegaVM.lega.value!!.name
         singleLegaVM.getPartecipanti()
         imagesVM.getLegaImage(requireContext(), singleLegaVM.lega.value!!.image, binding.imageView)
         val listaCompetizioni = Dialog(requireActivity())
 
         binding.CompetizioniButton.setOnClickListener{
-            singleLegaVM.getcompetizioni()
+            singleLegaVM.getcompetizioni(utente.id)
         }
 
         singleLegaVM.scarcomp.observe(viewLifecycleOwner){
