@@ -31,8 +31,6 @@ import com.example.dreamteammanager.viewmodel.SingleLegaVM
 class InserisciFormazioneFragment : Fragment() {
     lateinit var binding: FragmentInserisciFormazioneBinding
     private val compViewModel: CompetizioniVM by activityViewModels()
-    private val singleLegaVM: SingleLegaVM by activityViewModels()
-    private val imagesVM: ImagesVM by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +46,7 @@ class InserisciFormazioneFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        compViewModel.clear()
+
         val array = mutableListOf<String>()
         compViewModel.giornate.value?.forEach {
             array.add(it.giornata.toString())

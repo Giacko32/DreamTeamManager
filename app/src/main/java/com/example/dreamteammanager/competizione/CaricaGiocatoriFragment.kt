@@ -55,6 +55,9 @@ class CaricaGiocatoriFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(competizioniVM.competizione.value!!.sport != "Serie A"){
+            binding.textCarica.text = "Carica piloti"
+        }
         competizioniVM.getgiocatoridisp()
         competizioniVM.scaricandogioc.observe(viewLifecycleOwner) {
             if (it == true) {
@@ -73,6 +76,9 @@ class CaricaGiocatoriFragment : Fragment() {
                         val selectDialog = Dialog(requireActivity())
                         selectDialog.setContentView(R.layout.dialog_inserisci_giocorpiloticomp)
                         selectDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        if(competizioniVM.competizione.value!!.sport != "Serie A"){
+                            selectDialog.findViewById<TextView>(R.id.scegligiocatoreTitle).text = "Scegli pilota"
+                        }
                         selectDialog.findViewById<TextView>(R.id.searched).addTextChangedListener(textWatcher)
                         val recv =
                             selectDialog.findViewById<RecyclerView>(R.id.recviewscegligiocatori)
