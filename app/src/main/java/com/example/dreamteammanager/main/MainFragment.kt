@@ -206,7 +206,6 @@ class MainFragment : Fragment() {
 
             override fun afterTextChanged(s: Editable?) {
                legheVM.setLegheFiltrate(s.toString())
-                //Log.d("TAG", "onTextChanged: ${s.toString()}")
             }
         }
         binding.searched.addTextChangedListener(textWatcher)

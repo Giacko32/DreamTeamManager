@@ -212,7 +212,6 @@ class legheVM : ViewModel() {
                     Response<JsonArray>
                 ) {
                     if (response.isSuccessful) {
-                        Log.d("TAG", response.body().toString())
                         if (response.body().toString() == "[]") {
                             _checkrichiesta.value = true
                         } else {

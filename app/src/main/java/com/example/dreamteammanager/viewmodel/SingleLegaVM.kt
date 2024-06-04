@@ -98,7 +98,6 @@ class SingleLegaVM : ViewModel() {
                     Response<JsonArray>
                 ) {
                     if (response.isSuccessful) {
-                        Log.d("richiedenti", response.body().toString())
                         _richiedenti.value = parseJsonToArrayUtenti(response.body().toString())
                         _scaricando.value = false
                     }
@@ -282,7 +281,6 @@ class SingleLegaVM : ViewModel() {
     fun setinvitatiFiltrato(filtro: String) {
         _invitatifiltrato.value!!.clear()
         invitati.value!!.forEach {
-            Log.d("invitati", filtro)
             if (it.username.contains(filtro)) {
                 _invitatifiltrato.value?.add(it)
 

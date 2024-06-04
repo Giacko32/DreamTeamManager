@@ -211,7 +211,6 @@ class CaricaGiocatoriFragment : Fragment() {
 
         override fun afterTextChanged(s: Editable?) {
             competizioniVM.filtrogioc(s.toString())
-            //Log.d("TAG", "onTextChanged: ${s.toString()}")
         }
     }
 }

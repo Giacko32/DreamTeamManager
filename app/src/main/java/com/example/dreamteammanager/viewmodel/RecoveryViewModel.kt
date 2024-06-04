@@ -88,7 +88,6 @@ class RecoveryViewModel(app: Application) : AndroidViewModel(app) {
     fun inviamail(email: String) {
         generatecodice()
         val gson = JsonParser.parseString(parseModelToJson(Emailcode(email, codice.value!!)))
-        Log.d("CODICE", "recuperaCredenziali: $gson")
         Client.retrofit.inviamail(Emailcode(email, codice.value!!)).enqueue(
             object : Callback<JsonObject> {
                 override fun onResponse(

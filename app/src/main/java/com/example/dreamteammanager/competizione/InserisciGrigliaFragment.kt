@@ -59,10 +59,8 @@ class InserisciGrigliaFragment : Fragment() {
         compViewModel.clear()
         val array = mutableListOf<String>()
         compViewModel.giornate.value?.forEach {
-            Log.d("giornata", it.giornata.toString())
             array.add(it.giornata.toString())
         }
-        Log.d("array", array.toString())
         val spinnerArrayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(), android.R.layout.simple_spinner_dropdown_item, array
         )

@@ -72,7 +72,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     fun updateFlag(isChecked: Boolean) {
         _flagRicordami.value = isChecked
-        Log.d("FLAG", "updateFlag: $isChecked")
 
     }
 
@@ -106,7 +105,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     ) {
                         if (response.isSuccessful) {
                             val utente = response.body().toString()
-                            Log.d("USER", "onResponse: ${utente}")
                             if (utente != "{}") {
                                 _user.value = parseJsonToModel(utente)
                                 _loggato.value = "loggato"

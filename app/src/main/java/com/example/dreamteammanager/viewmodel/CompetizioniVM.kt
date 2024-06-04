@@ -236,7 +236,6 @@ class CompetizioniVM : ViewModel() {
                             if (response.body().toString() != "{}") {
                                 _checkdisp.value = false
                             } else {
-                                Log.d("tag", response.body().toString())
                                 Client.retrofit.calcolagiornata(body)
                                     .enqueue(object : Callback<JsonObject> {
                                         override fun onResponse(
@@ -595,7 +594,6 @@ class CompetizioniVM : ViewModel() {
 
     fun removeGiornata(giornata: Giornata) {
         _giornate.value!!.remove(giornata)
-        Log.d("GIORNATA", _giornate.value!!.last().giornata.toString())
     }
 
     fun getRosaGiocatore(id_Utente: Int) {
@@ -743,7 +741,6 @@ class CompetizioniVM : ViewModel() {
                     if (response.isSuccessful) {
                         _giocatoripunt.value =
                             parseJsonToArrayGiocpunt(response.body().toString())
-                        Log.d("giornatecalc", response.body().toString())
                         _giornatecalc.value = false
                     }
                 }
