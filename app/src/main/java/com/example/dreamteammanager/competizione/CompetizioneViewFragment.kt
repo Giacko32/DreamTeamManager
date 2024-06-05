@@ -1,10 +1,10 @@
 package com.example.dreamteammanager.competizione
 
+import android.R.attr
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +15,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -26,13 +27,11 @@ import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.GiornataPunteggio
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToModel
-import com.example.dreamteammanager.databinding.DialogRoseBinding
 import com.example.dreamteammanager.databinding.FragmentCompetizioneViewBinding
 import com.example.dreamteammanager.lega.PartecipantiAdapter
 import com.example.dreamteammanager.viewmodel.CompetizioniVM
 import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
-
 
 
 class CompetizioneViewFragment : Fragment() {
@@ -42,16 +41,17 @@ class CompetizioneViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val utente = parseJsonToModel(SharedPreferencesManager.getString("utente", ""))
         if (utente.id != compVM.idamm.value) {
             binding.CalcolaGiornataButton.visibility = View.GONE
             binding.CaricaGiocatoriButton.visibility = View.GONE
         }
-        if(compVM.competizione.value!!.sport!="Serie A"){
-            binding.CaricaGiocatoriButton.text="Carica Piloti"
-            binding.CalcolaGiornataButton.text="Calcola gara"
-            binding.textformazione.text="Gare:"
-            binding.StatisticheButton.text="Statistiche piloti"
+        if (compVM.competizione.value!!.sport != "Serie A") {
+            binding.CaricaGiocatoriButton.text = "Carica Piloti"
+            binding.CalcolaGiornataButton.text = "Calcola gara"
+            binding.textformazione.text = "Gare:"
+            binding.StatisticheButton.text = "Statistiche piloti"
         }
         compVM.getpartecipantiedati(utente.id)
         binding.NomeComp.text = compVM.competizione.value?.nome
@@ -75,7 +75,8 @@ class CompetizioneViewFragment : Fragment() {
                 rv.layoutManager = LinearLayoutManager(context)
                 rv.adapter = adapter
                 val rv2 = binding.recViewFormazione
-                val adapter2 = Giornateadapter(compVM.miegiornate.value!!,compVM.competizione.value!!.sport)
+                val adapter2 =
+                    Giornateadapter(compVM.miegiornate.value!!, compVM.competizione.value!!.sport)
                 rv2.layoutManager = LinearLayoutManager(context)
                 adapter2.setonclick(object : Giornateadapter.SetOnClickListener {
                     override fun onClick(position: Int, giornata: GiornataPunteggio) {
@@ -123,9 +124,11 @@ class CompetizioneViewFragment : Fragment() {
                 }
                 calcoladialog.setContentView(R.layout.dialog_calcola_giornata)
                 calcoladialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                if(compVM.competizione.value!!.sport != "Serie A"){
-                    calcoladialog.findViewById<TextView>(R.id.textView).text = "Quale gara vuoi calcolare?"
-                    calcoladialog.findViewById<Button>(R.id.CalcolaGiornataButton).text = "Calcola gara"
+                if (compVM.competizione.value!!.sport != "Serie A") {
+                    calcoladialog.findViewById<TextView>(R.id.textView).text =
+                        "Quale gara vuoi calcolare?"
+                    calcoladialog.findViewById<Button>(R.id.CalcolaGiornataButton).text =
+                        "Calcola gara"
                 }
                 val spinnerArrayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
                     requireContext(), android.R.layout.simple_spinner_dropdown_item, array
@@ -171,9 +174,9 @@ class CompetizioneViewFragment : Fragment() {
 
 
 
-        compVM.checkdisp.observe(viewLifecycleOwner){
-            if(it==false){
-                binding.progressBar.visibility=View.GONE
+        compVM.checkdisp.observe(viewLifecycleOwner) {
+            if (it == false) {
+                binding.progressBar.visibility = View.GONE
                 calcoladialog.dismiss()
                 val alertDialog = AlertDialog.Builder(
                     requireContext(),
@@ -190,7 +193,7 @@ class CompetizioneViewFragment : Fragment() {
                 alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
                     .setTextColor(Color.parseColor("#ff5722"))
                 compVM.resetcheckdisp()
-            }else{
+            } else {
 
             }
         }
@@ -213,7 +216,7 @@ class CompetizioneViewFragment : Fragment() {
                 recyclerView.adapter = adapter
                 classificaDialog.show()
                 compVM.resetscaricandoclassifica()
-            } else if (it == null){
+            } else if (it == null) {
                 binding.progressBar.visibility = View.GONE
             }
 
@@ -325,13 +328,15 @@ class CompetizioneViewFragment : Fragment() {
                     compVM.getRosaGiocatore(utente.id)
                     compVM.rosaottenuta.observe(viewLifecycleOwner) {
                         if (it == true && compVM.competizione.value!!.sport.equals("Serie A")) {
-                            RoseDialog.findViewById<TextView>(R.id.RoseTitle).text = "Rosa di ${utente.username}"
+                            RoseDialog.findViewById<TextView>(R.id.RoseTitle).text =
+                                "Rosa di ${utente.username}"
                             val adapterRosa =
                                 InserisciFormazioneAdapter(compVM.rosaGiocatori.value!!)
                             progBar.visibility = View.GONE
                             rv.adapter = adapterRosa
                         } else if (it == true) {
-                            RoseDialog.findViewById<TextView>(R.id.RoseTitle).text = "Rosa di ${utente.username}"
+                            RoseDialog.findViewById<TextView>(R.id.RoseTitle).text =
+                                "Rosa di ${utente.username}"
                             val adapterRosa = InserisciGrigliaAdapter(compVM.rosaPiloti.value!!)
                             progBar.visibility = View.GONE
                             rv.adapter = adapterRosa

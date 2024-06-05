@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -365,7 +366,7 @@ class InserisciFormazioneFragment : Fragment() {
                 parentFragmentManager.commit {
                     setReorderingAllowed(true)
                     replace<CompetizioneViewFragment>(R.id.competizioni_cont_view)
-                    addToBackStack(null)
+                    parentFragmentManager.popBackStackImmediate("FORM", FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 }
             }
         }
