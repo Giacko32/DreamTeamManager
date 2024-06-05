@@ -194,9 +194,7 @@ class SingleLegaVM : ViewModel() {
                     call: Call<JsonObject>, response:
                     Response<JsonObject>
                 ) {
-                    if (response.isSuccessful) {
 
-                    }
                 }
 
                 override fun onFailure(
@@ -290,7 +288,7 @@ class SingleLegaVM : ViewModel() {
     }
 
     fun eliminainvitato(idutente: Int) {
-        var index: Int = 0
+        var index = 0
         invitati.value?.forEach { utente ->
             if (utente.id == idutente) {
                 index = invitati.value!!.indexOf(utente)
