@@ -65,9 +65,6 @@ class MainActivity : AppCompatActivity() {
             PeriodicWorkRequestBuilder<NotificaCaricamentoGiornata>(
                 15,
                 TimeUnit.MINUTES
-            ).setInitialDelay(
-                15,
-                TimeUnit.SECONDS
             )
                 .addTag("giornata_notification")
                 .build()
@@ -75,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         val notificationAccettazione = PeriodicWorkRequestBuilder<NotificaAccetazioneLega>(
             15,
             TimeUnit.MINUTES
-        ).setInitialDelay(15, TimeUnit.SECONDS).addTag("accettazione_notification").build()
+        ).addTag("accettazione_notification").build()
 
         WorkManager.getInstance(this).enqueue(notificationInattivita)
         WorkManager.getInstance(this).enqueue(notificationGiornata)

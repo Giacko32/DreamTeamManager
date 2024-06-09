@@ -47,13 +47,14 @@
 
                 <TextView
                     android:id="@+id/NomeComp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="270dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:text="Nome Competizione"
                     android:textColor="@color/arancione"
                     android:textSize="30sp"
                     android:textStyle="bold"
+                    android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

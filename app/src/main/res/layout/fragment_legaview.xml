@@ -41,7 +41,7 @@
 
             <TextView
                 android:id="@+id/nomelega"
-                android:layout_width="180dp"
+                android:layout_width="155dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:text="Nome Lega"
