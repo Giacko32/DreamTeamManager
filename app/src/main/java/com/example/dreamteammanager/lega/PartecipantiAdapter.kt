@@ -13,7 +13,7 @@ import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.viewmodel.ImagesVM
 
 class PartecipantiAdapter(
-    val data: ArrayList<Utente>,
+    val data: List<Utente>,
     val selectable: Boolean,
     val imagesVM: ImagesVM,
     val id_amm: Int?
@@ -83,5 +83,7 @@ class PartecipantiAdapter(
     fun setonItemCheckListener(onItemCheckListener: OnItemCheckListener) {
         this.onItemCheckListener = onItemCheckListener
     }
+
+
 
 }

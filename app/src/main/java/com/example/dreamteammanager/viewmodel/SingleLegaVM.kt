@@ -220,7 +220,7 @@ class SingleLegaVM : ViewModel() {
     }
 
     private val _invitanti = MutableLiveData<ArrayList<Utente>>()
-    val invitati: LiveData<ArrayList<Utente>> = _invitanti
+    val invitanti: LiveData<ArrayList<Utente>> = _invitanti
 
     init {
         _invitanti.value = ArrayList()
@@ -250,51 +250,14 @@ class SingleLegaVM : ViewModel() {
             }
         )
     }
-
-    private val _invitatifiltrato = MutableLiveData<ArrayList<Utente>>()
-    val invitatifiltrato: LiveData<ArrayList<Utente>>
-        get() = _invitatifiltrato
-
-    init {
-        _invitatifiltrato.value = arrayListOf()
-    }
-
-    private val _filtrati = MutableLiveData<Boolean>()
-    val filtrati: LiveData<Boolean>
-        get() = _filtrati
-
-    init {
-        _filtrati.value = false
-    }
-
-    fun updatefiltrati() {
-        _filtrati.value = true
-    }
-
-    fun resetfiltrati() {
-        _filtrati.value = false
-    }
-
-
-    fun setinvitatiFiltrato(filtro: String) {
-        _invitatifiltrato.value!!.clear()
-        invitati.value!!.forEach {
-            if (it.username.contains(filtro)) {
-                _invitatifiltrato.value?.add(it)
-
-            }
-
-        }
-    }
-
     fun eliminainvitato(idutente: Int) {
         var index = 0
-        invitati.value?.forEach { utente ->
+        invitanti.value?.forEach { utente ->
             if (utente.id == idutente) {
-                index = invitati.value!!.indexOf(utente)
+                index = invitanti.value!!.indexOf(utente)
             }
         }
-        invitati.value?.removeAt(index)
+        invitanti.value?.removeAt(index)
     }
 
     private val _invitando = MutableLiveData<Boolean?>()

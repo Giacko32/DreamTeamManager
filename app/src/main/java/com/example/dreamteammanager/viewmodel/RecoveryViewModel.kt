@@ -95,7 +95,7 @@ class RecoveryViewModel(app: Application) : AndroidViewModel(app) {
                     Response<JsonObject>
                 ) {
                     if (response.isSuccessful) {
-                        //_stringadiritorno.value="Registrazione effettuata"
+
                     }
                 }
 
@@ -103,7 +103,6 @@ class RecoveryViewModel(app: Application) : AndroidViewModel(app) {
                     call: Call<JsonObject>?, t:
                     Throwable?
                 ) {
-                    //_stringadiritorno.value = "Errore di connessione"
 
                 }
 

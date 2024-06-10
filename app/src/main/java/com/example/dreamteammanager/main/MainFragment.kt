@@ -72,6 +72,9 @@ class MainFragment : Fragment() {
             creaLegaDialog.findViewById<Button>(R.id.creaLegaButton).setOnClickListener {
                 newLega.name = creaLegaDialog.findViewById<TextView>(R.id.NomeLega).text.toString()
                 legheVM.creanuovalega(newLega)
+                if(legheVM.mieleghe.value==true){
+                    legheVM.scaricaleghe(utente.id)
+                }
                 creaLegaDialog.dismiss()
             }
             creaLegaDialog.show()
@@ -88,31 +91,7 @@ class MainFragment : Fragment() {
         }
 
         legheVM.listaLeghe.observe(viewLifecycleOwner) {
-            val adapter = LegheAdapter(it, imagesVM, false)
-            if (legheVM.mieleghe.value == true) {
-                adapter.setonclick(object : LegheAdapter.SetOnClickListener {
-                    override fun onClick(position: Int, lega: Lega) {
-                        val legaintent = Intent(requireActivity(), LegaActivity::class.java)
-                        legaintent.putExtra("lega", lega)
-                        startActivity(legaintent)
-                    }
-                })
-            } else {
-                adapter.setonclick(object : LegheAdapter.SetOnClickListener {
-                    override fun onClick(position: Int, lega: Lega) {
-                        legheVM.setSelectedLeague(lega)
-                        legheVM.checkrichiesta(
-                            parseJsonToModel(
-                                SharedPreferencesManager.getString(
-                                    "utente",
-                                    ""
-                                )
-                            ), lega
-                        )
-
-                    }
-                })
-            }
+            val adapter = caricadati(it.toList())
             binding.recyclerView.layoutManager = LinearLayoutManager(context)
             binding.recyclerView.adapter = adapter
         }
@@ -205,47 +184,41 @@ class MainFragment : Fragment() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-               legheVM.setLegheFiltrate(s.toString())
+                val adapter = caricadati(legheVM.listaLeghe.value!!.filter {it.name.contains(s.toString())})
+                binding.recyclerView.layoutManager = LinearLayoutManager(context)
+                binding.recyclerView.adapter = adapter
             }
         }
         binding.searched.addTextChangedListener(textWatcher)
 
-        legheVM.filtrate.observe(viewLifecycleOwner) {
-            if(it!=null){
-                if(it==true){
-                    val adapter = legheVM.leghefiltrate.value?.let { it1 -> LegheAdapter(it1.toList(), imagesVM, false) }
-                    if (legheVM.mieleghe.value == true) {
-                        adapter?.setonclick(object : LegheAdapter.SetOnClickListener {
-                            override fun onClick(position: Int, lega: Lega) {
-                                val legaintent = Intent(requireActivity(), LegaActivity::class.java)
-                                legaintent.putExtra("lega", lega)
-                                startActivity(legaintent)
-                            }
-                        })
-                    } else {
-                        adapter?.setonclick(object : LegheAdapter.SetOnClickListener {
-                            override fun onClick(position: Int, lega: Lega) {
-                                legheVM.setSelectedLeague(lega)
-                                legheVM.checkrichiesta(
-                                    parseJsonToModel(
-                                        SharedPreferencesManager.getString(
-                                            "utente",
-                                            ""
-                                        )
-                                    ), lega
-                                )
-
-                            }
-                        })
-                    }
-                    binding.recyclerView.layoutManager = LinearLayoutManager(context)
-                    binding.recyclerView.adapter = adapter
+    }
+    private fun caricadati(lista:List<Lega>):LegheAdapter{
+        val adapter = LegheAdapter(lista, imagesVM, false)
+        if (legheVM.mieleghe.value == true) {
+            adapter.setonclick(object : LegheAdapter.SetOnClickListener {
+                override fun onClick(position: Int, lega: Lega) {
+                    val legaintent = Intent(requireActivity(), LegaActivity::class.java)
+                    legaintent.putExtra("lega", lega)
+                    startActivity(legaintent)
+                }
+            })
+        } else {
+            adapter.setonclick(object : LegheAdapter.SetOnClickListener {
+                override fun onClick(position: Int, lega: Lega) {
+                    legheVM.setSelectedLeague(lega)
+                    legheVM.checkrichiesta(
+                        parseJsonToModel(
+                            SharedPreferencesManager.getString(
+                                "utente",
+                                ""
+                            )
+                        ), lega
+                    )
 
                 }
-            }
+            })
         }
-
-
+        return adapter
     }
 
 }

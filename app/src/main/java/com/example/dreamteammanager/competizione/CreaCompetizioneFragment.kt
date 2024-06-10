@@ -2,7 +2,6 @@ package com.example.dreamteammanager.competizione
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,19 +12,16 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Competizione
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.databinding.FragmentCreaCompetizioneBinding
-import com.example.dreamteammanager.lega.InvitaFragment
 import com.example.dreamteammanager.lega.LegaView
 import com.example.dreamteammanager.lega.PartecipantiAdapter
 import com.example.dreamteammanager.viewmodel.CompetizioniVM
 import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SingleLegaVM
-import kotlin.math.sin
 
 class CreaCompetizioneFragment : Fragment() {
     lateinit var binding: FragmentCreaCompetizioneBinding

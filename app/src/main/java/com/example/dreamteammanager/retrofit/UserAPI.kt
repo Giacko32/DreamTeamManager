@@ -133,6 +133,6 @@ interface UserAPI {
     fun checkdisp(@Path("idcomp")idcomp: Int,@Path("giornata")giornata: Int,@Path("sport")sport:String):Call<JsonObject>
 
     companion object {
-        const val BASE_URL = "http://192.168.1.13:9000"
+        const val BASE_URL = "http://192.168.176.165:9000"
     }
 }

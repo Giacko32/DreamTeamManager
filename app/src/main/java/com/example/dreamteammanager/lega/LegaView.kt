@@ -5,14 +5,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -22,20 +18,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dreamteammanager.R
 import com.example.dreamteammanager.classi.Competizione
-import com.example.dreamteammanager.classi.Lega
 import com.example.dreamteammanager.classi.Utente
 import com.example.dreamteammanager.classi.Utils.Companion.parseJsonToModel
 import com.example.dreamteammanager.competizione.CompetizioneActivity
 import com.example.dreamteammanager.competizione.CompetizioniAdapter
 import com.example.dreamteammanager.competizione.CreaCompetizioneFragment
 import com.example.dreamteammanager.databinding.FragmentLegaviewBinding
-import com.example.dreamteammanager.main.LegheAdapter
 import com.example.dreamteammanager.viewmodel.ImagesVM
 import com.example.dreamteammanager.viewmodel.SharedPreferencesManager
 import com.example.dreamteammanager.viewmodel.SingleLegaVM
-
-import com.google.gson.Gson
-import kotlin.math.sin
 
 
 class LegaView : Fragment() {
