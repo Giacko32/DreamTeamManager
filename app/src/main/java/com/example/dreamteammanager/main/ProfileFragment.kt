@@ -171,33 +171,25 @@ class ProfileFragment : Fragment() {
             val username = binding.Username.text.toString().trim()
             val email = binding.Email.text.toString().trim()
             if(isValidEmail(email)) {
-                if (username == userViewModel.user.value!!.username) {
-                    if (email == userViewModel.user.value!!.email) {
-
-                    } else {
-                        userViewModel.checkModifica(email, "null")
-                    }
-                }
-
-                if (email == userViewModel.user.value!!.email) {
-                    if (username == userViewModel.user.value!!.username) {
-                        val alertDialog = AlertDialog.Builder(
-                            requireContext(),
-                            androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
-                        ).create()
-                        alertDialog.setTitle("ATTENZIONE")
-                        alertDialog.setMessage("Le credenziali sono uguali a quelle attuali")
-                        alertDialog.setButton(
-                            AlertDialog.BUTTON_NEGATIVE, "OK"
-                        ) { dialog, which -> dialog.dismiss() }
-                        alertDialog.show()
-                        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                            .setTextColor(Color.parseColor("#ff5722"))
-                        binding.progressBar.visibility = View.GONE
-                    } else {
-                        userViewModel.checkModifica("null", username)
-                    }
-                } else {
+                if (username == userViewModel.user.value!!.username && email == userViewModel.user.value!!.email) {
+                    val alertDialog = AlertDialog.Builder(
+                        requireContext(),
+                        androidx.appcompat.R.style.ThemeOverlay_AppCompat_Dialog_Alert
+                    ).create()
+                    alertDialog.setTitle("ATTENZIONE")
+                    alertDialog.setMessage("Le credenziali sono uguali a quelle attuali")
+                    alertDialog.setButton(
+                        AlertDialog.BUTTON_NEGATIVE, "OK"
+                    ) { dialog, which -> dialog.dismiss() }
+                    alertDialog.show()
+                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                        .setTextColor(Color.parseColor("#ff5722"))
+                    binding.progressBar.visibility = View.GONE
+                }else if (username == userViewModel.user.value!!.username) {
+                    userViewModel.checkModifica(email, "null")
+                }else if (email == userViewModel.user.value!!.email) {
+                    userViewModel.checkModifica("null", username)
+                }else{
                     userViewModel.checkModifica(email, username)
                 }
             }else{
@@ -247,7 +239,7 @@ class ProfileFragment : Fragment() {
             if (it == "Credenziali aggiornate") {
                 val username = binding.Username.text.toString().trimEnd()
                 val email = binding.Email.text.toString().trimEnd()
-                val utente = Utente(1, username, userViewModel.user.value!!.password, email)
+                val utente = Utente(userViewModel.user.value!!.id, username, userViewModel.user.value!!.password, email)
                 userViewModel.setUtente(utente)
                 SharedPreferencesManager.saveString("utente", parseModelToJson(utente))
                 binding.progressBar.visibility = View.GONE

@@ -266,7 +266,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                     Response<JsonArray>
                 ) {
                     if (response.isSuccessful) {
-                        _disponibilitàModifica.value = response.body().isEmpty
+                        if(response.body().isEmpty){
+                            _disponibilitàModifica.value=true;
+                        }else{
+                            _disponibilitàModifica.value=false;
+                        }
                     }
                 }
 

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -151,7 +152,7 @@ class CreaCompetizioneFragment : Fragment() {
                 parentFragmentManager.commit {
                     setReorderingAllowed(true)
                     replace<LegaView>(R.id.legafragmentcontainer)
-                    addToBackStack("Invita")
+                    parentFragmentManager.popBackStackImmediate("CreaComp", FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 }
                 singleLegaVM.resetcreando()
             }

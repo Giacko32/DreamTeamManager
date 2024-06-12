@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -87,14 +86,12 @@ class MainFragment : Fragment() {
                 binding.progressBar.visibility = View.VISIBLE
             } else if (it == false) {
                 binding.progressBar.visibility = View.GONE
+                val adapter = caricadati(legheVM.listaLeghe.value!!.toList())
+                binding.recyclerView.layoutManager = LinearLayoutManager(context)
+                binding.recyclerView.adapter = adapter
             }
         }
 
-        legheVM.listaLeghe.observe(viewLifecycleOwner) {
-            val adapter = caricadati(it.toList())
-            binding.recyclerView.layoutManager = LinearLayoutManager(context)
-            binding.recyclerView.adapter = adapter
-        }
         legheVM.inviando.observe(viewLifecycleOwner) {
             if (it == true) {
                 binding.progressBar.visibility = View.VISIBLE

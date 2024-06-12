@@ -1,6 +1,5 @@
 package com.example.dreamteammanager.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -64,7 +63,6 @@ class legheVM : ViewModel() {
                             _scaricando.value = false
                         }
                     }
-
                     override fun onFailure(
                         call: Call<JsonArray>?, t:
                         Throwable?
