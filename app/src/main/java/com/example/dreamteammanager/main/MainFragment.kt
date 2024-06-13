@@ -85,6 +85,7 @@ class MainFragment : Fragment() {
             if (it == true) {
                 binding.progressBar.visibility = View.VISIBLE
             } else if (it == false) {
+                legheVM.resetscaricando()
                 binding.progressBar.visibility = View.GONE
                 val adapter = caricadati(legheVM.listaLeghe.value!!.toList())
                 binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -181,7 +182,7 @@ class MainFragment : Fragment() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                val adapter = caricadati(legheVM.listaLeghe.value!!.filter {it.name.contains(s.toString())})
+                val adapter = caricadati(legheVM.listaLeghe.value!!.filter {it.name.lowercase().contains(s.toString().lowercase())})
                 binding.recyclerView.layoutManager = LinearLayoutManager(context)
                 binding.recyclerView.adapter = adapter
             }

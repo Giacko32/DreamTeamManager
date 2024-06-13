@@ -49,6 +49,10 @@ class legheVM : ViewModel() {
         _scaricando.value = null
     }
 
+    fun resetscaricando() {
+        _scaricando.value = null
+    }
+
     fun scaricaleghe(id: Int) {
         _scaricando.value = true
         if (_mieleghe.value == true) {

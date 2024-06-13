@@ -41,7 +41,7 @@ class InvitaFragment : Fragment() {
         val rvInvita = binding.recyclerViewInvita
         binding.searchIcon.setOnClickListener {
             val testo = binding.searched.text.toString().lowercase()
-            rvInvita.adapter = caricadati(singleLegaVM.invitanti.value!!.filter { it.username.contains(testo) })
+            rvInvita.adapter = caricadati(singleLegaVM.invitanti.value!!.filter { it.username.lowercase().contains(testo) })
             rvInvita.layoutManager= LinearLayoutManager(requireContext())
         }
         singleLegaVM.getutentiinivito()
